@@ -17,6 +17,23 @@ const Review = require('./Review')
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
  */
+
+Order.belongsTo(User)
+User.hasMany(Order)
+
+Review.belongsTo(User)
+User.hasMany(Review)
+
+Review.belongsTo(Product)
+Product.hasMany(Reviews)
+
+Product.hasMany(Category)
+Category.hasMany(Product)
+
 module.exports = {
-	User
+	User,
+	Category,
+	Order,
+	Product,
+	Review
 }
