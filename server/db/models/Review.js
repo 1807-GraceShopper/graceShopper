@@ -18,10 +18,10 @@ const Review = db.define('reviews', {
 		allowNull: false,
 		validate: {
 			min: {
-				args[100]
+				args: [100]
 			},
 			max: {
-				args[2000]
+				args: [2000]
 			}
 		}
 	}
