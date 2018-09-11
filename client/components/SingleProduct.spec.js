@@ -52,7 +52,7 @@ describe('Front-end', () => {
     newProduct.name = 'Stuart Weitzman';
 
     const renderedNewProduct = shallow(
-      <SingleCampus
+      <SingleProduct
         campus={newProduct}
       />
     );

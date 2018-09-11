@@ -9,6 +9,14 @@ const getProduct = product => ({
   product
 })
 
+// export const getSingleProduct = () => {
+//   return async (dispatch) => {
+//     const { data } = await axios.get('/api/products/id');
+//     const action = getProduct(data);
+//     dispatch(action);
+//   }
+// }
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SINGLE_PRODUCT:
