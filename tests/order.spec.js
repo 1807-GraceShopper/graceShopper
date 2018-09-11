@@ -43,15 +43,36 @@ describe('Order Model', () => {
       expect(err.message).to.contain('shippingAddress cannot be null')
     }
   })
-  // it('requires email', async () => {
-  //   const order = Order.build()
-  //   try {
-  //     await order.validate()
-  //     throw Error(
-  //       'validation was successful but should have failed without `email`'
-  //     )
-  //   } catch (err) {
-  //     expect(err.message).to.contain('email cannot be null')
-  //   }
-  // })
+  it('requires email', async () => {
+    const order = Order.build({
+      price: [],
+      productId: [],
+      quantity: [],
+      timeOrdered: '1988-10-10 04:11:10',
+      shippingAddress: ''
+    })
+    try {
+      await order.validate()
+      throw Error(
+        'validation was successful but should have failed without `email`'
+      )
+    } catch (err) {
+      expect(err.message).to.contain('email cannot be null')
+    }
+  })
+  it('requires email format with @ symbol', async () => {
+    const order = Order.build({
+      price: [],
+      productId: [],
+      quantity: [],
+      timeOrdered: '1988-10-10 04:11:10',
+      shippingAddress: '',
+      email: 'test@email.com'
+    })
+    try {
+      await order.validate()
+    } catch (err) {
+      expect(err.message).to.contain('email must be proper format')
+    }
+  })
 })
