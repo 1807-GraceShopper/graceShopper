@@ -15,13 +15,12 @@ const mapDispatchToProps = dispatch => ({
 export class SingleProduct extends Component {
 
   componentDidMount() {
-    if (this.props.getProduct) this.props.getProduct(Number(this.props.match.params.id));
+    this.props.getProduct(Number(this.props.match.params.id));
   }
 
   render() {
-    console.log('props', this.props)
-
     const product = this.props.singleProduct;
+
     if (product) {
       return (
         <div>
@@ -29,7 +28,7 @@ export class SingleProduct extends Component {
           <p>{product.description}</p>
           <div>${product.price}</div>
           <div>
-            <img src={product.photoUrl}/>
+            <img src={`/${product.photoUrl}`} />
           </div>
           {/* <Review key={product.id} product={product} /> */}
         </div>
@@ -41,5 +40,3 @@ export class SingleProduct extends Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
-
-// export default connect(null, mapDispatchToProps)(SingleProduct)
