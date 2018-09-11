@@ -2,12 +2,10 @@
 
 const chai = require('chai')
 const expect = chai.expect
-const chaiThings = require('chai-things')
-chai.use(chaiThings)
 
 // Product Model
 
-const db = require('../server/db/models/')
+const db = require('../server/db/models')
 const Product = db.Product
 
 describe('Product Model', () => {
