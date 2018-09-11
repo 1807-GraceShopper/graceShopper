@@ -34,12 +34,32 @@ describe('Product Model', () => {
       expect(err.message).to.contain('description cannot be null')
     }
   })
-  // it('price has a minimum value of 0', () => {
-  //   const product = Product.build({
-  //     name: '',
-  //     description: '',
-  //     price: -3
-  //   })
-  //   expect(product.price).to.equal(0)
-  // })
+  it('requires price', async () => {
+    const product = Product.build({
+      name: '',
+      description: ''
+    })
+    try {
+      await product.validate()
+      throw Error(
+        'validation was successful but should have failed without `price`'
+      )
+    } catch (err) {
+      expect(err.message).to.contain('price cannot be null')
+    }
+  })
+  it('price has a minimum value of 0', async () => {
+    const product = Product.build({
+      name: 'test',
+      description: '',
+      price: 2.0
+    })
+    try {
+      await product.validate()
+    } catch (err) {
+      expect(err.message).to.contain(
+        'Validation error: Validation min on price failed'
+      )
+    }
+  })
 })
