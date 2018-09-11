@@ -38,13 +38,12 @@ export class AllProducts extends React.Component {
 	}
 	handleSubmit = async event => {
 		event.preventDefault()
-		console.log('handleSubmit', this.state.categoryId)
 		const categoryId = this.state.categoryId
 		await this.props.getProducts(categoryId)
 		this.setState({products: this.props.products})
 	}
 	render() {
-		if (this.state.products.length) {
+		if (this.props.products.length) {
 			return (
 				<div>
 					<h3>All Shoes</h3>
@@ -73,7 +72,7 @@ export class AllProducts extends React.Component {
 						</label>
 					</form>
 					<ul>
-						{this.state.products.map(product => {
+						{this.props.products.map(product => {
 							return (
 								<li key={product.id}>
 									<div>
@@ -99,9 +98,13 @@ export class AllProducts extends React.Component {
 					</ul>
 				</div>
 			)
-		} else {
-			return null
-		}
+		} else
+			return (
+				<h3>
+					Sorry, there are no products currently available in this
+					category
+				</h3>
+			)
 	}
 }
 
