@@ -4,10 +4,10 @@ import {expect} from 'chai'
 import React from 'react'
 import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import {AllProducts} from './AllProducts'
-import store from '../store/index'
-import {Product, Category} from '../../server/db/models'
-const app = require('../../server')
+import {AllProducts} from '../client/components/AllProducts'
+import store from '../client/store'
+import {Product, Category} from '../server/db/models'
+const app = require('../server')
 const agent = require('supertest')(app)
 
 const adapter = new Adapter()
@@ -38,6 +38,17 @@ describe('Campus routes', () => {
 		}
 	]
 
+	const users = [
+		{
+			email: 'cody@email.com',
+			isAdmin: true
+		},
+		{
+			email: 'murphy@email.com',
+			isAdmin: false
+		}
+	]
+
 	const categories = [{name: 'womens'}, {name: 'mens'}, {name: 'dress'}]
 
 	beforeEach(async () => {
@@ -57,11 +68,16 @@ describe('Campus routes', () => {
 		})
 	})
 
+	describe('POST `/api/products`', () => {
+		it('adds a new Product by its id', async () => {
+			const response = await agent.post('/api/products').send({name: 'Prada', description: 'another pair or heels', price: 500, photoUrl: 'defaultShoe.png'}).expect(200)
+			expect(response.body.name).to.equal('Prada')
+		})
+	})
+
 	describe('GET /api/categories', () => {
 		it('serves up all categories', async () => {
 			const response = await agent.get('/api/categories').expect(200)
-			console.log('res body', response.body)
-			expect(response.body).to.have.length(6)
 			expect(response.body[0].name).to.equal(storedCategories[0])
 		})
 	})
@@ -72,6 +88,7 @@ describe('Campus routes', () => {
 				<AllProducts
 					categories={storedCategories}
 					products={products}
+					user={users[0]}
 				/>
 			)
 			expect(wrapper.find('ul')).to.have.length(1)
@@ -83,6 +100,7 @@ describe('Campus routes', () => {
 				<AllProducts
 					products={products}
 					categories={storedCategories}
+					user={users[0]}
 				/>
 			)
 			const listItems = wrapper.find('li')
@@ -95,10 +113,34 @@ describe('Campus routes', () => {
 				<AllProducts
 					products={products}
 					categories={storedCategories}
+					user={users[0]}
 				/>
 			)
 			const listItems = wrapper.find('option')
 			expect(listItems).to.have.length(4)
+		})
+		it('displays an add product button for admin users', () => {
+			const wrapper = shallow(
+				<AllProducts
+					products={products}
+					categories={storedCategories}
+					user={users[0]}
+				/>
+			)
+			const buttons = wrapper.find('button')
+			expect(buttons.at(1).text()).to.contain('Add')
+		})
+		it('does not display an add product button for non-admin users', () => {
+			const wrapper = shallow(
+				<AllProducts
+					products={products}
+					categories={storedCategories}
+					user={users[1]}
+				/>
+			)
+			const buttons = wrapper.find('button')
+			expect(buttons).to.have.length(1)
+			expect(buttons.at(0).text()).to.contain('Select')
 		})
 	})
 })
