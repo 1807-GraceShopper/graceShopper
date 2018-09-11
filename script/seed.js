@@ -94,14 +94,14 @@ async function seed() {
         content:
           'These shoes are very good. Comfortable, durable, very good design. Of course you want to keep them in a safe spot when not using them if you have a disobedient dog, as they do not come cheap!',
         productId: 1,
-        userId: 2
+        userId: 1
       },
       Review.create({
         title: 'Substandard',
         rating: 2,
         content:
           "I must ask what exactly are the materials used to make these shoes. They are fairly comfortable, but they degrade very easily; they didn't last for more than 3 months. I would give them a much better rating if they weren't so cheaply made.",
-        productId: 2,
+        productId: 3,
         userId: 1
       })
     ),
@@ -110,8 +110,8 @@ async function seed() {
       rating: 4,
       content:
         'In terms of looks, these ballet shoes are very good looking. They are also comfortable too. My niece was delighted to receive them. However, some caution does need to be taken, or else they can wear out easily.',
-      productId: 2,
-      userId: 1
+      productId: 3,
+      userId: 2
     })
   ])
 
