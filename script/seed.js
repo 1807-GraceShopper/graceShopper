@@ -37,11 +37,6 @@ async function seed() {
     Review.create({title: 'Very Charming', rating: 4, content: new Text("In terms of looks, these ballet shoes are very good looking. They are also comfortable too. My niece was delighted to receive them. However, some caution does need to be taken, or else they can wear out easily."), productId: 2, userId: 1})
   ]);
 
-  console.log(`seeded ${users.length} users`);
-  console.log(`seeded ${categories.length} categories`);
-  console.log(`seeded ${products.length} products`);
-  console.log(`seeded ${orders.length} orders`);
-  console.log(`seeded ${reviews.length} reviews`);
   console.log(`seeded successfully`);
 }
 
