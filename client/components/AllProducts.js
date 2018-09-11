@@ -29,7 +29,6 @@ export class AllProducts extends React.Component {
 									<div>
 										<NavLink
 											to={`/products/${product.id}`}
-											product={product}
 										>
 											{product.name}
 										</NavLink>
@@ -39,7 +38,7 @@ export class AllProducts extends React.Component {
 										<div>
 											{product.price}
 											<div>
-												<img src={product.photoUrl} />
+												<img src={`/${product.photoUrl}`} />
 											</div>
 										</div>
 									</div>
