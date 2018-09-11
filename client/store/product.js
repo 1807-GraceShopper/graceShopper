@@ -14,7 +14,7 @@ const getProducts = products => ({
 //Thunk middleware
 export const getProductsFromServer = () => {
 	return async dispatch => {
-		const res = await axios.get('/products')
+		const res = await axios.get('/api/products')
 		dispatch(getProducts(res.data))
 	}
 }

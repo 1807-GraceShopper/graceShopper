@@ -27,7 +27,10 @@ export class AllProducts extends React.Component {
 							return (
 								<li key={product.id}>
 									<div>
-										<NavLink to={`/products/${product.id}`}>
+										<NavLink
+											to={`/products/${product.id}`}
+											product={product}
+										>
 											{product.name}
 										</NavLink>
 										<div>
