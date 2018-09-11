@@ -15,6 +15,9 @@ const Product = db.define('products', {
     validate: {
       min: 0
     }
+  },
+  photoUrl: {
+    type: Sequelize.STRING
   }
 })
 
