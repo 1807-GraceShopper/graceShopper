@@ -6,7 +6,7 @@ import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import {AllProducts} from './AllProducts'
 import store from '../store/index'
-import {Product} from '../../server/db/models'
+import {Product, Category} from '../../server/db/models'
 const app = require('../../server')
 const agent = require('supertest')(app)
 
@@ -15,6 +15,7 @@ enzyme.configure({adapter})
 
 describe('Campus routes', () => {
 	let storedProducts
+	let storedCategories
 
 	const products = [
 		{
@@ -37,9 +38,15 @@ describe('Campus routes', () => {
 		}
 	]
 
+	const categories = [{name: 'womens'}, {name: 'mens'}, {name: 'dress'}]
+
 	beforeEach(async () => {
 		const createdProducts = await Product.bulkCreate(products)
+		const createdCategories = await Category.bulkCreate(categories)
 		storedProducts = createdProducts.map(product => product.dataValues)
+		storedCategories = createdCategories.map(
+			category => category.dataValues.name
+		)
 	})
 
 	describe('GET `/api/products`', () => {
@@ -50,10 +57,22 @@ describe('Campus routes', () => {
 		})
 	})
 
+	describe('GET /api/categories', () => {
+		it('serves up all categories', async () => {
+			const response = await agent.get('/api/categories').expect(200)
+			console.log('res body', response.body)
+			expect(response.body).to.have.length(6)
+			expect(response.body[0].name).to.equal(storedCategories[0])
+		})
+	})
+
 	describe('<AllProducts /> component', () => {
 		it('renders an unordered list', () => {
 			const wrapper = shallow(
-				<AllProducts store={store} products={products} />
+				<AllProducts
+					categories={storedCategories}
+					products={products}
+				/>
 			)
 			expect(wrapper.find('ul')).to.have.length(1)
 		})
@@ -61,12 +80,25 @@ describe('Campus routes', () => {
 		it('renders list items for the campuses passed in as props', () => {
 			//we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
 			const wrapper = shallow(
-				<AllProducts store={store} products={products} />
+				<AllProducts
+					products={products}
+					categories={storedCategories}
+				/>
 			)
 			const listItems = wrapper.find('li')
-			console.log('list items', listItems)
 			expect(listItems).to.have.length(3)
 			expect(listItems.at(2).text()).to.contain('A more moderate shoe')
+		})
+		it('renders option items for the categories', () => {
+			//we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
+			const wrapper = shallow(
+				<AllProducts
+					products={products}
+					categories={storedCategories}
+				/>
+			)
+			const listItems = wrapper.find('option')
+			expect(listItems).to.have.length(4)
 		})
 	})
 })
