@@ -60,6 +60,16 @@ describe('Review Model', () => {
       rating: 1,
       content: str.repeat(38)
     })
+    await review.validate()
+    expect(review.rating).to.equal(1)
+  })
+  it('rating ', async () => {
+    let str = 'test'
+    const review = Review.build({
+      title: '',
+      rating: -5,
+      content: str.repeat(38)
+    })
     try {
       await review.validate()
     } catch (err) {
