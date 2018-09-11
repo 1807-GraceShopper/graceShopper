@@ -7,6 +7,7 @@ const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const SEARCH_PRODUCT = 'SEARCH_PRODUCT'
 
 //Action creators
 const getProducts = products => ({
@@ -26,6 +27,11 @@ const addProduct = product => ({
 
 const updateProduct = product => ({
 	type: UPDATE_PRODUCT,
+	product
+})
+
+export const searchProduct = product => ({
+	type: SEARCH_PRODUCT,
 	product
 })
 
@@ -57,17 +63,20 @@ export const getSingleProduct = id => {
 	}
 }
 
-export const newProduct = (product) => {
-	return async (dispatch) => {
-		const { data } = await axios.post('/api/products', product);
-		dispatch(addProduct(data));
+export const newProduct = product => {
+	return async dispatch => {
+		const {data} = await axios.post('/api/products', product)
+		dispatch(addProduct(data))
 	}
 }
 
-export const updateProductToServer = (updateInfo) => {
+export const updateProductToServer = updateInfo => {
 	console.log('updateInfo', updateInfo)
-	return async (dispatch) => {
-		const { data } = await axios.put(`api/products/${updateInfo.id}`, updateInfo);
+	return async dispatch => {
+		const {data} = await axios.put(
+			`api/products/${updateInfo.id}`,
+			updateInfo
+		)
 		dispatch(updateProduct(data[1][0]))
 	}
 }
@@ -81,10 +90,13 @@ const reducer = (state = initialState, action) => {
 		case ADD_PRODUCT:
 			return {...state, products: [...state.products, action.product]}
 		case UPDATE_PRODUCT:
-			const updatedProducts = state.products.map(product =>
-				action.product.id === product.id ? action.product : product
-			);
+			const updatedProducts = state.products.map(
+				product =>
+					action.product.id === product.id ? action.product : product
+			)
 			return {...state, products: updatedProducts}
+		case SEARCH_PRODUCT:
+			return {...state, products: action.product}
 		default:
 			return state
 	}

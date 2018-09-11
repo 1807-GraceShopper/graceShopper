@@ -1,8 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getProductsByCategoryFromServer} from '../store/product'
+import {getProductsByCategoryFromServer, searchProduct} from '../store/product'
 import {NavLink} from 'react-router-dom'
 import {getCategoriesFromServer} from '../store/category'
+import Search from 'react-search-box'
+import ReactPaginate from 'react-paginate'
 
 const mapStateToProps = state => {
 	return {
@@ -15,7 +17,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
 	getProducts: categoryId =>
 		dispatch(getProductsByCategoryFromServer(categoryId)),
-	getCategories: () => dispatch(getCategoriesFromServer())
+	getCategories: () => dispatch(getCategoriesFromServer()),
+	searchProduct: product => dispatch(searchProduct(product))
 })
 
 export class AllProducts extends React.Component {
@@ -23,7 +26,10 @@ export class AllProducts extends React.Component {
 		super(props)
 		this.state = {
 			categoryId: '',
-			products: ''
+			products: '',
+			perPage: 1,
+			currentPage: [],
+			pageCount: 1
 		}
 	}
 	async componentDidMount() {
@@ -31,7 +37,16 @@ export class AllProducts extends React.Component {
 			await this.props.getProducts('')
 			this.props.getCategories()
 			const products = this.props.products
-			this.setState({products: products})
+			const perPage = this.state.perPage
+			const firstPage = this.props.products.slice(0, perPage)
+			const pageCount = Math.ceil(
+				this.props.products.length / this.state.perPage
+			)
+			this.setState({
+				products: products,
+				currentPage: firstPage,
+				pageCount: pageCount
+			})
 		}
 	}
 	handleSelect = event => {
@@ -43,43 +58,74 @@ export class AllProducts extends React.Component {
 		await this.props.getProducts(categoryId)
 		this.setState({products: this.props.products})
 	}
+	handleChange = product => {
+		console.log(product)
+		this.props.searchProduct([product])
+	}
+	returnButton = () => {
+		this.props.getProducts('')
+		const products = this.props.products
+		this.setState({products: products})
+	}
+	handleSelectPagination = data => {
+		const selectedPage = data.selected
+		const startIndex = selectedPage * this.state.perPage
+		const endIndex = (selectedPage + 1) * this.state.perPage
+		const pageProducts = this.state.products.slice(startIndex, endIndex)
+		this.setState({currentPage: pageProducts})
+	}
 	render() {
-		if (this.props.products.length) {
+		if (this.props.products.length && this.state.currentPage.length) {
 			return (
 				<div>
 					<h3>All Shoes</h3>
-					<form onSubmit={this.handleSubmit}>
-						<label>
-							Categories:
-							<select
-								name="categories"
-								onChange={this.handleSelect}
-							>
-								<option value="">---</option>
-								{this.props.categories.map(category => {
-									return (
-										<option
-											key={category.id}
-											value={category.id}
-										>
-											{category.name}
-										</option>
-									)
-								})}
-							</select>
-							<button type="submit" className="delete">
-								Select
-							</button>
-						</label>
-					</form>
+					{this.props.products.length === 1 ? (
+						<button type="button" onClick={this.returnButton}>
+							Back to all products
+						</button>
+					) : (
+						<div>
+							<Search
+								data={this.props.products}
+								placeholder="Search for a product..."
+								searchKey="name"
+								width={300}
+								height={40}
+								onChange={this.handleChange}
+							/>
+
+							<form onSubmit={this.handleSubmit}>
+								<label>
+									Categories:
+									<select
+										name="categories"
+										onChange={this.handleSelect}
+									>
+										<option value="">---</option>
+										{this.props.categories.map(category => {
+											return (
+												<option
+													key={category.id}
+													value={category.id}
+												>
+													{category.name}
+												</option>
+											)
+										})}
+									</select>
+									<button type="submit" className="delete">
+										Select
+									</button>
+								</label>
+							</form>
+						</div>
+					)}
 					<ul>
-						{this.props.products.map(product => {
+						{this.state.currentPage.map(product => {
 							return (
 								<li key={product.id}>
 									<div>
-										<NavLink
-											to={`/products/${product.id}`}
-										>
+										<NavLink to={`/products/${product.id}`}>
 											{product.name}
 										</NavLink>
 										<div>
@@ -88,7 +134,9 @@ export class AllProducts extends React.Component {
 										<div>
 											{product.price}
 											<div>
-												<img src={`/${product.photoUrl}`} />
+												<img
+													src={`/${product.photoUrl}`}
+												/>
 											</div>
 										</div>
 									</div>
@@ -96,10 +144,22 @@ export class AllProducts extends React.Component {
 							)
 						})}
 					</ul>
-					{ this.props.user.isAdmin ?
-						<NavLink to='/products/addProduct'><button type="button">Add a new product</button></NavLink>
-						: ''
-					}
+					<ReactPaginate
+						previousLabel={'previous'}
+						nextLabel={'next'}
+						breakLabel={<a href="">...</a>}
+						pageCount={this.state.pageCount}
+						marginPagesDisplayed={2}
+						pageRangeDisplayed={5}
+						onPageChange={this.handleSelectPagination}
+					/>
+					{this.props.user.isAdmin ? (
+						<NavLink to="/products/addProduct">
+							<button type="button">Add a new product</button>
+						</NavLink>
+					) : (
+						''
+					)}
 				</div>
 			)
 		} else
