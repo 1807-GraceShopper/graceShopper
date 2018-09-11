@@ -44,15 +44,6 @@ let ProductForm = props => {
 						/>
 					</div>
 					<div className="form-item">
-						Description:{' '}
-						<Field
-							component={renderField}
-							type="text"
-							name="description"
-							validate={notEmpty}
-						/>
-					</div>
-					<div className="form-item">
 						Price:{' '}
 						<Field
 							component={renderField}

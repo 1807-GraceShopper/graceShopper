@@ -95,6 +95,7 @@ export class AllProducts extends React.Component {
 							)
 						})}
 					</ul>
+					<NavLink to='/products/addProduct'><button type="button">Add a new product</button></NavLink>
 				</div>
 			)
 		} else
