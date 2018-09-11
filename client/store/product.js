@@ -19,6 +19,19 @@ export const getProductsFromServer = () => {
 	}
 }
 
+export const getProductsByCategoryFromServer = categoryId => {
+	return async dispatch => {
+		console.log('getProductsByCategory')
+		let res
+		if (categoryId) {
+			res = await axios.get(`/api/categories/${categoryId}`)
+		} else {
+			res = await axios.get('/api/products')
+		}
+		dispatch(getProducts(res.data))
+	}
+}
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_PRODUCTS:
