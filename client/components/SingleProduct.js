@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {getSingleProduct} from '../store/product'
 import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 
 const mapStateToProps = state => {
   return {
@@ -31,6 +32,7 @@ export class SingleProduct extends Component {
             <img src={`/${product.photoUrl}`} />
           </div>
           {/* <Review key={product.id} product={product} /> */}
+          <NavLink to={`/products/editProduct/${product.id}`}><button type="button">Edit product</button></NavLink>
         </div>
       )
     } else {

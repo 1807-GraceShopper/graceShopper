@@ -24,18 +24,18 @@ const mapStateToProps = state => {
 
 class UpdateProduct extends React.Component {
 	componentDidMount() {
-		const productId = this.props.match.params.productId;
+		const productId = this.props.match.params.id;
 		this.props.getProduct(productId);
 	}
 	update = evt => {
-		const productId = this.props.match.params.productId;
+		const productId = this.props.match.params.id;
 		evt.preventDefault();
 		const productInfo = {
 			id: productId,
 			name: evt.target.elements.name.value,
 			description: evt.target.elements.description.value,
 			price: evt.target.elements.price.value,
-			photoUrl: evt.target.elements.price.value
+			photoUrl: evt.target.elements.photoUrl.value
 		};
 
 		this.props.updateProduct(productInfo);
@@ -44,7 +44,7 @@ class UpdateProduct extends React.Component {
 
 	render() {
 		if (
-			this.props.product.id === parseInt(this.props.match.params.productId)
+			this.props.product.id === parseInt(this.props.match.params.id)
 		) {
 			return (
 				<div>
