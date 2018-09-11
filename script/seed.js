@@ -20,7 +20,7 @@ async function seed() {
   ]);
   
   const products = await Promise.all([
-    Product.create({name: 'Assassin Sneakers', description: 'Very elaborate sneakers', price: 125.00, quantity: 7, photo:'https://pmcfootwearnews.files.wordpress.com/2018/03/homer-simpson-assassin-sneakers-the-simpsons-2.jpg', categories: [{ name: 'sneaker' }, { name: "men's" }]}, { include: [ Category ]}),
+    Product.create({name: 'Assassin Sneakers', description: 'Very elaborate sneakers', price: 125.00, quantity: 7, categories: [{ name: 'sneaker' }, { name: "men's" }]}, { include: [ Category ]}),
     Product.create({name: 'Nike M40K1 Size 12', description: 'Nike brand sneakers with shoe size 12', price: 80, quantity: 12, categories: [{ name: "sneaker" }]}, { include: [ Category ]}),
     Product.create({name: 'Ballet Shoes', description: 'Made for ballerinas', price: 30, quantity: 30, categories: [{ name: "women's" }]}, { include: [ Category ]})
   ]);
