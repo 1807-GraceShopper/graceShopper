@@ -16,45 +16,46 @@ async function seed() {
     })
   ])
 
-  const categories = await Promise.all([
-    Category.create({name: 'sneaker'}),
-    Category.create({name: "men's"}),
-    Category.create({name: "women's"}),
-    Category.create({name: 'dress'})
-  ])
+  const categoryData = [
+    { name: "sneaker" },
+    { name: "men's" },
+    { name: "women's" },
+    { name: "dress" }
+  ];
 
-  const products = await Promise.all([
-    Product.create(
-      {
-        name: 'Assassin Sneakers',
-        description: 'Very elaborate sneakers',
-        price: 125.0,
-        quantity: 7,
-        categories: [{name: 'sneaker'}, {name: "men's"}]
-      },
-      {include: [Category]}
-    ),
-    Product.create(
-      {
-        name: 'Nike M40K1 Size 12',
-        description: 'Nike brand sneakers with shoe size 12',
-        price: 80,
-        quantity: 12,
-        categories: [{name: 'sneaker'}]
-      },
-      {include: [Category]}
-    ),
-    Product.create(
-      {
-        name: 'Ballet Shoes',
-        description: 'Made for ballerinas',
-        price: 30,
-        quantity: 30,
-        categories: [{name: "women's"}]
-      },
-      {include: [Category]}
-    )
-  ])
+  const productData = [
+    {
+      name: 'Assassin Sneakers',
+      description: 'Very elaborate sneakers',
+      price: 125,
+      quantity: 7
+    },
+    {
+      name: 'Nike M40K1 Size 12',
+      description: 'Nike brand sneakers with shoe size 12',
+      price: 80,
+      quantity: 12
+    },
+    {
+      name: 'Ballet Shoes',
+      description: 'Made for ballerinas',
+      price: 30,
+      quantity: 30
+    }
+  ];
+
+  const categories = await Category.bulkCreate(categoryData, {returning: true});
+  
+  const products = await Product.bulkCreate(productData, {returning: true});
+
+  const [sneaker, mens, womens, dress] = categories
+  const [assassins, nikes, ballets] = products;
+
+  await Promise.all([
+    assassins.setCategories([sneaker, mens]),
+    nikes.setCategories([sneaker]),
+    ballets.setCategories([womens])
+  ]);
 
   const orders = await Promise.all([
     Order.create({
