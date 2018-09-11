@@ -20,7 +20,6 @@ router.get('/:id', async (req, res, next) => {
 			},
 			include: [{model: Product}]
 		})
-		console.log('products', category[0].dataValues.products)
 		res.json(category[0].dataValues.products)
 	} catch (error) {
 		next(error)
