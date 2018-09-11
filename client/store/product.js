@@ -13,30 +13,9 @@ const getProducts = products => ({
 
 //Thunk middleware
 export const getProductsFromServer = () => {
-	const dummyData = [
-		{
-			name: 'Air Jordans',
-			description: "From what I've heard, a really expensive shoe",
-			price: 1500,
-			imageUrl: 'defaultShoe.png'
-		},
-		{
-			name: 'Christian Louboutin',
-			description: 'Also a very expensive shoe',
-			price: 800,
-			imageUrl: 'defaultShoe.png'
-		},
-		{
-			name: 'Nike',
-			description: 'A more moderate shoe',
-			price: 70,
-			imageUrl: 'defaultShoe.png'
-		}
-	]
 	return async dispatch => {
-		//const res = await axios.get('/products')
-		//dispatch(getProducts(res.data))
-		dispatch(getProducts(dummyData))
+		const res = await axios.get('/products')
+		dispatch(getProducts(res.data))
 	}
 }
 

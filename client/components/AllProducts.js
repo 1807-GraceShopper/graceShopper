@@ -15,7 +15,7 @@ const mapDispatchToProps = dispatch => ({
 
 export class AllProducts extends React.Component {
 	componentDidMount() {
-		this.props.getProducts()
+		if (this.props.getProducts) this.props.getProducts()
 	}
 	render() {
 		if (this.props.products.length) {
@@ -36,7 +36,7 @@ export class AllProducts extends React.Component {
 										<div>
 											{product.price}
 											<div>
-												<img src={product.imageUrl} />
+												<img src={product.photoUrl} />
 											</div>
 										</div>
 									</div>

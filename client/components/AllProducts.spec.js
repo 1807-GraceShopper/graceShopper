@@ -6,7 +6,7 @@ import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import {AllProducts} from './AllProducts'
 import store from '../store/index'
-import {Product} from '../../server/db'
+import {Product} from '../../server/db/models'
 const app = require('../../server')
 const agent = require('supertest')(app)
 
