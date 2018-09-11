@@ -7,7 +7,8 @@ import {getCategoriesFromServer} from '../store/category'
 const mapStateToProps = state => {
 	return {
 		products: state.product.products,
-		categories: state.category
+		categories: state.category,
+		user: state.user
 	}
 }
 
@@ -95,6 +96,10 @@ export class AllProducts extends React.Component {
 							)
 						})}
 					</ul>
+					{ this.props.user.isAdmin ?
+						<NavLink to='/products/addProduct'><button type="button">Add a new product</button></NavLink>
+						: ''
+					}
 				</div>
 			)
 		} else
