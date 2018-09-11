@@ -10,7 +10,7 @@ const Product = db.Product
 
 describe('Product Model', () => {
   it('requires name', async () => {
-    const product = Product.build()
+    const product = Product.build({description: '', price: 0})
     try {
       await product.validate()
       throw Error(
@@ -21,7 +21,10 @@ describe('Product Model', () => {
     }
   })
   it('requires description', async () => {
-    const product = Product.build()
+    const product = Product.build({
+      name: '',
+      price: 0
+    })
     try {
       await product.validate()
       throw Error(

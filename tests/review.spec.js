@@ -10,7 +10,11 @@ const Review = db.Review
 
 describe('Product Model', () => {
   it('requires title', async () => {
-    const review = Review.build()
+    let str = 'test'
+    const review = Review.build({
+      rating: 1,
+      content: str.repeat(25)
+    })
     try {
       await review.validate()
       throw Error(
@@ -21,7 +25,10 @@ describe('Product Model', () => {
     }
   })
   it('requires content', async () => {
-    const review = Review.build()
+    const review = Review.build({
+      title: '',
+      rating: 1
+    })
     try {
       await review.validate()
       throw Error(

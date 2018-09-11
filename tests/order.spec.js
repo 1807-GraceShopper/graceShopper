@@ -10,7 +10,13 @@ const Order = db.Order
 
 describe('Order Model', () => {
   it('requires timeOrdered', async () => {
-    const order = Order.build()
+    const order = Order.build({
+      price: [],
+      productId: [],
+      quantity: [],
+      shippingAddress: '',
+      email: 'test@email.com'
+    })
     try {
       await order.validate()
       throw Error(
@@ -21,7 +27,13 @@ describe('Order Model', () => {
     }
   })
   it('requires shippingAddress', async () => {
-    const order = Order.build()
+    const order = Order.build({
+      price: [],
+      productId: [],
+      quantity: [],
+      timeOrdered: '1988-10-10 04:11:10',
+      email: 'test@email.com'
+    })
     try {
       await order.validate()
       throw Error(
