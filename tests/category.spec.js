@@ -3,7 +3,7 @@
 const chai = require('chai')
 const expect = chai.expect
 
-// Product Model
+// Category Model
 
 const db = require('../server/db/models')
 const Category = db.Category
