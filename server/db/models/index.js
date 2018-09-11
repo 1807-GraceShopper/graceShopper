@@ -1,4 +1,4 @@
-const User = require('./User')
+const User = require('./user')
 const Category = require('./Category')
 const Order = require('./Order')
 const Product = require('./Product')
@@ -31,9 +31,9 @@ Category.belongsToMany(Product, {through: 'product_category'})
 Product.belongsToMany(Category, {through: 'product_category'})
 
 module.exports = {
-	User,
-	Category,
-	Order,
-	Product,
-	Review
+  User,
+  Category,
+  Order,
+  Product,
+  Review
 }
