@@ -15,8 +15,8 @@ const getProducts = products => ({
 })
 
 const getProduct = product => ({
-  type: GET_SINGLE_PRODUCT,
-  product
+	type: GET_SINGLE_PRODUCT,
+	product
 })
 
 const addProduct = product => ({
@@ -37,12 +37,24 @@ export const getProductsFromServer = () => {
 	}
 }
 
-export const getSingleProduct = (id) => {
-  return async (dispatch) => {
-		const { data } = await axios.get(`/api/products/${id}`);
-    const action = getProduct(data);
-    dispatch(action);
-  }
+export const getProductsByCategoryFromServer = categoryId => {
+	return async dispatch => {
+		let res
+		if (categoryId) {
+			res = await axios.get(`/api/categories/${categoryId}`)
+		} else {
+			res = await axios.get('/api/products')
+		}
+		dispatch(getProducts(res.data))
+	}
+}
+
+export const getSingleProduct = id => {
+	return async dispatch => {
+		const {data} = await axios.get(`/api/products/${id}`)
+		const action = getProduct(data)
+		dispatch(action)
+	}
 }
 
 export const newProduct = (product) => {

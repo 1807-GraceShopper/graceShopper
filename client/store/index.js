@@ -5,10 +5,11 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import product from './product'
 import { reducer as form } from 'redux-form'
+import category from './category'
 
-const reducer = combineReducers({user, product, form})
+const reducer = combineReducers({user, product, category, form})
 const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
+	applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
 const store = createStore(reducer, middleware)
 

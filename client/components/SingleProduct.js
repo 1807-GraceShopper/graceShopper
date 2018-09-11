@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {getSingleProduct} from '../store/product'
 import {connect} from 'react-redux'
 
@@ -9,17 +9,17 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getProduct: (id) => dispatch(getSingleProduct(id))
+  getProduct: id => dispatch(getSingleProduct(id))
 })
 
 export class SingleProduct extends Component {
-
   componentDidMount() {
-    this.props.getProduct(Number(this.props.match.params.id));
+    if (this.props.getProduct)
+      this.props.getProduct(Number(this.props.match.params.id))
   }
 
   render() {
-    const product = this.props.singleProduct;
+    const product = this.props.singleProduct
 
     if (product) {
       return (
