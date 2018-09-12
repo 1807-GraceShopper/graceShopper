@@ -32,7 +32,7 @@ class NewCategory extends React.Component {
     return (
       <div className="verticalForm">
         <h3>Add a new product!</h3>
-        <CategoryFormRedux handleSubmit={this.add} />
+        <CategoryFormRedux handleSubmit={this.add} form={'category'} />
       </div>
     )
   }
