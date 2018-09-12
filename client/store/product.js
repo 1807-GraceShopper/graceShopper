@@ -7,6 +7,7 @@ const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 //Action creators
 const getProducts = products => ({
@@ -27,6 +28,11 @@ const addProduct = product => ({
 const updateProduct = product => ({
 	type: UPDATE_PRODUCT,
 	product
+})
+
+const deleteProduct = productId => ({
+	type: DELETE_PRODUCT,
+	productId
 })
 
 //Thunk middleware
@@ -72,6 +78,13 @@ export const updateProductToServer = (updateInfo) => {
 	}
 }
 
+export const deleteProductFromServer = productId => {
+  return async dispatch => {
+    await axios.delete(`api/products/${productId}`);
+    dispatch(deleteProduct(productId));
+  }
+}
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_PRODUCTS:
@@ -85,6 +98,11 @@ const reducer = (state = initialState, action) => {
 				action.product.id === product.id ? action.product : product
 			);
 			return {...state, products: updatedProducts}
+		case DELETE_PRODUCT:
+				const deleted = state.products.filter(product => {
+					return product.id !== action.productId
+				});
+				return {...state, products: deleted}
 		default:
 			return state
 	}
