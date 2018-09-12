@@ -8,7 +8,11 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123', isAdmin: true}),
+    User.create({
+      email: 'cody@email.com',
+      password: '123',
+      isAdmin: true
+    }),
     User.create({
       email: 'murphy@email.com',
       password: 'tulip56',
@@ -20,7 +24,8 @@ async function seed() {
     { name: "sneaker" },
     { name: "men's" },
     { name: "women's" },
-    { name: "dress" }
+    { name: "dress" },
+    { name: "boot" }
   ];
 
   const productData = [
@@ -41,20 +46,149 @@ async function seed() {
       description: 'Made for ballerinas',
       price: 30,
       quantity: 30
+    },
+    {
+      name: 'Suede loafers',
+      description: 'Perfect for work',
+      price: 75,
+      quantity: 24
+    },
+    {
+      name: 'Allbirds',
+      description: 'Comfortable wool sneakers',
+      price: 95,
+      quantity: 17
+    },
+    {
+      name: 'Stuart Weitzman stilettos',
+      description: 'Very tall heels!',
+      price: 250,
+      quantity: 9
+    },
+    {
+      name: 'Nike Zoom',
+      description: 'Great for running',
+      price: 70,
+      quantity: 34
+    },
+    {
+      name: 'Salvatore Ferragamo leather dress shoes',
+      description: 'Go perfectly with a tux',
+      price: 400,
+      quantity: 11
+    },
+    {
+      name: 'Adidas Stan Smith',
+      description: 'Trendy tennis shoes',
+      price: 110,
+      quantity: 37
+    },
+    {
+      name: 'Manolo Blahnik strappy sandals',
+      description: 'Summery and stylish',
+      price: 600,
+      quantity: 6
+    },
+    {
+      name: 'Cole Haan oxfords',
+      description: 'Dress them up or down!',
+      price: 170,
+      quantity: 21
+    },
+    {
+      name: 'Louis Vuitton flats',
+      description: 'black leather ballet flats',
+      price: 260,
+      quantity: 15
+    },
+    {
+      name: 'Adidas superstar',
+      description: 'White sneakers with black stripe',
+      price: 95,
+      quantity: 58
+    },
+    {
+      name: 'Frye boots',
+      description: 'Brown leather knee-high boots',
+      price: 220,
+      quantity: 29
+    },
+    {
+      name: 'Snow boots',
+      description: 'Perfect for Chicago winters',
+      price: 100,
+      quantity: 22
+    },
+    {
+      name: 'Vans slip-on sneakers',
+      description: 'Easy and comfortable',
+      price: 65,
+      quantity: 44
+    },
+    {
+      name: 'Converse Chuck Taylor high-tops',
+      description: 'Black and white sneakers',
+      price: 80,
+      quantity: 61
+    },
+    {
+      name: 'Christian Louboutin pumps',
+      description: 'Tan leather heels',
+      price: 420,
+      quantity: 18
+    },
+    {
+      name: 'Cowboy boots',
+      description: 'Brown leather boots',
+      price: 90,
+      quantity: 4
+    },
+    {
+      name: 'Keds sneakers',
+      description: 'Casual red sneakers',
+      price: 55,
+      quantity: 23
+    },
+    {
+      name: 'Timberland boots',
+      description: 'Great for hiking',
+      price: 180,
+      quantity: 8
     }
   ];
 
   const categories = await Category.bulkCreate(categoryData, {returning: true});
-  
+
   const products = await Product.bulkCreate(productData, {returning: true});
 
-  const [sneaker, mens, womens, dress] = categories
-  const [assassins, nikes, ballets] = products;
+  const [sneaker, men, women, dress, boot] = categories
+  const [assassins, nikes, ballets, loafers, allbirds,
+        heels, nikeZoom, dressShoes, stanSmith, manolos,
+        oxfords, flats, adidas, fryes, snowBoots,
+        vans, converse, pumps, cowboy, keds, timberlands] = products;
 
   await Promise.all([
-    assassins.setCategories([sneaker, mens]),
+    assassins.setCategories([sneaker, men]),
     nikes.setCategories([sneaker]),
-    ballets.setCategories([womens])
+    ballets.setCategories([women]),
+    loafers.setCategories([men, dress]),
+    allbirds.setCategories([women, sneaker]),
+    heels.setCategories([women, dress]),
+    nikeZoom.setCategories([sneaker]),
+    dressShoes.setCategories([men, dress]),
+    stanSmith.setCategories([sneaker]),
+    manolos.setCategories([women, dress]),
+    oxfords.setCategories([men, dress]),
+    flats.setCategories([women, dress]),
+    adidas.setCategories([women, sneaker]),
+    fryes.setCategories([boot, women]),
+    snowBoots.setCategories([boot]),
+    vans.setCategories([sneaker]),
+    converse.setCategories([sneaker]),
+    pumps.setCategories([women, dress]),
+    cowboy.setCategories([boot]),
+    keds.setCategories([women, sneaker]),
+    timberlands.setCategories([men, boot])
   ]);
 
   const orders = await Promise.all([
