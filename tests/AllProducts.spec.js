@@ -13,7 +13,7 @@ const agent = require('supertest')(app)
 const adapter = new Adapter()
 enzyme.configure({adapter})
 
-describe('Campus routes', () => {
+describe('Product routes', () => {
 	let storedProducts
 	let storedCategories
 
@@ -75,6 +75,13 @@ describe('Campus routes', () => {
 		})
 	})
 
+	describe('DELETE `/api/products/:id', () => {
+		it('deletes a product by its id', async () => {
+			const response = await agent.delete('/api/products/16').expect(200);
+			expect(response.body.name).to.equal(undefined)
+		})
+	})
+
 	describe('GET /api/categories', () => {
 		it('serves up all categories', async () => {
 			const response = await agent.get('/api/categories').expect(200)
@@ -95,7 +102,6 @@ describe('Campus routes', () => {
 		})
 
 		it('renders list items for the campuses passed in as props', () => {
-			//we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
 			const wrapper = shallow(
 				<AllProducts
 					products={products}
@@ -108,7 +114,6 @@ describe('Campus routes', () => {
 			expect(listItems.at(2).text()).to.contain('A more moderate shoe')
 		})
 		it('renders option items for the categories', () => {
-			//we are creating the campuses in the database so the extra credit in tier-4 doesn't break this spec.
 			const wrapper = shallow(
 				<AllProducts
 					products={products}
@@ -128,9 +133,33 @@ describe('Campus routes', () => {
 				/>
 			)
 			const buttons = wrapper.find('button')
-			expect(buttons.at(1).text()).to.contain('Add')
+			expect(buttons.at(4).text()).to.contain('Add')
 		})
 		it('does not display an add product button for non-admin users', () => {
+			const wrapper = shallow(
+				<AllProducts
+					products={products}
+					categories={storedCategories}
+					user={users[1]}
+				/>
+			)
+			const buttons = wrapper.find('button')
+			expect(buttons).to.have.length(1)
+			expect(buttons.at(0).text()).to.contain('Select')
+		})
+		it('displays delete product buttons for admin users', () => {
+			const wrapper = shallow(
+				<AllProducts
+					products={products}
+					categories={storedCategories}
+					user={users[0]}
+				/>
+			)
+			const buttons = wrapper.find('button')
+			expect(buttons.at(2).text()).to.contain('Delete')
+			expect(buttons).to.have.length(5)
+		})
+		it('does not display delete product buttons for non-admin users', () => {
 			const wrapper = shallow(
 				<AllProducts
 					products={products}
