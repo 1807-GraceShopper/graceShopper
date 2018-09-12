@@ -10,3 +10,4 @@ export { default as SingleProduct } from './SingleProduct';
 export {default as AllProducts} from './AllProducts'
 export {default as AddProduct} from './AddProduct'
 export {default as EditProduct} from './EditProduct'
+export {default as AllUsers} from './AllUsers'
