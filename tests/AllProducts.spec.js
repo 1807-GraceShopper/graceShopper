@@ -13,7 +13,7 @@ const agent = require('supertest')(app)
 const adapter = new Adapter()
 enzyme.configure({adapter})
 
-describe('Campus routes', () => {
+describe('AllProducts routes', () => {
 	let storedProducts
 	let storedCategories
 
@@ -70,7 +70,15 @@ describe('Campus routes', () => {
 
 	describe('POST `/api/products`', () => {
 		it('adds a new Product by its id', async () => {
-			const response = await agent.post('/api/products').send({name: 'Prada', description: 'another pair or heels', price: 500, photoUrl: 'defaultShoe.png'}).expect(200)
+			const response = await agent
+				.post('/api/products')
+				.send({
+					name: 'Prada',
+					description: 'another pair or heels',
+					price: 500,
+					photoUrl: 'defaultShoe.png'
+				})
+				.expect(200)
 			expect(response.body.name).to.equal('Prada')
 		})
 	})
@@ -141,6 +149,16 @@ describe('Campus routes', () => {
 			const buttons = wrapper.find('button')
 			expect(buttons).to.have.length(1)
 			expect(buttons.at(0).text()).to.contain('Select')
+		})
+
+		it('allows for searching for particular items', () => {
+			const wrapper = shallow(
+				<AllProducts
+					products={products}
+					categories={storedCategories}
+					user={users[1]}
+				/>
+			)
 		})
 	})
 })

@@ -29,7 +29,8 @@ export class AllProducts extends React.Component {
 			products: '',
 			perPage: 1,
 			currentPage: [],
-			pageCount: 1
+			pageCount: 1,
+			isSearch: false
 		}
 	}
 	async componentDidMount() {
@@ -59,11 +60,12 @@ export class AllProducts extends React.Component {
 		this.setState({products: this.props.products})
 	}
 	handleChange = product => {
-		console.log(product)
 		this.props.searchProduct([product])
+		this.setState({isSearch: true})
 	}
-	returnButton = () => {
-		this.props.getProducts('')
+	returnButton = async () => {
+		this.setState({isSearch: false})
+		await this.props.getProducts('')
 		const products = this.props.products
 		this.setState({products: products})
 	}
@@ -76,6 +78,9 @@ export class AllProducts extends React.Component {
 	}
 	render() {
 		if (this.props.products.length && this.state.currentPage.length) {
+			const data = [...this.props.products]
+			console.log('products', this.props.products)
+			console.log('data', data)
 			return (
 				<div>
 					<h3>All Shoes</h3>
@@ -86,7 +91,7 @@ export class AllProducts extends React.Component {
 					) : (
 						<div>
 							<Search
-								data={this.props.products}
+								data={data}
 								placeholder="Search for a product..."
 								searchKey="name"
 								width={300}
@@ -121,32 +126,67 @@ export class AllProducts extends React.Component {
 						</div>
 					)}
 					<ul>
-						{this.state.currentPage.map(product => {
-							return (
-								<li key={product.id}>
-									<div>
-										<NavLink to={`/products/${product.id}`}>
-											{product.name}
-										</NavLink>
-										<div>
-											<p>{product.description}</p>
-										</div>
-										<div>
-											{product.price}
+						{this.state.isSearch
+							? this.props.products.map(product => {
+									return (
+										<li key={product.id}>
 											<div>
-												<img
-													src={`/${product.photoUrl}`}
-												/>
+												<NavLink
+													to={`/products/${
+														product.id
+													}`}
+												>
+													{product.name}
+												</NavLink>
+												<div>
+													<p>{product.description}</p>
+												</div>
+												<div>
+													{product.price}
+													<div>
+														<img
+															src={`/${
+																product.photoUrl
+															}`}
+														/>
+													</div>
+												</div>
 											</div>
-										</div>
-									</div>
-								</li>
-							)
-						})}
+										</li>
+									)
+							  })
+							: this.state.currentPage.map(product => {
+									return (
+										<li key={product.id}>
+											<div>
+												<NavLink
+													to={`/products/${
+														product.id
+													}`}
+												>
+													{product.name}
+												</NavLink>
+												<div>
+													<p>{product.description}</p>
+												</div>
+												<div>
+													{product.price}
+													<div>
+														<img
+															src={`/${
+																product.photoUrl
+															}`}
+														/>
+													</div>
+												</div>
+											</div>
+										</li>
+									)
+							  })}
 					</ul>
 					<ReactPaginate
-						previousLabel={'previous'}
-						nextLabel={'next'}
+						previousLabel="previous"
+						nextLabel="next"
 						breakLabel={<a href="">...</a>}
 						pageCount={this.state.pageCount}
 						marginPagesDisplayed={2}
