@@ -66,3 +66,14 @@ router.put('/:id', async (req, res, next) => {
     next(error)
   }
 })
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const productInfo = await Product.destroy({
+      where: {id: req.params.id}
+    });
+    res.json(productInfo);
+  } catch (error) {
+    next(error);
+  }
+})

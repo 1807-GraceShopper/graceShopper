@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getProductsByCategoryFromServer} from '../store/product'
+import {getProductsByCategoryFromServer, deleteProductFromServer} from '../store/product'
 import {NavLink} from 'react-router-dom'
 import {getCategoriesFromServer} from '../store/category'
 
