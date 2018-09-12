@@ -1,6 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getProductsByCategoryFromServer} from '../store/product'
+import {
+  getProductsByCategoryFromServer,
+  deleteProductFromServer
+} from '../store/product'
 import {NavLink} from 'react-router-dom'
 import {getCategoriesFromServer} from '../store/category'
 
@@ -15,7 +18,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getProducts: categoryId =>
     dispatch(getProductsByCategoryFromServer(categoryId)),
-  getCategories: () => dispatch(getCategoriesFromServer())
+  getCategories: () => dispatch(getCategoriesFromServer()),
+  deleteProduct: id => dispatch(deleteProductFromServer(id))
 })
 
 export class AllProducts extends React.Component {
@@ -25,6 +29,7 @@ export class AllProducts extends React.Component {
       categoryId: '',
       products: ''
     }
+    this.handleDelete = this.handleDelete.bind(this)
   }
   async componentDidMount() {
     if (this.props.getProducts) {
@@ -42,6 +47,9 @@ export class AllProducts extends React.Component {
     const categoryId = this.state.categoryId
     await this.props.getProducts(categoryId)
     this.setState({products: this.props.products})
+  }
+  handleDelete(product) {
+    this.props.deleteProduct(product.id)
   }
   render() {
     if (this.props.products.length) {
@@ -82,6 +90,16 @@ export class AllProducts extends React.Component {
                       <div>
                         <img src={`/${product.photoUrl}`} />
                       </div>
+                      {this.props.user.isAdmin ? (
+                        <button
+                          type="button"
+                          onClick={() => this.handleDelete(product)}
+                        >
+                          Delete
+                        </button>
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </div>
                 </li>

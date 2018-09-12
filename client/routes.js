@@ -14,13 +14,29 @@ import {
   AddCategory
 } from './components'
 import {me} from './store'
+import { fetchCartFromStorage } from './store/cart';
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
+  constructor() {
+    super();
+    this.saveCartIntoStorage = this.saveCartIntoStorage.bind(this);
+  }
+
   componentDidMount() {
-    this.props.loadInitialData()
+    this.props.loadInitialData();
+    this.props.fetchCart();
+  }
+
+  saveCartIntoStorage() {
+    const stringifiedCart = JSON.stringify(this.props.cart);
+    window.localStorage.setItem(stringifiedCart);
+  }
+
+  componentWillUnmount() {
+    this.saveCartIntoStorage(this.props.cart);
   }
 
   render() {
@@ -54,20 +70,23 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
+  const { cart } = state;
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    cart
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    loadInitialData() {
-      dispatch(me())
-    }
+const mapDispatch = (dispatch) => ({
+  loadInitialData: () => {
+    dispatch(me());
+  },
+  fetchCart: () => {
+    dispatch(fetchCartFromStorage());
   }
-}
+});
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
@@ -78,5 +97,6 @@ export default withRouter(connect(mapState, mapDispatch)(Routes))
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
+  fetchCart: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }
