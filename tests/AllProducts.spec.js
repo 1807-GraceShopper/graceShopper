@@ -12,7 +12,7 @@ const agent = require('supertest')(app)
 const adapter = new Adapter()
 enzyme.configure({adapter})
 
-describe('All products', () => {
+describe('Product routes', () => {
   let storedProducts
   let storedCategories
 
