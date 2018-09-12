@@ -12,21 +12,11 @@ import { fetchCartFromStorage } from './store/cart';
 class Routes extends Component {
   constructor() {
     super();
-    this.saveCartIntoStorage = this.saveCartIntoStorage.bind(this);
   }
 
   componentDidMount() {
     this.props.loadInitialData();
     this.props.fetchCart();
-  }
-
-  saveCartIntoStorage() {
-    const stringifiedCart = JSON.stringify(this.props.cart);
-    window.localStorage.setItem(stringifiedCart);
-  }
-
-  componentWillUnmount() {
-    this.saveCartIntoStorage(this.props.cart);
   }
 
   render() {

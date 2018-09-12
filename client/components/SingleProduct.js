@@ -2,17 +2,20 @@ import React, {Component} from 'react'
 import {getSingleProduct} from '../store/product'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
+import { addItemToCart } from '../store/cart';
 
 const mapStateToProps = state => {
   return {
     singleProduct: state.product.singleProduct,
-    user: state.user
+    user: state.user,
+    cart: state.cart
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  getProduct: id => dispatch(getSingleProduct(id))
-})
+  getProduct: id => dispatch(getSingleProduct(id)),
+  addToCart: product => dispatch(addItemToCart(product))
+});
 
 export class SingleProduct extends Component {
   componentDidMount() {
@@ -37,6 +40,7 @@ export class SingleProduct extends Component {
             <NavLink to={`/products/editProduct/${product.id}`}><button type="button">Edit product</button></NavLink>
             : ''
           }
+          <button type="button" onClick={() => this.props.addToCart(product)}>Add to Cart</button>
         </div>
       )
     } else {
