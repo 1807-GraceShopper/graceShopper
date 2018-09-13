@@ -7,6 +7,8 @@ const GET_PRODUCTS = 'GET_PRODUCTS'
 const GET_SINGLE_PRODUCT = 'GET_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const SEARCH_PRODUCT = 'SEARCH_PRODUCT'
+
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 //Action creators
@@ -30,6 +32,10 @@ const updateProduct = product => ({
 	product
 })
 
+export const searchProduct = product => ({
+	type: SEARCH_PRODUCT,
+	product
+})
 const deleteProduct = productId => ({
 	type: DELETE_PRODUCT,
 	productId
@@ -63,26 +69,29 @@ export const getSingleProduct = id => {
 	}
 }
 
-export const newProduct = (product) => {
-	return async (dispatch) => {
-		const { data } = await axios.post('/api/products', product);
-		dispatch(addProduct(data));
+export const newProduct = product => {
+	return async dispatch => {
+		const {data} = await axios.post('/api/products', product)
+		dispatch(addProduct(data))
 	}
 }
 
-export const updateProductToServer = (updateInfo) => {
+export const updateProductToServer = updateInfo => {
 	console.log('updateInfo', updateInfo)
-	return async (dispatch) => {
-		const { data } = await axios.put(`api/products/${updateInfo.id}`, updateInfo);
+	return async dispatch => {
+		const {data} = await axios.put(
+			`api/products/${updateInfo.id}`,
+			updateInfo
+		)
 		dispatch(updateProduct(data[1][0]))
 	}
 }
 
 export const deleteProductFromServer = productId => {
-  return async dispatch => {
-    await axios.delete(`api/products/${productId}`);
-    dispatch(deleteProduct(productId));
-  }
+	return async dispatch => {
+		await axios.delete(`api/products/${productId}`)
+		dispatch(deleteProduct(productId))
+	}
 }
 
 const reducer = (state = initialState, action) => {
@@ -94,15 +103,18 @@ const reducer = (state = initialState, action) => {
 		case ADD_PRODUCT:
 			return {...state, products: [...state.products, action.product]}
 		case UPDATE_PRODUCT:
-			const updatedProducts = state.products.map(product =>
-				action.product.id === product.id ? action.product : product
-			);
+			const updatedProducts = state.products.map(
+				product =>
+					action.product.id === product.id ? action.product : product
+			)
 			return {...state, products: updatedProducts}
+		case SEARCH_PRODUCT:
+			return {...state, products: action.product}
 		case DELETE_PRODUCT:
-				const deleted = state.products.filter(product => {
-					return product.id !== action.productId
-				});
-				return {...state, products: deleted}
+			const deleted = state.products.filter(product => {
+				return product.id !== action.productId
+			})
+			return {...state, products: deleted}
 		default:
 			return state
 	}
