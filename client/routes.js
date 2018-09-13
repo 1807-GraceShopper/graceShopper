@@ -10,6 +10,7 @@ import {
   SingleProduct,
   AddProduct,
   EditProduct,
+  AllUsers,
   EditCategory,
   AddCategory
 } from './components'
@@ -31,7 +32,6 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props
-
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -41,6 +41,7 @@ class Routes extends Component {
         <Route path="/products/addProduct" component={AddProduct} />
         <Route path="/products/editProduct/:id" component={EditProduct} />
         <Route path="/products/:id" component={SingleProduct} />
+        <Route path="/users" component={AllUsers} />
         <Route path="/categories/" component={EditCategory} />
         <Route path="/addCategory/" component={AddCategory} />
         {isLoggedIn && (

@@ -19,6 +19,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
 	return {
 		product: state.product.singleProduct,
+		user: state.user
 	};
 };
 
@@ -44,7 +45,7 @@ class UpdateProduct extends React.Component {
 
 	render() {
 		if (
-			this.props.product.id === parseInt(this.props.match.params.id)
+			this.props.product.id === parseInt(this.props.match.params.id) && this.props.user.isAdmin
 		) {
 			return (
 				<div>
@@ -56,7 +57,9 @@ class UpdateProduct extends React.Component {
 				</div>
 			);
 		} else {
-			return null;
+			return (
+				<h1>Sorry, you are not authorized to view this page</h1>
+			);
 		}
 	}
 }

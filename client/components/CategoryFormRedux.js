@@ -19,7 +19,6 @@ const preventDefault = event => {
 const notEmpty = value => (value ? undefined : 'Required field')
 
 let CategoryForm = props => {
-  console.log('category form props:', props)
   return (
     <div className="verticalForm">
       <form

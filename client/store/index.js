@@ -7,8 +7,9 @@ import product from './product'
 import { reducer as form } from 'redux-form'
 import category from './category'
 import cart from './cart';
+import users from './users';
 
-const reducer = combineReducers({user, product, category, form, cart})
+const reducer = combineReducers({user, product, category, form, cart, users})
 const middleware = composeWithDevTools(
 	applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
