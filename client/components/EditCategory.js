@@ -19,7 +19,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    categories: state.category
+    categories: state.category,
+    user: state.user
   }
 }
 
@@ -40,7 +41,7 @@ class UpdateCategory extends React.Component {
   }
 
   render() {
-    if (this.props.categories.length) {
+    if (this.props.categories.length && this.props.user.isAdmin) {
       return (
         <div>
           <h3 className="listHeader center">Update Categories</h3>
@@ -58,7 +59,9 @@ class UpdateCategory extends React.Component {
         </div>
       )
     } else {
-      return null
+      return (
+        <h1>Sorry, you are not authorized to view this page</h1>
+      )
     }
   }
 }

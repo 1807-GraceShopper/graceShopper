@@ -22,9 +22,9 @@ export const getUsersFromServer = () => {
   }
 }
 
-export const deleteUserFromServer = (id) => {
+export const deleteUserFromServer = (email) => {
   return async dispatch => {
-    const res = await axios.delete(`/api/users/${id}`)
+    const res = await axios.delete(`/api/users/${email}`)
     dispatch(deleteUser(res.data))
   }
 }
@@ -35,7 +35,7 @@ const reducer = (state = initialState, action) => {
       return {...state, users: action.users}
     case DELETE_USER:
       const deleted = state.users.filter(user => {
-        return user.id !== action.id
+        return user.email !== action.email
       })
       return {...state, users: deleted}
     default:

@@ -13,6 +13,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
 	return {
 		products: state.product.products,
+		user: state.user
 	};
 };
 
@@ -32,12 +33,18 @@ class NewProduct extends React.Component {
 		this.props.history.push('/products');
 	};
 	render() {
-		return (
-			<div className="verticalForm">
-				<h3>Add a new product!</h3>
-				<ProductFormRedux handleSubmit={this.add} />
-			</div>
-		);
+		if (this.props.user.isAdmin) {
+			return (
+				<div className="verticalForm">
+					<h3>Add a new product!</h3>
+					<ProductFormRedux handleSubmit={this.add} />
+				</div>
+			);
+		} else {
+			return (
+				<h1>Sorry, you are not authorized to view this page</h1>
+			)
+		}
 	}
 }
 

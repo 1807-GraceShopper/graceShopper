@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getUsersFromServer, deleteUserFromServer} from '../store/users'
-// import {NavLink} from 'react-router-dom'
 
 const mapStateToProps = state => {
   return {
@@ -23,6 +22,7 @@ export class AllUsers extends React.Component {
     this.state = {
       users: []
     }
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   async componentDidMount() {
@@ -39,6 +39,7 @@ export class AllUsers extends React.Component {
 
   render() {
     if (this.props.users.users.length) {
+      console.log('state', this.props)
       return (
         <div>
           <h3>All Users</h3>
@@ -48,8 +49,8 @@ export class AllUsers extends React.Component {
                 <li key={user.email}>
                   <div>
                     {user.email}
+                    <button type="button" onClick={() => this.handleDelete(user)}>X</button>
                   </div>
-                  <button type="button" onClick={this.handleDelete(user)}>X</button>
                 </li>
               )
             })}
@@ -57,9 +58,8 @@ export class AllUsers extends React.Component {
         </div>
       )
     } else { return (
-      <h3>Sorry, there are not currently any users</h3>
-    )
-    }
+      <h3>Sorry, you are not authorized to view this page</h3>
+    )}
   }
 }
 
