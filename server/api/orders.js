@@ -58,7 +58,7 @@ router.put('/:orderId', async (req, res, next) => {
   }
 })
 
-router.put('/:orderId', async (req, res, next) => {
+router.delete('/:orderId', async (req, res, next) => {
   try {
     const orderToDestroy = await Order.findById(req.params.orderId)
     orderToDestroy.destroy()
