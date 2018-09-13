@@ -2,7 +2,17 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, AllProducts, SingleProduct, AddProduct, EditProduct} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  AllProducts,
+  SingleProduct,
+  AddProduct,
+  EditProduct,
+  EditCategory,
+  AddCategory
+} from './components'
 import {me} from './store'
 import { fetchCartFromStorage } from './store/cart';
 
@@ -12,21 +22,11 @@ import { fetchCartFromStorage } from './store/cart';
 class Routes extends Component {
   constructor() {
     super();
-    this.saveCartIntoStorage = this.saveCartIntoStorage.bind(this);
   }
 
   componentDidMount() {
     this.props.loadInitialData();
     this.props.fetchCart();
-  }
-
-  saveCartIntoStorage() {
-    const stringifiedCart = JSON.stringify(this.props.cart);
-    window.localStorage.setItem(stringifiedCart);
-  }
-
-  componentWillUnmount() {
-    this.saveCartIntoStorage(this.props.cart);
   }
 
   render() {
@@ -41,6 +41,8 @@ class Routes extends Component {
         <Route path="/products/addProduct" component={AddProduct} />
         <Route path="/products/editProduct/:id" component={EditProduct} />
         <Route path="/products/:id" component={SingleProduct} />
+        <Route path="/categories/" component={EditCategory} />
+        <Route path="/addCategory/" component={AddCategory} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

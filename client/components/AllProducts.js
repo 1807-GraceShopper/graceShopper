@@ -10,13 +10,13 @@ import {getCategoriesFromServer} from '../store/category'
 import Search from 'react-search-box'
 import ReactPaginate from 'react-paginate'
 import AllProductsList from './AllProductsList'
-console.log(AllProductsList)
 
 const mapStateToProps = state => {
 	return {
 		products: state.product.products,
 		categories: state.category,
-		user: state.user
+		user: state.user,
+		cart: state.cart
 	}
 }
 
@@ -60,12 +60,33 @@ export class AllProducts extends React.Component {
 	}
 	handleSelect = event => {
 		this.setState({categoryId: event.target.value})
+		const products = this.props.products
+		const perPage = this.state.perPage
+		const firstPage = this.props.products.slice(0, perPage)
+		const pageCount = Math.ceil(
+			this.props.products.length / this.state.perPage
+		)
+		this.setState({
+			products: products,
+			currentPage: firstPage,
+			pageCount: pageCount
+		})
 	}
 	handleSubmit = async event => {
 		event.preventDefault()
 		const categoryId = this.state.categoryId
 		await this.props.getProducts(categoryId)
-		this.setState({products: this.props.products})
+		const perPage = this.state.perPage
+		const products = this.props.products
+		const firstPage = this.props.products.slice(0, perPage)
+		const pageCount = Math.ceil(
+			this.props.products.length / this.state.perPage
+		)
+		this.setState({
+			products: products,
+			currentPage: firstPage,
+			pageCount: pageCount
+		})
 	}
 	handleChange = product => {
 		this.props.searchProduct([product])
@@ -86,7 +107,6 @@ export class AllProducts extends React.Component {
 	}
 	async handleDelete(product) {
 		await this.props.deleteProduct(product.id)
-		console.log('props products', this.props.products)
 		const products = this.props.products
 		const perPage = this.state.perPage
 		const firstPage = this.props.products.slice(0, perPage)
@@ -169,6 +189,20 @@ export class AllProducts extends React.Component {
 					{this.props.user.isAdmin ? (
 						<NavLink to="/products/addProduct">
 							<button type="button">Add a new product</button>
+						</NavLink>
+					) : (
+						''
+					)}
+					{this.props.user.isAdmin ? (
+						<NavLink to="/addCategory">
+							<button type="button">Add a new category</button>
+						</NavLink>
+					) : (
+						''
+					)}
+					{this.props.user.isAdmin ? (
+						<NavLink to="/categories">
+							<button type="button">Edit Categories</button>
 						</NavLink>
 					) : (
 						''
