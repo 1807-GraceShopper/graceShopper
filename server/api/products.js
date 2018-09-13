@@ -2,6 +2,22 @@ const router = require('express').Router()
 const {Product, Category} = require('../db/models')
 module.exports = router
 
+function requireLogin (req, res, next) {
+  if (req.user) {
+    next()
+  } else {
+    res.status(401).send('must be logged in')
+  }
+}
+
+function requireAdmin (req, res, next) {
+  if (req.user && req.user.isAdmin) {
+    next()
+  } else {
+    res.status(401).json('must be an admin')
+  }
+}
+
 // all products route
 router.get('/', async (req, res, next) => {
   try {
@@ -27,7 +43,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', requireAdmin, async (req, res, next) => {
   try {
     let newProduct
     if (req.body.photoUrl) {
@@ -50,7 +66,15 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+// router.get('/addProduct', requireAdmin, async (req, res, next) => {
+//   // try {
+//   //   res.status(200)
+//   // } catch(error) {
+//   //   next(error)
+//   // }
+// })
+
+router.put('/:id', requireAdmin, async (req, res, next) => {
   try {
     const updatedProduct = await Product.update({
       name: req.body.name,
@@ -67,7 +91,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', requireAdmin, async (req, res, next) => {
   try {
     const productInfo = await Product.destroy({
       where: {id: req.params.id}

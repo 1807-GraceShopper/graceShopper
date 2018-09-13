@@ -73,6 +73,10 @@ describe('All products', () => {
 				const response = await agent.post('/api/products').send({name: 'Prada', description: 'another pair or heels', price: 500, photoUrl: 'defaultShoe.png'}).expect(200)
 				expect(response.body.name).to.equal('Prada')
 			})
+			// it.only('is only accessible to admin users', async () => {
+			// 	let req.user = users[1]
+			// 	await agent.post('/api/products').send({name: 'Dior', description: 'more heels', price: 400, photoUrl: 'defaultShoe.png'}).expect(401)
+			// })
 		})
 
 		describe('DELETE `/api/products/:id', () => {
