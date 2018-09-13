@@ -28,11 +28,10 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    res.json(
-      await Category.create({
-        name: req.body.name
-      })
-    )
+    const newCategory = await Category.create({
+      name: req.body.name
+    });
+    res.json(newCategory);
   } catch (err) {
     next(err)
   }
@@ -61,7 +60,7 @@ router.delete('/:id', async (req, res, next) => {
       where: {id: req.params.id}
     })
     category.destroy()
-    res.sendStatus(200)
+    res.status(204).end();
   } catch (err) {
     next(err)
   }
