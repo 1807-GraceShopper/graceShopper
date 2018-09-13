@@ -31,6 +31,14 @@ const AllProductsList = props => {
 						) : (
 							''
 						)}
+						{
+							<button
+								type="button"
+								onClick={() => props.addToCart(product)}
+							>
+								Add to Cart
+							</button>
+						}
 					</li>
 				)
 			})}

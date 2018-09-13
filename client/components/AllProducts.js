@@ -10,6 +10,7 @@ import {getCategoriesFromServer} from '../store/category'
 import Search from 'react-search-box'
 import ReactPaginate from 'react-paginate'
 import AllProductsList from './AllProductsList'
+import {addItemToCart} from '../store/cart'
 
 const mapStateToProps = state => {
 	return {
@@ -25,7 +26,8 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(getProductsByCategoryFromServer(categoryId)),
 	getCategories: () => dispatch(getCategoriesFromServer()),
 	searchProduct: product => dispatch(searchProduct(product)),
-	deleteProduct: id => dispatch(deleteProductFromServer(id))
+	deleteProduct: id => dispatch(deleteProductFromServer(id)),
+	addToCart: product => dispatch(addItemToCart(product))
 })
 
 export class AllProducts extends React.Component {
@@ -176,6 +178,7 @@ export class AllProducts extends React.Component {
 						products={productType}
 						user={this.props.user}
 						isSearch={this.state.isSearch}
+						addToCart={this.props.addToCart}
 					/>
 					<ReactPaginate
 						previousLabel="previous"
