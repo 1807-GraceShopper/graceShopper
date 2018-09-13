@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product, Category, OrderItem} = require('../db/models')
+const {Product, Category, OrderItem, Review} = require('../db/models')
 module.exports = router
 
 function requireLogin(req, res, next) {
@@ -36,8 +36,8 @@ router.get('/:id', async (req, res, next) => {
     const singleProduct = await Product.findOne({
       where: {
         id: req.params.id
-      }
-      // include: [{model: Review}]
+      },
+      include: [{model: Review}]
     })
     res.json(singleProduct)
   } catch (error) {

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, ShippingInfo} = require('../db/models')
+const {User, ShippingInfo, Order, Review} = require('../db/models')
 module.exports = router
 
 function requireAdmin(req, res, next) {
@@ -17,7 +17,7 @@ router.get('/', requireAdmin, async (req, res, next) => {
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
       attributes: ['email', 'isAdmin'],
-      include: [{model: ShippingInfo}]
+      include: [{model: ShippingInfo}, {model: Order}, {model: Review}]
     })
     res.json(users)
   } catch (err) {
