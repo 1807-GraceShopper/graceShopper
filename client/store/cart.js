@@ -1,4 +1,5 @@
 import ProductToken from '../utils/ProductToken';
+import { loadCartFromLocalStorage, writeCartIntoLocalStorage } from '../utils/localStorage';
 
 const initialState = [];
 
@@ -33,25 +34,38 @@ const getPrice = (cart) => ({
 
 //REDUCER
 
-export default function reducer(cart = initialState, action) {
+export default function reducer(cart, action) {
+    if (cart === undefined) {
+        cart = loadCartFromLocalStorage();
+    }
+    let nextState;
     switch(action.type) {
         case ADD_TO_CART:
-            //should add if statement for when product exists already.
-            const matchingItem = cart.find(product => product.productId === action.product.id);
-            if (matchingItem) {
-                let updatedItem = matchingItem;
-                updatedItem.incrementQuantity();
-                return cart.map(product => (
-                    action.product.id === product.productId ? updatedItem : product
-                ));
-            }
-            else {
-                let token = new ProductToken(action.product);
-                return [...cart, token];
-            }
+            const pToken = new ProductToken(action.product);
+            // //should add if statement for when product exists already.
+            // const matchingItem = cart.find(product => product.productId === pToken.productId);
+            // if (matchingItem) {
+            //     //     let updatedItem = matchingItem;
+            //     console.log(matchingItem);
+            //     pToken.setQuantity(matchingItem.quantity+1);
+            //     // matchingItem.incrementQuantity();
+            //     return cart.map(product => (
+            //         product.productId === pToken.productId ? pToken: product
+            //     ));
+            // }
+            // else {
+                // let token = new ProductToken(action.product);
+            nextState = [...cart, pToken];
+            writeCartIntoLocalStorage(nextState);
+            return nextState;
+            // }
         case REMOVE_FROM_CART:
-            return cart.filter(product => product.productId !== action.productId);
+            nextState = cart.filter(product => product.productId !== action.productId);
+            writeCartIntoLocalStorage(nextState);
+            return nextState.filter(product => product.productId !== action.productId);
         case GET_CART:
+            nextState = cart;
+            writeCartIntoLocalStorage(nextState);
             return action.cart;
         case GET_CART_PRICE:
             return cart.reduce((accumulator, currentItem) => currentItem.price*currentItem.quantity + accumulator, 0);
@@ -64,7 +78,19 @@ export default function reducer(cart = initialState, action) {
 
 export function fetchCartFromStorage() {
     return (dispatch) => {
-        const cart = JSON.parse(window.localStorage.getItem('cart'));
+        const cart = loadCartFromLocalStorage();
         dispatch(get(cart));
     }
 }
+
+// export function saveCartIntoStorage(cart) {
+//     const stringifiedCart = JSON.stringify(cart);
+//     window.localStorage.setItem('cart', stringifiedCart);
+//     console.log(window.localStorage);
+//   }
+
+export function addItemToCart(product) {
+    return (dispatch) => {
+        dispatch(add(product));
+    }
+};

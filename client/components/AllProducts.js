@@ -6,12 +6,14 @@ import {
 } from '../store/product'
 import {NavLink} from 'react-router-dom'
 import {getCategoriesFromServer} from '../store/category'
+import { addItemToCart } from '../store/cart';
 
 const mapStateToProps = state => {
   return {
     products: state.product.products,
     categories: state.category,
-    user: state.user
+	user: state.user,
+	cart: state.cart
   }
 }
 
@@ -19,7 +21,8 @@ const mapDispatchToProps = dispatch => ({
   getProducts: categoryId =>
     dispatch(getProductsByCategoryFromServer(categoryId)),
   getCategories: () => dispatch(getCategoriesFromServer()),
-  deleteProduct: id => dispatch(deleteProductFromServer(id))
+  deleteProduct: id => dispatch(deleteProductFromServer(id)),
+  addToCart: product => dispatch(addItemToCart(product))
 })
 
 export class AllProducts extends React.Component {
@@ -99,7 +102,8 @@ export class AllProducts extends React.Component {
                         </button>
                       ) : (
                         ''
-                      )}
+					  )}
+					  { <button type="button" onClick={() => this.props.addToCart(product)}>Add to Cart</button> }
                     </div>
                   </div>
                 </li>
