@@ -1,6 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getUsersFromServer, deleteUserFromServer} from '../store/users'
+import {
+  getUsersFromServer,
+  deleteUserFromServer,
+  makeAdminOnServer
+} from '../store/users'
 
 const mapStateToProps = state => {
   return {
@@ -12,34 +16,32 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getUsers: () =>
     dispatch(getUsersFromServer()),
-  deleteUser: (email) => dispatch(deleteUserFromServer(email))
+  deleteUser: (email) => dispatch(deleteUserFromServer(email)),
+  makeUserAnAdmin: (email, user) => dispatch(makeAdminOnServer(email, user))
 })
 
 export class AllUsers extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      users: []
-    }
     this.handleDelete = this.handleDelete.bind(this)
+    this.makeAdmin = this.makeAdmin.bind(this)
   }
 
   async componentDidMount() {
     await this.props.getUsers()
-    const users = this.props.users
-    this.setState({
-      users: users
-    })
   }
 
   handleDelete (user) {
     this.props.deleteUser(user.email)
   }
 
+  makeAdmin (email, user) {
+    this.props.makeUserAnAdmin(email, user)
+  }
+
   render() {
     if (this.props.users.users.length) {
-      console.log('state', this.props)
       return (
         <div>
           <h3>All Users</h3>
@@ -49,7 +51,8 @@ export class AllUsers extends React.Component {
                 <li key={user.email}>
                   <div>
                     {user.email}
-                    <button type="button" onClick={() => this.handleDelete(user)}>X</button>
+                    <button type="button" onClick={() => this.handleDelete(user)}>Delete</button>
+                    <button type="button" onClick={() => this.makeAdmin(user.email, user)}>Make admin</button>
                   </div>
                 </li>
               )

@@ -66,14 +66,6 @@ router.post('/', requireAdmin, async (req, res, next) => {
   }
 })
 
-// router.get('/addProduct', requireAdmin, async (req, res, next) => {
-//   // try {
-//   //   res.status(200)
-//   // } catch(error) {
-//   //   next(error)
-//   // }
-// })
-
 router.put('/:id', requireAdmin, async (req, res, next) => {
   try {
     const updatedProduct = await Product.update({
