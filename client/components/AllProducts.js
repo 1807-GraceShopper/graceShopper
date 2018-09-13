@@ -1,10 +1,16 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getProductsByCategoryFromServer, searchProduct} from '../store/product'
+import {
+	getProductsByCategoryFromServer,
+	deleteProductFromServer,
+	searchProduct
+} from '../store/product'
 import {NavLink} from 'react-router-dom'
 import {getCategoriesFromServer} from '../store/category'
 import Search from 'react-search-box'
 import ReactPaginate from 'react-paginate'
+import AllProductsList from './AllProductsList'
+console.log(AllProductsList)
 
 const mapStateToProps = state => {
 	return {
@@ -18,7 +24,8 @@ const mapDispatchToProps = dispatch => ({
 	getProducts: categoryId =>
 		dispatch(getProductsByCategoryFromServer(categoryId)),
 	getCategories: () => dispatch(getCategoriesFromServer()),
-	searchProduct: product => dispatch(searchProduct(product))
+	searchProduct: product => dispatch(searchProduct(product)),
+	deleteProduct: id => dispatch(deleteProductFromServer(id))
 })
 
 export class AllProducts extends React.Component {
@@ -27,11 +34,12 @@ export class AllProducts extends React.Component {
 		this.state = {
 			categoryId: '',
 			products: '',
-			perPage: 1,
+			perPage: 5,
 			currentPage: [],
 			pageCount: 1,
 			isSearch: false
 		}
+		this.handleDelete = this.handleDelete.bind(this)
 	}
 	async componentDidMount() {
 		if (this.props.getProducts) {
@@ -76,11 +84,29 @@ export class AllProducts extends React.Component {
 		const pageProducts = this.state.products.slice(startIndex, endIndex)
 		this.setState({currentPage: pageProducts})
 	}
+	async handleDelete(product) {
+		await this.props.deleteProduct(product.id)
+		console.log('props products', this.props.products)
+		const products = this.props.products
+		const perPage = this.state.perPage
+		const firstPage = this.props.products.slice(0, perPage)
+		const pageCount = Math.ceil(
+			this.props.products.length / this.state.perPage
+		)
+		this.setState({
+			products: products,
+			currentPage: firstPage,
+			pageCount: pageCount
+		})
+	}
 	render() {
 		if (this.props.products.length && this.state.currentPage.length) {
+			const products = this.props.products
+			const currentPage = this.state.currentPage
+			const isSearch = this.state.isSearch
+			const productType = isSearch ? products : currentPage
 			const data = [...this.props.products]
-			console.log('products', this.props.products)
-			console.log('data', data)
+
 			return (
 				<div>
 					<h3>All Shoes</h3>
@@ -125,65 +151,12 @@ export class AllProducts extends React.Component {
 							</form>
 						</div>
 					)}
-					<ul>
-						{this.state.isSearch
-							? this.props.products.map(product => {
-									return (
-										<li key={product.id}>
-											<div>
-												<NavLink
-													to={`/products/${
-														product.id
-													}`}
-												>
-													{product.name}
-												</NavLink>
-												<div>
-													<p>{product.description}</p>
-												</div>
-												<div>
-													{product.price}
-													<div>
-														<img
-															src={`/${
-																product.photoUrl
-															}`}
-														/>
-													</div>
-												</div>
-											</div>
-										</li>
-									)
-							  })
-							: this.state.currentPage.map(product => {
-									return (
-										<li key={product.id}>
-											<div>
-												<NavLink
-													to={`/products/${
-														product.id
-													}`}
-												>
-													{product.name}
-												</NavLink>
-												<div>
-													<p>{product.description}</p>
-												</div>
-												<div>
-													{product.price}
-													<div>
-														<img
-															src={`/${
-																product.photoUrl
-															}`}
-														/>
-													</div>
-												</div>
-											</div>
-										</li>
-									)
-							  })}
-					</ul>
+					<AllProductsList
+						handleDelete={this.handleDelete}
+						products={productType}
+						user={this.props.user}
+						isSearch={this.state.isSearch}
+					/>
 					<ReactPaginate
 						previousLabel="previous"
 						nextLabel="next"
