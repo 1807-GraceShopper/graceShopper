@@ -21,12 +21,12 @@ async function seed() {
   ])
 
   const categoryData = [
-    { name: "sneaker" },
-    { name: "men's" },
-    { name: "women's" },
-    { name: "dress" },
-    { name: "boot" }
-  ];
+    {name: 'sneaker'},
+    {name: "men's"},
+    {name: "women's"},
+    {name: 'dress'},
+    {name: 'boot'}
+  ]
 
   const productData = [
     {
@@ -155,17 +155,36 @@ async function seed() {
       price: 180,
       quantity: 8
     }
-  ];
+  ]
 
-  const categories = await Category.bulkCreate(categoryData, {returning: true});
+  const categories = await Category.bulkCreate(categoryData, {returning: true})
 
-  const products = await Product.bulkCreate(productData, {returning: true});
+  const products = await Product.bulkCreate(productData, {returning: true})
 
   const [sneaker, men, women, dress, boot] = categories
-  const [assassins, nikes, ballets, loafers, allbirds,
-        heels, nikeZoom, dressShoes, stanSmith, manolos,
-        oxfords, flats, adidas, fryes, snowBoots,
-        vans, converse, pumps, cowboy, keds, timberlands] = products;
+  const [
+    assassins,
+    nikes,
+    ballets,
+    loafers,
+    allbirds,
+    heels,
+    nikeZoom,
+    dressShoes,
+    stanSmith,
+    manolos,
+    oxfords,
+    flats,
+    adidas,
+    fryes,
+    snowBoots,
+    vans,
+    converse,
+    pumps,
+    cowboy,
+    keds,
+    timberlands
+  ] = products
 
   await Promise.all([
     assassins.setCategories([sneaker, men]),
@@ -189,7 +208,7 @@ async function seed() {
     cowboy.setCategories([boot]),
     keds.setCategories([women, sneaker]),
     timberlands.setCategories([men, boot])
-  ]);
+  ])
 
   const orders = await Promise.all([
     Order.create({
