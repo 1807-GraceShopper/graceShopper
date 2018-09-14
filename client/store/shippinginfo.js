@@ -53,7 +53,6 @@ export const getSingleShippingInfoFromServer = id => {
 
 export const addShippingInfoToServer = singleShippingInfo => {
   return async dispatch => {
-    console.log('shipping info:', singleShippingInfo)
     const res = await axios.post('api/shippingInfo', singleShippingInfo)
     dispatch(addShippingInfo(res.data))
   }
