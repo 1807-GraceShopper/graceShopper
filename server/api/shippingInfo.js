@@ -21,6 +21,7 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
+  console.log('here:', req.body)
   try {
     const newShippingInfo = await ShippingInfo.create({
       firstName: req.body.firstName,
