@@ -15,19 +15,19 @@ import {
   AddCategory
 } from './components'
 import {me} from './store'
-import { fetchCartFromStorage } from './store/cart';
+import {fetchCartFromStorage} from './store/cart-orderItem'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   constructor() {
-    super();
+    super()
   }
 
   componentDidMount() {
-    this.props.loadInitialData();
-    this.props.fetchCart();
+    this.props.loadInitialData()
+    this.props.fetchCart()
   }
 
   render() {
@@ -61,7 +61,7 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  const { cart } = state;
+  const {cart} = state
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
@@ -70,14 +70,14 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = (dispatch) => ({
+const mapDispatch = dispatch => ({
   loadInitialData: () => {
-    dispatch(me());
+    dispatch(me())
   },
   fetchCart: () => {
-    dispatch(fetchCartFromStorage());
+    dispatch(fetchCartFromStorage())
   }
-});
+})
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes

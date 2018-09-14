@@ -7,6 +7,8 @@ import {getReviewsFromServer, addReviewToServer} from '../store/reviews'
 import {Review} from './Review'
 import ReviewFormRedux from './ReviewReduxForm'
 import {reset} from 'redux-form'
+import Checkout from './stripe'
+console.log('checkout', Checkout)
 
 const mapStateToProps = state => {
   return {
@@ -74,6 +76,7 @@ export class SingleProduct extends Component {
           <button type="button" onClick={() => this.props.addToCart(product)}>
             Add to Cart
           </button>
+          <Checkout />
         </div>
       )
     } else {
