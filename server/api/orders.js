@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, OrderItem} = require('../db/models')
+const {Order, OrderItem, ShippingInfo} = require('../db/models')
 
 module.exports = router
 
@@ -28,11 +28,16 @@ router.get('/:orderId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    const shipInfo = await ShippingInfo.create(req.body.shippingInfo);
     const newOrder = await Order.create({
-      price: req.body.price,
-      quantity: req.body.quantity,
-      timeOrdered: req.body.timeOrdered
-    })
+      price: req.body.price || 0, //req.body.cart.reduce() sum of the prices * quantities of 
+      quantity: req.body.quantity || 0, //req.body.shippingInfo.reduce sum of quantities of items in cart
+      timeOrdered: Date.now(),
+      orderItems: req.body.cart,
+      shippingInfo: shipInfo
+    }, {
+      include: [ OrderItem, ShippingInfo ]
+    });
     res.json(newOrder)
   } catch (err) {
     next(err)
