@@ -1,23 +1,58 @@
-import React from 'react'
+import React, {Component} from 'react'
+import {CardElement, injectStripe} from 'react-stripe-elements'
+import axios from 'axios'
 
-const Checkout = props => {
-	return (
-		<form>
-			<script
-				src="https://checkout.stripe.com/checkout.js"
-				class="stripe-button"
-				data-key="pk_test_60MttfQL0IrqlSlDlbmt4J24"
-				data-amount="999"
-				data-name="Stripe.com"
-				data-description="Widget"
-				data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-				data-locale="auto"
-				data-zip-code="true"
-			>
-				Shipping info: <input type="text" />
-			</script>
-		</form>
-	)
+class CheckoutForm extends Component {
+	constructor(props) {
+		super(props)
+		this.submit = this.submit.bind(this)
+		this.state = {
+			complete: false
+		}
+	}
+
+	async submit(ev) {
+		let {token} = await this.props.stripe.createToken({name: 'Name'})
+		let response = await axios.post('/api/charges', {
+			token: token.id
+		})
+
+		if (response.statusText === 'OK') this.setState({complete: true})
+		console.log(this.state.complete)
+	}
+
+	render() {
+		var style = {
+			base: {
+				color: '#303238',
+				fontSize: '16px',
+				fontSmoothing: 'antialiased',
+				'::placeholder': {
+					color: '#ccc'
+				}
+			},
+			invalid: {
+				color: '#e5424d',
+				':focus': {
+					color: '#303238'
+				}
+			}
+		}
+		if (this.state.complete) return <h4>Purchase Complete</h4>
+		else
+			return (
+				<div className="checkout">
+					<script src="https://js.stripe.com/v3/" />
+					<p>Complete Purchase</p>
+					<h6>Enter in your credit card information below to complete checkout</h6>
+					<h3></h3>
+					<CardElement style={style} />
+					<button type="submit" onClick={this.submit}>
+						Submit order
+					</button>
+				</div>
+			)
+	}
 }
 
-export default Checkout
+export default injectStripe(CheckoutForm)

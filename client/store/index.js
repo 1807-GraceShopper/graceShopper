@@ -6,7 +6,7 @@ import user from './user'
 import product from './product'
 import {reducer as form} from 'redux-form'
 import category from './category'
-import cart from './cart-orderItem'
+import cart from './cart'
 import users from './users'
 import reviews from './reviews'
 

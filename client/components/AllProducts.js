@@ -10,7 +10,7 @@ import {getCategoriesFromServer} from '../store/category'
 import Search from 'react-search-box'
 import ReactPaginate from 'react-paginate'
 import AllProductsList from './AllProductsList'
-import {addItemToCart} from '../store/cart-orderItem'
+import {addItemToCart} from '../store/cart'
 
 const mapStateToProps = state => {
 	return {

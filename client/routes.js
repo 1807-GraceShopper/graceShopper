@@ -16,7 +16,7 @@ import {
   CartView
 } from './components'
 import {me} from './store'
-import {fetchCartFromStorage} from './store/cart-orderItem'
+import {fetchCartFromStorage} from './store/cart'
 
 /**
  * COMPONENT
