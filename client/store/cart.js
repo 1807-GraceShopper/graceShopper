@@ -4,7 +4,7 @@ import {
   writeCartIntoLocalStorage
 } from '../utils/localStorage'
 import axios from 'axios'
-
+//test
 //ACTION TYPES
 
 const ADD_TO_CART = 'ADD_TO_CART'
@@ -112,11 +112,11 @@ export function addItemToCart(product) {
     const match = cart.find(a => a.productId === product.id)
     if (match) {
       const res = await axios.get(`/api/products/${product.id}`)
-      console.log(res.data);
+      console.log(res.data)
       const maxQuantity = res.data.quantity
-      console.log('max', maxQuantity);
-      match.quantity = Math.min(match.quantity + 1, maxQuantity);
-      console.log('match.quantity', match.quantity);
+      console.log('max', maxQuantity)
+      match.quantity = Math.min(match.quantity + 1, maxQuantity)
+      console.log('match.quantity', match.quantity)
       const orderItemRes = await axios.put(`/api/orderItems/${match.id}`, match)
       dispatch(updateQuantity(match))
     } else {
@@ -153,8 +153,8 @@ export function decrementCartItem(cartItem) {
 
 export function setQuantityOfItem(cartItem) {
   return async dispatch => {
-    const max = await axios.get(`/api/products/${cartItem.productId}`).data;
-    console.log('max', max);
+    const max = await axios.get(`/api/products/${cartItem.productId}`).data
+    console.log('max', max)
     cartItem.quantity = Math.min(Math.max(cartItem.quantity + 1, 1), max)
     const res = await axios.put(`/api/orderItems/${cartItem.id}`, cartItem)
     dispatch(updateQuantity(res.data))
