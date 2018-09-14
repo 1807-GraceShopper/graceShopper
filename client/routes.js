@@ -12,7 +12,8 @@ import {
   EditProduct,
   AllUsers,
   EditCategory,
-  AddCategory
+  AddCategory,
+  CartView
 } from './components'
 import {me} from './store'
 import { fetchCartFromStorage } from './store/cart';
@@ -44,6 +45,7 @@ class Routes extends Component {
         <Route path="/users" component={AllUsers} />
         <Route path="/categories/" component={EditCategory} />
         <Route path="/addCategory/" component={AddCategory} />
+        <Route path="/cart" component={CartView} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
