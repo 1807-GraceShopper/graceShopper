@@ -26,19 +26,18 @@ class CartItem extends Component {
         if (!cartItem) return (<div><h1>Cart Item does not exist</h1></div>);
         const associatedProduct = products.find(product => product.id === cartItem.productId);
         return(
-            <div className="list-group-item min-content cart-item">
-                <div className="media cart-item-content">
-                    <div className="media">
-                        <div className="media-left container">
-                            <img className='media-object' src={product.photoUrl} height={40} weight={40} />
-                        </div>
+            <form onSubmit={this.handleSubmit} id="cartItemForm">
+                <li className="media">
+                    <div className="media-left">
+                        <img className="media-object" src={associatedProduct.photoUrl} alt="image" />
                     </div>
-                    <div>
-                        {/* <h3><NavLink to=</h3> */}
-                    </div>
-                </div>
+                    <div className="media-body">
+                        <h3><NavLink to={`/products/${cartItem.productId}`}>{associatedProduct.name}</NavLink></h3>
+                            <input type="number" name="quantity" value={cartItem.quantity} min={1} max={associatedProduct.quantity} step={1} />
 
-            </div>
+                    </div>
+                </li>
+            </form>
         );
     }
 }

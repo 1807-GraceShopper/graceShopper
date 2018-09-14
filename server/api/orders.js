@@ -30,14 +30,19 @@ router.post('/', async (req, res, next) => {
   try {
     const shipInfo = await ShippingInfo.create(req.body.shippingInfo);
     const newOrder = await Order.create({
-      price: req.body.price || 0, //req.body.cart.reduce() sum of the prices * quantities of 
-      quantity: req.body.quantity || 0, //req.body.shippingInfo.reduce sum of quantities of items in cart
       timeOrdered: Date.now(),
       orderItems: req.body.cart,
       shippingInfo: shipInfo
     }, {
       include: [ OrderItem, ShippingInfo ]
     });
+    newOrder.price = req.params.cart.reduce(function(accumulator, currentItem) {
+      return accumulator + (currentItem.price * currentItem.quantity);
+    }, 0);
+    newOrder.quantity = req.params.cart.reduce(function(accumulator, currentItem) {
+      return accumulator + currentItem.quantity;
+    }, 0);
+    await newOrder.save();
     res.json(newOrder)
   } catch (err) {
     next(err)
