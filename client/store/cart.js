@@ -107,7 +107,8 @@ export function addItemToCart(product) {
             dispatch(updateQuantity(match));
         }
         else {
-            const res = await axios.post(`/api/products`, product);
+            const productToken = new ProductToken(product);
+            const res = await axios.post(`/api/orderItems`, productToken);
             const newCartItem = res.data;
             dispatch(add(newCartItem));
         }
