@@ -25,6 +25,7 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const newOrderItem = await OrderItem.create({
+      productId: req.body.productId,
       price: req.body.price,
       quantity: req.body.quantity
     })
