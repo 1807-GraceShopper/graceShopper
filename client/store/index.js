@@ -9,18 +9,20 @@ import category from './category'
 import cart from './cart'
 import users from './users'
 import reviews from './reviews'
+import shippingInfo from './shippinginfo'
 
 const reducer = combineReducers({
-	user,
-	product,
-	category,
-	form,
-	cart,
-	users,
-	reviews
+  user,
+  product,
+  category,
+  form,
+  cart,
+  users,
+  reviews,
+  shippingInfo
 })
 const middleware = composeWithDevTools(
-	applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
+  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
 const store = createStore(reducer, middleware)
 
