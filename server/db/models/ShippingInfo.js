@@ -33,7 +33,7 @@ const ShippingInfo = db.define('shippingInfo', {
   phoneNumber: {
     type: Sequelize.STRING,
     validate: {
-      isAlphaNumberic: true
+      isAlphanumeric: true
     }
   },
   email: {

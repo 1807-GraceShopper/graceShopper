@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { removeItemFromCart, setQuantityOfItem } from '../store/cart';
 import { getProductsFromServer } from '../store/product';
 import CartItem from './CartItem';
+import Checkout from './stripe'
+import {Elements, StripeProvider} from 'react-stripe-elements'
+
 
 const mapStateToProps = state => {
     console.log('state', state);
@@ -53,15 +56,24 @@ export class CartView extends Component {
     render() {
         if (!this.props.products) return (<div />);
         return (
-            <ul>
-                {this.props.cart.map(cartItem => {
-                    return (
-                        <CartItem key={cartItem.id} cartItem={cartItem} products={this.props.products} handleChange={this.handleChange} />
-                    );
-                })}
-            </ul>
+            <div>
+                <ul>
+                    {this.props.cart.map(cartItem => {
+                        return (
+                            <CartItem key={cartItem.id} cartItem={cartItem} products={this.props.products} handleChange={this.handleChange} />
+                        );
+                    })}
+                </ul>
+                <div>
+                    <StripeProvider apiKey="pk_test_60MttfQL0IrqlSlDlbmt4J24">
+                        <Elements>
+                            <Checkout />
+                        </Elements>
+                    </StripeProvider>
+                </div>
+            </div>
         )
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartView);
+export default connect(mapStateToProps, mapDispatchToProps)(CartView)
