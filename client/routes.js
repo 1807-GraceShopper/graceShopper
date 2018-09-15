@@ -17,12 +17,8 @@ import {
   AddShippingInfo
 } from './components'
 import {me} from './store'
-<<<<<<< HEAD
 import { fetchCartFromStorage } from './store/cart';
 import { getProductsFromServer } from './store/product';
-=======
-import {fetchCartFromStorage} from './store/cart'
->>>>>>> master
 
 /**
  * COMPONENT
@@ -81,12 +77,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => ({
   loadInitialData: () => {
-<<<<<<< HEAD
     dispatch(me());
     dispatch(getProductsFromServer());
-=======
-    dispatch(me())
->>>>>>> master
   },
   fetchCart: () => {
     dispatch(fetchCartFromStorage())
