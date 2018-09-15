@@ -30,7 +30,7 @@ const CartItem = (props) => {
                 <NavLink to={`/products/${cartItem.productId}`}>
                     {associatedProduct.name}
                 </NavLink>
-                <button onClick={() => removeFromCart(cartItem.id)}>Remove Item</button>
+                <button onClick={() => props.removeFromCart(cartItem.id)}>Remove Item</button>
             </div>
             <div>
                 {cartItem.price*cartItem.quantity}
