@@ -1,69 +1,45 @@
-//NOTE: NOT DONE!
-
-import React, { Component } from 'react';
+import React  from 'react';
 import { connect } from 'react-redux';
-import { removeItemFromCart, incrementCartItem, decrementCartItem, setQuantityOfItem } from '../store/cart';
+import { removeItemFromCart, setQuantityOfItem } from '../store/cart';
 import { NavLink } from 'react-router-dom';
 
 const mapStateToProps = state => {
     return {
         cart: state.cart,
         user: state.user,
-        products: state.products
+        products: state.product.products
     }
 };
 
 const mapDispatchToProps = dispatch => ({
     removeFromCart: id => dispatch(removeItemFromCart(id)),
-    incrementItem: cartItem => dispatch(incrementCartItem(cartItem)),
-    decrementItem: cartItem => dispatch(decrementCartItem(cartItem)),
-    setQuantity: cartItem => dispatch(setQuantityOfItem(cartItem))
+    setQuantity: cartItem => dispatch(setQuantityOfItem(cartItem)),
 });
 
-class CartItem extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            cartItem: {}
-        }
-        this.onQuantityChange = this.onQuantityChange.bind(this);
-    }
-
-    componentDidMount() {
-        const cartItem = this.props.cart.find(item => item.id === Number(this.props.match.params.id));
-        this.setState({
-            cartItem
-        });
-    }
-
-    onQuantityChange(event) {
-        event.preventDefault();
-        let itemCopy = Object.assign({}, this.state.cartItem);
-        itemCopy.quantity = event.target.quantity;
-        this.setState({
-            cartItem : itemCopy
-        });
-        this.props.setQuantity(this.state.cartItem);
-    }
-
-    render () {
-        const { cart, products } = this.props;
-        if (!cart || cart.length <= 0) return <div />
-        const cartItem = cart.find(citem => citem.id === Number(this.props.match.params.id));
-        if (!this.state.cartItem) return (<div><h1>Cart Item does not exist</h1></div>);
-        const associatedProduct = products.find(product => product.id === cartItem.productId);
-        return(
+const CartItem = (props) => {
+    const { cartItem, products, handleChange } = props;
+    if (!products || products.length < 1) return (<div>Loading...</div>);
+    const associatedProduct = products[cartItem.productId];
+    const maxValue = associatedProduct.quantity;
+    return (
+        <form id="cartItemForm">
             <div>
-                <form id="cartItemForm">
-                    <div> </div> {/* image div */}
-                    <div> </div> {/* name, delete option*/}
-                    <div> </div> {/* price*/}
-                    <div> </div> {/* quantity, put input here*/}
-                    <input type="number" name="quantity" value={this.state.cartItem.quantity} onChange={this.onQuantityChange} min={1} max={associatedProduct.quantity} step={1} />
-                </form>
+                <img src={associatedProduct.photoUrl} />
             </div>
-        );
-    }
+            <div>
+                <NavLink to={`/products/${cartItem.productId}`}>
+                    {associatedProduct.name}
+                </NavLink>
+                <button onClick={() => removeFromCart(cartItem.id)}>Remove Item</button>
+            </div>
+            <div>
+                {cartItem.price*cartItem.quantity}
+            </div>
+            <div>
+                <input type="number" name="quantity" value={cartItem.quantity} onChange={(e) => handleChange(cartItem, e)} min={1} max={maxValue} step={1} />
+            </div>
+        </form>
+    )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartItem);

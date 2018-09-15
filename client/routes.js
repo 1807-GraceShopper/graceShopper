@@ -17,6 +17,7 @@ import {
 } from './components'
 import {me} from './store'
 import { fetchCartFromStorage } from './store/cart';
+import { getProductsFromServer } from './store/product';
 
 /**
  * COMPONENT
@@ -75,6 +76,7 @@ const mapState = state => {
 const mapDispatch = (dispatch) => ({
   loadInitialData: () => {
     dispatch(me());
+    dispatch(getProductsFromServer());
   },
   fetchCart: () => {
     dispatch(fetchCartFromStorage());
