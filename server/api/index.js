@@ -11,7 +11,7 @@ router.use('/reviews', require('./reviews'))
 router.use('/charges', require('./charges'))
 
 router.use((req, res, next) => {
-	const error = new Error('Not Found')
-	error.status = 404
-	next(error)
+  const error = new Error('Not Found')
+  error.status = 404
+  next(error)
 })
