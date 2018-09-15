@@ -5,7 +5,7 @@ const expect = chai.expect
 
 // Product Model
 
-const db = require('../server/db/models')
+const db = require('../../../../server/db/models')
 const Product = db.Product
 
 describe('Product Model', () => {

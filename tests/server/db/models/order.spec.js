@@ -5,7 +5,7 @@ const expect = chai.expect
 
 // Order Model
 
-const db = require('../server/db/models')
+const db = require('../../../../server/db/models')
 const Order = db.Order
 
 describe('Order Model', () => {

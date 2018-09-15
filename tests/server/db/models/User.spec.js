@@ -1,7 +1,7 @@
 /* global describe beforeEach it */
 
 const {expect} = require('chai')
-const db = require('..')
+const db = require('../../../../server/db')
 const User = db.model('user')
 
 describe('User model', () => {
