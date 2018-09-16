@@ -66,13 +66,13 @@ const reducer = (state = initialState, action) => {
     case POST_CATEGORY:
       return [...state, action.category]
     case UPDATE_CATEGORY:
-      const updatedCategories = state.categories.map(
+      const updatedCategories = state.map(
         category =>
           action.category.id === category.id ? action.category : category
       )
       return updatedCategories
     case DELETE_CATEGORY:
-      const newCategories = state.categories.filter(
+      const newCategories = state.filter(
         category => action.categoryId !== category.id
       )
       return newCategories

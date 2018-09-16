@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {ShippingInfo} = require('../db/models')
+const {requireLogin} = require('./validations')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -39,7 +40,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', requireLogin, async (req, res, next) => {
   try {
     const shippingInfoUpdate = await ShippingInfo.update(
       {
@@ -64,7 +65,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', requireLogin, async (req, res, next) => {
   try {
     const shippingInfoToDestroy = await ShippingInfo.findById(req.params.id)
     shippingInfoToDestroy.destroy()

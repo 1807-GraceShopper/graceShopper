@@ -210,35 +210,35 @@ async function seed() {
     timberlands.setCategories([men, boot])
   ])
 
-  const orders = await Promise.all([
-    Order.create({
-      price: [125.0, 30],
-      productId: [0, 2],
-      quantity: [1, 2],
-      timeOrdered: new Date(2018, 6, 11, 13, 54, 13, 9),
-      shippingAddress: '999 Mohegan Ave, New London CT',
-      email: 'cody@email.com',
-      userId: 1
-    }),
-    Order.create({
-      price: [80],
-      productId: [1],
-      quantity: [1],
-      timeOrdered: new Date(2018, 6, 14, 12, 10, 55, 31),
-      shippingAddress: '999 Mohegan Ave, New London',
-      email: 'cody@email.com',
-      userId: 1
-    }),
-    Order.create({
-      price: [30],
-      productId: [2],
-      quantity: [1],
-      timeOrdered: new Date(2018, 4, 12, 22, 1, 13, 34),
-      shippingAddress: '34 River Drive, Evergreen',
-      email: 'murphy@gmail.com',
-      userId: 2
-    })
-  ])
+  // const orders = await Promise.all([
+  //   Order.create({
+  //     price: [125.0, 30],
+  //     productId: [0, 2],
+  //     quantity: [1, 2],
+  //     timeOrdered: new Date(2018, 6, 11, 13, 54, 13, 9),
+  //     shippingAddress: '999 Mohegan Ave, New London CT',
+  //     email: 'cody@email.com',
+  //     userId: 1
+  //   }),
+  //   Order.create({
+  //     price: [80],
+  //     productId: [1],
+  //     quantity: [1],
+  //     timeOrdered: new Date(2018, 6, 14, 12, 10, 55, 31),
+  //     shippingAddress: '999 Mohegan Ave, New London',
+  //     email: 'cody@email.com',
+  //     userId: 1
+  //   }),
+  //   Order.create({
+  //     price: [30],
+  //     productId: [2],
+  //     quantity: [1],
+  //     timeOrdered: new Date(2018, 4, 12, 22, 1, 13, 34),
+  //     shippingAddress: '34 River Drive, Evergreen',
+  //     email: 'murphy@gmail.com',
+  //     userId: 2
+  //   })
+  // ])
 
   const reviews = await Promise.all([
     Review.create(

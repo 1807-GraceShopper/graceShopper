@@ -1,22 +1,7 @@
 const router = require('express').Router()
 const {Product, Category, OrderItem, Review} = require('../db/models')
+const {requireAdmin} = require('./validations')
 module.exports = router
-
-function requireLogin(req, res, next) {
-  if (req.user) {
-    next()
-  } else {
-    res.status(401).send('must be logged in')
-  }
-}
-
-function requireAdmin(req, res, next) {
-  if (req.user && req.user.isAdmin) {
-    next()
-  } else {
-    res.status(401).json('must be an admin')
-  }
-}
 
 // all products route
 router.get('/', async (req, res, next) => {
