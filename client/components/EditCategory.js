@@ -3,7 +3,8 @@ import CategoryFormRedux from './CategoryFormRedux'
 
 import {
   updateCategoryToServer,
-  getCategoriesFromServer
+  getCategoriesFromServer,
+  deleteCategoryFromServer
 } from '../store/category'
 
 import {connect} from 'react-redux'
@@ -13,7 +14,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getCategories: () => dispatch(getCategoriesFromServer()),
     updateCategory: categoryInfo =>
-      dispatch(updateCategoryToServer(categoryInfo))
+      dispatch(updateCategoryToServer(categoryInfo)),
+    deleteCategory: categoryId => dispatch(deleteCategoryFromServer(categoryId))
   }
 }
 
@@ -27,6 +29,9 @@ const mapStateToProps = state => {
 class UpdateCategory extends React.Component {
   componentDidMount() {
     this.props.getCategories()
+  }
+  handleDelete = async categoryId => {
+    await this.props.deleteCategory(categoryId)
   }
   update = (evt, key) => {
     const categoryId = key
@@ -47,21 +52,28 @@ class UpdateCategory extends React.Component {
           <h3 className="listHeader center">Update Categories</h3>
           {this.props.categories.map(category => {
             return (
-              <CategoryFormRedux
-                key={category.id}
-                form={category.id.toString()}
-                initialValues={category}
-                handleSubmit={this.update}
-                establishReinitialize={true}
-              />
+              <div key={category.id}>
+                <CategoryFormRedux
+                  key={category.id}
+                  form={category.id.toString()}
+                  initialValues={category}
+                  handleSubmit={this.update}
+                  establishReinitialize={true}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => this.handleDelete(category.id)}
+                >
+                  X
+                </button>
+              </div>
             )
           })}
         </div>
       )
     } else {
-      return (
-        <h1>Sorry, you are not authorized to view this page</h1>
-      )
+      return <h1>Sorry, you are not authorized to view this page</h1>
     }
   }
 }
