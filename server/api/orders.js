@@ -28,12 +28,11 @@ router.get('/:orderId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const shipInfo = await ShippingInfo.create(req.body.shippingInfo)
     const newOrder = await Order.create(
       {
         timeOrdered: Date.now(),
         orderItems: req.body.cart,
-        shippingInfo: shipInfo
+        shippingInfo: req.body.shipInfo
       },
       {
         include: [OrderItem, ShippingInfo]

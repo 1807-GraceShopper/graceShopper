@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {addShippingInfoToServer} from '../store/shippinginfo'
 import ShippingInfoFormRedux from './ShippingInfoReduxForm'
-import {withRouter} from 'react-router-dom'
+import {withRouter, NavLink} from 'react-router-dom'
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -18,6 +18,12 @@ const mapStateToProps = state => {
 }
 
 class NewShippingInfo extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      shippingInfo: {}
+    }
+  }
   add = event => {
     const shippingInfoId = this.props.match.params.shippingInfoId
     event.preventDefault()
@@ -33,14 +39,22 @@ class NewShippingInfo extends React.Component {
       phoneNumber: event.target.elements.phoneNumber.value,
       email: event.target.elements.email.value
     }
+    this.setState({shippingInfo: shippingInformation})
     this.props.addShippingInfo(shippingInformation)
     this.props.history.push('/shippingInfo')
   }
   render() {
     return (
       <div className="verticalForm">
-        <h3>Add a new category!</h3>
-        <ShippingInfoFormRedux handleSubmit={this.add} form={'shippingInfo'} />
+        <h3>Shipping Information</h3>
+        <div>
+          <ShippingInfoFormRedux handleSubmit={this.add} form="shippingInfo" />
+        </div>
+        <div>
+          <NavLink to="/checkout">
+            <button type="button">Enter a payment method</button>
+          </NavLink>
+        </div>
       </div>
     )
   }

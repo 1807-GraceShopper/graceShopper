@@ -16,9 +16,13 @@ class CheckoutForm extends Component {
 		let response = await axios.post('/api/charges', {
 			token: token.id
 		})
-
+		console.log('cart', this.props.cart)
+		console.log('ship', this.props.shippingInfo[0])
+		this.props.createOrder({
+			cart: this.props.cart,
+			shipInfo: this.props.shippingInfo[0]
+		})
 		if (response.statusText === 'OK') this.setState({complete: true})
-		console.log(this.state.complete)
 	}
 
 	render() {
@@ -38,14 +42,17 @@ class CheckoutForm extends Component {
 				}
 			}
 		}
-		if (this.state.complete) return <h4>Purchase Complete</h4>
+		if (this.state.complete) return <h4>Purchase Complete!</h4>
 		else
 			return (
 				<div className="checkout">
 					<script src="https://js.stripe.com/v3/" />
 					<p>Complete Purchase</p>
-					<h6>Enter in your credit card information below to complete checkout</h6>
-					<h3></h3>
+					<h6>
+						Enter in your credit card information below to complete
+						checkout
+					</h6>
+					<h3 />
 					<CardElement style={style} />
 					<button type="submit" onClick={this.submit}>
 						Submit order

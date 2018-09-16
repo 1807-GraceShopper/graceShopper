@@ -90,7 +90,8 @@ let ShippingInfoForm = props => {
 
 const ShippingInfoFormRedux = reduxForm({
   forceUnregisterOnMount: true,
-  form: 'shippingInfo'
+  form: 'shippingInfo',
+  pure: false
 })(ShippingInfoForm)
 
 export default ShippingInfoFormRedux
