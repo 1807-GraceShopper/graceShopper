@@ -5,6 +5,7 @@ import ShippingInfoFormRedux from './ShippingInfoReduxForm'
 import {withRouter, NavLink} from 'react-router-dom'
 import {Route} from 'react-router-dom'
 import Checkout from './Checkout'
+import OrderSummary from './OrderSummary'
 
 const mapDispatchToProps = dispatch => {
   return {
