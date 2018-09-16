@@ -2,8 +2,10 @@
 
 const {expect} = require('chai')
 const request = require('supertest')
-const db = require('../db')
-const app = require('../index') //server/index
+
+const db = require('../../../server/db')
+const app = require('../../../server/index')
+
 const User = db.model('user')
 
 describe('User routes', () => {

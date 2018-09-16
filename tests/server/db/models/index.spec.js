@@ -1,6 +1,12 @@
 'use strict'
 
-import {User, Category, Order, Product, Review} from '../server/db/models/index'
+import {
+  User,
+  Category,
+  Order,
+  Product,
+  Review
+} from '../../../../server/db/models'
 
 const chai = require('chai')
 const expect = chai.expect

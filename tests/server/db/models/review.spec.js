@@ -5,7 +5,7 @@ const expect = chai.expect
 
 // Review Model
 
-const db = require('../server/db/models')
+const db = require('../../../../server/db/models')
 const Review = db.Review
 
 describe('Review Model', () => {
