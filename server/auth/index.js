@@ -2,6 +2,12 @@ const router = require('express').Router()
 const User = require('../db/models/User')
 module.exports = router
 
+const userNotFound = next => {
+  const err = new Error('Not found')
+  err.status = 404
+  next(err)
+}
+
 router.post('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({where: {email: req.body.email}})
@@ -38,8 +44,12 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
+router.get('/me', (req, res, next) => {
+  if (!req.user) {
+    userNotFound(next)
+  } else {
+    res.json(req.user)
+  }
 })
 
 router.use('/google', require('./google'))
