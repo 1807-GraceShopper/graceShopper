@@ -113,7 +113,7 @@ export function addItemToCart(product) {
     if (match) {
       const res = await axios.get(`/api/products/${product.id}`)
       const maxQuantity = res.data.quantity
-      match.quantity = Math.min(match.quantity + 1, maxQuantity);
+      match.quantity = Math.min(match.quantity + 1, maxQuantity)
       const orderItemRes = await axios.put(`/api/orderItems/${match.id}`, match)
       dispatch(updateQuantity(match))
     } else {
@@ -150,8 +150,8 @@ export function decrementCartItem(cartItem) {
 
 export function setQuantityOfItem(cartItem) {
   return async dispatch => {
-    const prod = await axios.get(`/api/products/${cartItem.productId}`);
-    const max = prod.data.quantity;
+    const prod = await axios.get(`/api/products/${cartItem.productId}`)
+    const max = prod.data.quantity
     cartItem.quantity = Math.min(Math.max(cartItem.quantity, 1), max)
     const res = await axios.put(`/api/orderItems/${cartItem.id}`, cartItem)
     dispatch(updateQuantity(res.data))
@@ -160,7 +160,6 @@ export function setQuantityOfItem(cartItem) {
 
 export function convertCartToOrder(cart) {
   return async dispatch => {
-    await axios.post(`/api/orders`, cart)
     dispatch(clearCart(cart))
   }
 }

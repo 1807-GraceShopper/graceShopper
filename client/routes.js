@@ -14,11 +14,12 @@ import {
   EditCategory,
   AddCategory,
   CartView,
-  AddShippingInfo
+  AddShippingInfo,
+  Checkout
 } from './components'
 import {me} from './store'
-import { fetchCartFromStorage } from './store/cart';
-import { getProductsFromServer } from './store/product';
+import {fetchCartFromStorage} from './store/cart'
+import {getProductsFromServer} from './store/product'
 
 /**
  * COMPONENT
@@ -38,6 +39,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="/checkout" render={props => <Checkout {...props} />} />
         <Route path="/shippingInfo" component={AddShippingInfo} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
@@ -77,8 +79,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => ({
   loadInitialData: () => {
-    dispatch(me());
-    dispatch(getProductsFromServer());
+    dispatch(me())
+    dispatch(getProductsFromServer())
   },
   fetchCart: () => {
     dispatch(fetchCartFromStorage())
