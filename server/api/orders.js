@@ -28,20 +28,16 @@ router.get('/:orderId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const newOrder = await Order.create(
-      {
-        timeOrdered: Date.now(),
-        orderItems: req.body.cart,
-        shippingInfo: req.body.shipInfo
-      },
-      {
-        include: [OrderItem, ShippingInfo]
-      }
-    )
-    newOrder.price = req.params.cart.reduce(function(accumulator, currentItem) {
+    console.log('req body', req.body)
+    const userId = req.user ? req.user.id : null
+    const newOrder = await Order.create({
+      timeOrdered: Date.now(),
+      userId: userId
+    })
+    newOrder.price = req.body.cart.reduce(function(accumulator, currentItem) {
       return accumulator + currentItem.price * currentItem.quantity
     }, 0)
-    newOrder.quantity = req.params.cart.reduce(function(
+    newOrder.quantity = req.body.cart.reduce(function(
       accumulator,
       currentItem
     ) {
@@ -49,7 +45,35 @@ router.post('/', async (req, res, next) => {
     },
     0)
     await newOrder.save()
-    res.json(newOrder)
+    req.body.cart.forEach(async orderItem => {
+      await OrderItem.update(
+        {
+          orderId: newOrder.id
+        },
+        {
+          where: {
+            id: orderItem.id
+          }
+        }
+      )
+    })
+    await ShippingInfo.update(
+      {
+        orderId: newOrder.id
+      },
+      {
+        where: {
+          email: req.body.shipInfo.email
+        }
+      }
+    )
+    const updatedOrder = await Order.findOne({
+      where: {
+        id: newOrder.id
+      },
+      include: [{model: OrderItem}, {model: ShippingInfo}]
+    })
+    res.json(updatedOrder)
   } catch (err) {
     next(err)
   }

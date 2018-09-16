@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
+import {PropsRoute} from 'react-router-with-props'
 import PropTypes from 'prop-types'
 import {
   Login,
@@ -39,7 +40,6 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/checkout" render={props => <Checkout {...props} />} />
         <Route path="/shippingInfo" component={AddShippingInfo} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />

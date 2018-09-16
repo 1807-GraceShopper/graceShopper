@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {addShippingInfoToServer} from '../store/shippinginfo'
 import ShippingInfoFormRedux from './ShippingInfoReduxForm'
 import {withRouter, NavLink} from 'react-router-dom'
+import {Route} from 'react-router-dom'
+import Checkout from './Checkout'
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -20,9 +22,6 @@ const mapStateToProps = state => {
 class NewShippingInfo extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      shippingInfo: {}
-    }
   }
   add = event => {
     const shippingInfoId = this.props.match.params.shippingInfoId
@@ -39,7 +38,6 @@ class NewShippingInfo extends React.Component {
       phoneNumber: event.target.elements.phoneNumber.value,
       email: event.target.elements.email.value
     }
-    this.setState({shippingInfo: shippingInformation})
     this.props.addShippingInfo(shippingInformation)
     this.props.history.push('/shippingInfo')
   }
@@ -51,9 +49,7 @@ class NewShippingInfo extends React.Component {
           <ShippingInfoFormRedux handleSubmit={this.add} form="shippingInfo" />
         </div>
         <div>
-          <NavLink to="/checkout">
-            <button type="button">Enter a payment method</button>
-          </NavLink>
+          <Checkout shippingInfo={this.props.shippingInfo} />
         </div>
       </div>
     )
