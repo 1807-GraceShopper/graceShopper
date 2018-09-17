@@ -11,6 +11,9 @@ const Order = db.define('orders', {
   timeOrdered: {
     type: Sequelize.DATE,
     allowNull: false
+  },
+  status: {
+    type: Sequelize.STRING
   }
 })
 

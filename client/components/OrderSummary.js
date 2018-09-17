@@ -11,13 +11,12 @@ const mapStateToProps = state => {
 class OrderSummary extends React.Component {
   render() {
     const order = this.props.order
-    console.log('singleOrder', order)
     return (
       <div>
         <h3 className="listHeader center">Order Summary</h3>
-        <div>{order.price}</div>
-        <div>{order.quantity}</div>
-        <div>{order.timeOrdered}</div>
+        <div>Price: {order.price}</div>
+        <div>Quantity: {order.quantity}</div>
+        <div>Time Ordered: {order.timeOrdered}</div>
       </div>
     )
   }

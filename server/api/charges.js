@@ -7,9 +7,12 @@ router.use(require('body-parser').text())
 
 router.post('/', async (req, res) => {
 	try {
+		console.log(req.body.email, 'email')
+		console.log('amount', req.body.amount)
 		let {status} = await stripe.charges.create({
-			amount: 2000,
+			amount: req.body.amount,
 			currency: 'usd',
+			receipt_email: req.body.email,
 			description: 'An example charge',
 			source: req.body.token
 		})

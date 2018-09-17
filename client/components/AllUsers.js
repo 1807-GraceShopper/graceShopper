@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {
   getUsersFromServer,
   deleteUserFromServer,
-  makeAdminOnServer
+  updateUserOnServer
 } from '../store/users'
 
 const mapStateToProps = state => {
@@ -17,7 +17,8 @@ const mapDispatchToProps = dispatch => ({
   getUsers: () =>
     dispatch(getUsersFromServer()),
   deleteUser: (email) => dispatch(deleteUserFromServer(email)),
-  makeUserAnAdmin: (email, user) => dispatch(makeAdminOnServer(email, user))
+  makeUserAnAdmin: (user) => dispatch(updateUserOnServer(user, 'isAdmin')),
+  triggerPasswordReset: (user) => dispatch(updateUserOnServer(user, 'passwordResetRequired'))
 })
 
 export class AllUsers extends React.Component {
@@ -26,6 +27,7 @@ export class AllUsers extends React.Component {
     super(props)
     this.handleDelete = this.handleDelete.bind(this)
     this.makeAdmin = this.makeAdmin.bind(this)
+    this.triggerPasswordReset = this.triggerPasswordReset.bind(this)
   }
 
   async componentDidMount() {
@@ -36,8 +38,12 @@ export class AllUsers extends React.Component {
     this.props.deleteUser(user.email)
   }
 
-  makeAdmin (email, user) {
-    this.props.makeUserAnAdmin(email, user)
+  makeAdmin (user) {
+    this.props.makeUserAnAdmin(user)
+  }
+
+  triggerPasswordReset (user) {
+    this.props.triggerPasswordReset(user)
   }
 
   render() {
@@ -52,7 +58,8 @@ export class AllUsers extends React.Component {
                   <div>
                     {user.email}
                     <button type="button" onClick={() => this.handleDelete(user)}>Delete</button>
-                    <button type="button" onClick={() => this.makeAdmin(user.email, user)}>Make admin</button>
+                    <button type="button" onClick={() => this.makeAdmin(user)}>Make admin</button>
+                    <button type="button" onClick={() => this.triggerPasswordReset(user)}>Trigger password reset</button>
                   </div>
                 </li>
               )

@@ -9,12 +9,12 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  cart: state.cart
+  cart: state.cart,
+  shippingInfo: state.shippingInfo.currentOrderShipInfo
 })
 
 class Checkout extends React.Component {
   render() {
-    console.log('all props', this.props)
     return (
       <div>
         <StripeProvider apiKey="pk_test_60MttfQL0IrqlSlDlbmt4J24">

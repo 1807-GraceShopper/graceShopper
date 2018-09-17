@@ -21,6 +21,7 @@ const rating = value =>
   value <= 5 && value >= 1 ? undefined : 'Must enter a rating between 1 and 5'
 
 let ReviewForm = props => {
+
   return (
     <div className="verticalForm">
       <form
