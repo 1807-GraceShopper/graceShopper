@@ -44,8 +44,6 @@ export class SingleOrder extends Component {
   }
 
   render() {
-    console.log('order', this.props.order)
-    console.log('rpoducts', this.props.products)
     const order = this.props.order
     if (order && this.props.products) {
       return (

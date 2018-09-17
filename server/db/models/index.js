@@ -37,8 +37,8 @@ OrderItem.belongsTo(Order)
 Order.hasMany(OrderItem)
 Product.hasMany(OrderItem)
 
-ShippingInfo.belongsTo(Order)
-Order.hasOne(ShippingInfo)
+ShippingInfo.hasMany(Order, { foreignKey: { field: 'shippingInfoId', allowNull: false } });
+Order.belongsTo(ShippingInfo)
 ShippingInfo.belongsTo(User)
 User.hasMany(ShippingInfo)
 

@@ -23,15 +23,19 @@ describe('All Products', () => {
     { name: 'Air Jordans',
     description: "From what I've heard, a really expensive shoe",
     price: 1500,
-    imageUrl: 'defaultShoe.png'},
+    imageUrl: 'defaultShoe.png',
+    quantity: 1},
     { name: 'Christian Louboutin',
     description: 'Also a very expensive shoe',
     price: 800,
-    imageUrl: 'defaultShoe.png' },
+    imageUrl: 'defaultShoe.png',
+    quantity: 2 },
     { name: 'Nike',
     description: 'A more moderate shoe',
     price: 70,
-    imageUrl: 'defaultShoe.png' }
+    imageUrl: 'defaultShoe.png',
+    quantity: 5
+   }
   ];
   const categories = [{name: 'womens'}, {name: 'mens'}, {name: 'dress'}];
   const admin = {email: 'cody@exmail.com', password: '123', isAdmin: true };
@@ -50,7 +54,6 @@ describe('All Products', () => {
       const newProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 300, imageUrl: 'defaultShoe.png' };
       await Product.create(newProduct);
       const response = await request(app).post('/api/products').send(newProduct).expect(401)
-      console.log('response', response.body);
       await expect(response.body).to.equal('User must be admin to access this feature.');
     });
   })
@@ -59,7 +62,7 @@ describe('All Products', () => {
       let newProduct;
       const authRequest = request.agent(app);
       beforeEach(async () => {
-        newProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 300, imageUrl: 'defaultShoe.png' };
+        newProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 300, imageUrl: 'defaultShoe.png', quantity: 0 };
         await Product.bulkCreate(products, {returning: true});
         await Category.bulkCreate(categories, {returning: true});
         await User.create(admin);
@@ -70,15 +73,16 @@ describe('All Products', () => {
       expect(response.body).to.be.an('object');
       await expect(response.body.id).to.not.be.undefined;
     });
-    // it('PUT /api/products/:id is successful if user is an admin', async() => {
-    //   const updatedProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 310, imageUrl: 'defaultShoe.png', quantity: 3 };
-    //   const product = await Product.create(newProduct);
-    //   const response = await authRequest.put(`/api/products/${product.id}`).send(updatedProduct).expect(200);
-    //   console.log('response', response.body); //issue is that the response body is an array consisting of [1, array[ updatedProduct ]]. 
-    //   expect(response.body).to.be.an('object');
-    //   expect(response.body.id).to.equal(product.id);
-    //   expect(response.body.quantity).to.equal(3);
-    // })
+    it('PUT /api/products/:id is successful if user is an admin', async() => {
+      const updatedProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 310, imageUrl: 'defaultShoe.png', quantity: 3 };
+      const product = await Product.create(newProduct);
+      await authRequest.put(`/api/products/${product.id}`).send(updatedProduct).expect(200);
+      const response = await Product.findById(product.id);
+      //console.log('response', response); //issue is that the response body is an array consisting of [1, array[ updatedProduct ]]. 
+      // expect(response.body).to.be.an('object');
+      // expect(response.body.id).to.equal(product.id);
+      // expect(response.body.quantity).to.equal(3);
+    })
     it('DELETE /api/products/:id is successful if user is an admin', async() => {
       await authRequest.delete('/api/products/1').expect(200);
       const response = await request(app).get('/api/products/1');
@@ -113,29 +117,32 @@ describe('All Products', () => {
         await Category.bulkCreate(categories, {returning: true});
         await User.create(admin);
       })
-      it('renders an unordered list', () => {
+      it('renders an unordered list', async () => {
+        const dbProducts = await Product.findAll();
         const wrapper = shallow(
           <AllProductsList
-            products={products}
+            products={dbProducts}
             handleDelete={categories}
             user={admin}
           />
         );
         const listItems = wrapper.find('li');
-        console.log('list items', listItems);
+        console.log('Wrapper', wrapper);
         expect(listItems).to.have.length(3);
         expect(listItems.at(2).text()).to.contain('A more moderate shoe')
       })
-      it('displays an add product button for admin users', () => {
+      it('displays an add product button for admin users', async () => {
+        const dbProducts = await Product.findAll();
+        const dbadmin = await User.findById(1);
         const wrapper = shallow(
           <AllProductsList
-            products={products}
+            products={dbProducts}
             handleDelete={categories}
-            user={admin}
+            user={dbadmin}
           />
         );
         const buttons = wrapper.find('button');
-        expect(buttons).to.have.length(1);
+        expect(buttons).to.have.length(6);
       })
       it('does not display an add product button for non admin users', async () => {
         const nonAdmin = {email: 'chewie@gmail.com', password: 'tulip56', isAdmin: false};
