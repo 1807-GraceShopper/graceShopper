@@ -2,10 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {addShippingInfoToServer} from '../store/shippinginfo'
 import ShippingInfoFormRedux from './ShippingInfoReduxForm'
-import {withRouter, NavLink} from 'react-router-dom'
-import {Route} from 'react-router-dom'
-import Checkout from './Checkout'
-import OrderSummary from './OrderSummary'
+import {withRouter} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
 const mapDispatchToProps = dispatch => {
   return {

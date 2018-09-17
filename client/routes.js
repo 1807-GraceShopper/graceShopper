@@ -19,7 +19,10 @@ import {
   AllUserOrders,
   OrderAdmin,
   Checkout,
-  SingleOrder
+  SingleOrder,
+  EditShippingInfo,
+  UserProfile
+
 } from './components'
 import {me} from './store'
 import {fetchCartFromStorage} from './store/cart'
@@ -40,7 +43,9 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/checkout" component={Checkout} />
+        <Route path="/profile" component={UserProfile} />
         <Route path="/products/:id" component={SingleProduct} />
+        <Route path="/editShippingInfo" component={EditShippingInfo} />
         <Route path="/shippingInfo" component={AddShippingInfo} />
         <Route path="/orderAdmin" component={OrderAdmin} />
         <Route exact path="/orders" component={AllUserOrders} />
@@ -48,7 +53,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products" component={AllProducts} />
-        <Route path="/products/addProduct" component={AddProduct} />
+        <Route exact path="/product/addProduct" component={AddProduct} />
         <Route path="/products/editProduct/:id" component={EditProduct} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route exact path="/users" component={AllUsers} />
