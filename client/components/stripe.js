@@ -16,8 +16,8 @@ class CheckoutForm extends Component {
 		let response = await axios.post('/api/charges', {
 			token: token.id
 		})
-		console.log('cart', this.props.cart)
-		console.log('ship', this.props.shippingInfo[0])
+		// console.log('cart', this.props.cart)
+		// console.log('ship', this.props.shippingInfo[0])
 		this.props.createOrder({
 			cart: this.props.cart,
 			shipInfo: this.props.shippingInfo[0]
