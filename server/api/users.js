@@ -32,16 +32,19 @@ router.delete('/:email', requireAdmin, async (req, res, next) => {
 router.put('/updatePassword', async (req, res, next) => {
   try {
     if (req.user.email === req.body.user.email) {
-    const userToUpdate = await User.findOne({
-      where: {email: req.body.user.email}
-    })
-    const updatedPassword = await userToUpdate.update({
-      password: req.body.password,
-      passwordResetRequired: false
-    },{
-      returning: true,
-    })
-    res.json(updatedPassword)
+      const userToUpdate = await User.findOne({
+        where: {email: req.body.user.email}
+      })
+      const updatedPassword = await userToUpdate.update(
+        {
+          password: req.body.password,
+          passwordResetRequired: false
+        },
+        {
+          returning: true
+        }
+      )
+      res.json(updatedPassword)
     } else {
       res.send('Status unauthorized')
     }
@@ -67,4 +70,3 @@ router.put('/:email', requireAdmin, async (req, res, next) => {
     next(error)
   }
 })
-

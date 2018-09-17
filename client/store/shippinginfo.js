@@ -8,6 +8,7 @@ const GET_SINGLE_SHIPPING_INFO = 'GET_SINGLE_SHIPPING_INFO'
 const ADD_SHIPPING_INFO = 'ADD_SHIPPING_INFO'
 const UPDATE_SHIPPING_INFO = 'UPDATE_SHIPPING_INFO'
 const DELETE_SHIPPING_INFO = 'DELETE_SHIPPING_INFO'
+const GET_SHIPPING_BY_USER = 'GET_SHPPING_BY_USER'
 
 //Action creators
 // const getShippingInfo = shippingInfo => ({
@@ -19,6 +20,11 @@ const DELETE_SHIPPING_INFO = 'DELETE_SHIPPING_INFO'
 //   type: GET_SINGLE_SHIPPING_INFO,
 //   singleShippingInfo
 // })
+
+const getShippingInfoByUser = shippingInfo => ({
+  type: GET_SHIPPING_BY_USER,
+  shippingInfo
+})
 
 const addShippingInfo = singleShippingInfo => ({
   type: ADD_SHIPPING_INFO,
@@ -51,6 +57,17 @@ const deleteShippingInfo = singleShippingInfoId => ({
 //   }
 // }
 
+export const getShippingInfoByUserServer = userId => {
+  console.log('made it here', userId)
+  return async dispatch => {
+    const userShipping = await axios.get(
+      `/api/shippingInfo/userShipping/${userId}`
+    )
+    console.log('shipping info:', userShipping)
+    dispatch(getShippingInfoByUser(userShipping.data))
+  }
+}
+
 export const addShippingInfoToServer = singleShippingInfo => {
   return async dispatch => {
     const res = await axios.post('api/shippingInfo', singleShippingInfo)
@@ -78,10 +95,14 @@ export const deleteProductFromServer = singleShippingInfoId => {
 
 const reducer = (state = initalState, action) => {
   switch (action.type) {
-    // case GET_SHIPPING_INFO:
-    //   return action.shippingInfo
-    // case GET_SINGLE_SHIPPING_INFO:
-    //   return {...action.singleShippingInfo
+
+    case GET_SHIPPING_INFO:
+      return action.shippingInfo
+    case GET_SINGLE_SHIPPING_INFO:
+      return action.singleShippingInfo
+    case GET_SHIPPING_BY_USER:
+      return action.shippingInfo
+
     case ADD_SHIPPING_INFO:
       return {
         ...state,
