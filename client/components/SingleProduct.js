@@ -8,7 +8,6 @@ import {Review} from './Review'
 import ReviewFormRedux from './ReviewReduxForm'
 import {reset} from 'redux-form'
 import Checkout from './stripe'
-console.log('checkout', Checkout)
 
 const mapStateToProps = state => {
   return {
@@ -51,7 +50,6 @@ export class SingleProduct extends Component {
 
   render() {
     const product = this.props.singleProduct
-    console.log('user', this.props.user)
 
     if (product && this.props.reviews) {
       return (
@@ -64,13 +62,17 @@ export class SingleProduct extends Component {
           </div>
           <div>
             <h4>Reviews</h4>
-            {this.props.reviews.map(review => {
-              return <Review key={review.id} review={review} />
-            })}
+            {this.props.reviews.length ? (
+              <div>
+              {this.props.reviews.map(review => {
+                return <Review key={review.id} review={review} />
+              })}
+              </div>
+            ) : ( <p>No reviews for this product yet</p> )}
           </div>
           { this.props.user.id ? (
             <div>
-              <p>Add your review:</p>
+              <h4>Add your review:</h4>
             <ReviewFormRedux handleSubmit={this.submitReview} />
             </div>
           ) : ( '' )}
