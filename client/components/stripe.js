@@ -13,14 +13,23 @@ class CheckoutForm extends Component {
 
 	async submit(ev) {
 		let {token} = await this.props.stripe.createToken({name: 'Name'})
-		let response = await axios.post('/api/charges', {
-			token: token.id
-		})
-		console.log('cart', this.props.cart)
-		console.log('ship', this.props.shippingInfo[0])
+		console.log('ship', this.props.shippingInfo)
 		this.props.createOrder({
 			cart: this.props.cart,
 			shipInfo: this.props.shippingInfo[0]
+		})
+		let amount = 0
+		this.props.cart.forEach(orderItem => {
+			console.log('quantity', orderItem.quantity)
+			console.log('price', orderItem.price)
+			amount +=
+				100 * (parseInt(orderItem.quantity) * parseInt(orderItem.price))
+		})
+		console.log('amount', amount)
+		let response = await axios.post('/api/charges', {
+			token: token.id,
+			email: this.props.shippingInfo[0].email,
+			amount: amount
 		})
 		if (response.statusText === 'OK') this.setState({complete: true})
 	}
