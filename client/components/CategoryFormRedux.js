@@ -30,6 +30,7 @@ let CategoryForm = props => {
       >
         <div>
           <div className="form-item">
+            {/* Let's talk about this blank string */}
             Name:{' '}
             <Field
               type="text"

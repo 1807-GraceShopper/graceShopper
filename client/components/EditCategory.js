@@ -10,7 +10,16 @@ import {
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
+/*
+const mapDispatchToProps = {
+  updateCategoryToServer,
+  getCategoriesFromServer,
+  deleteCategoryFromServer,
+}
+*/
+
 const mapDispatchToProps = dispatch => {
+  // REVIEW: dispatch shorthand
   return {
     getCategories: () => dispatch(getCategoriesFromServer()),
     updateCategory: categoryInfo =>

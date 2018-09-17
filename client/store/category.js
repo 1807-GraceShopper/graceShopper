@@ -31,6 +31,7 @@ const deleteCategory = categoryId => ({
 })
 
 //Thunk middleware
+// REVIEW: return dispatch in thunks
 export const getCategoriesFromServer = () => {
   return async dispatch => {
     const res = await axios.get('/api/categories')
@@ -41,7 +42,7 @@ export const getCategoriesFromServer = () => {
 export const postCategoryToServer = category => {
   return async dispatch => {
     const res = await axios.post('/api/categories', category)
-    dispatch(postCategory(res.data))
+    return dispatch(postCategory(res.data))
   }
 }
 

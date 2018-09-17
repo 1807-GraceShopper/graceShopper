@@ -18,11 +18,11 @@ const mapStateToProps = state => {
 }
 
 class NewProduct extends React.Component {
-	add = evt => {
-		const productId = this.props.match.params.id
+	add = async evt => {
+    //const productId = this.props.match.params.id
 		evt.preventDefault()
 		const productInfo = {
-			id: productId,
+      //id: productId,
 			name: evt.target.elements.name.value,
 			description: evt.target.elements.description.value,
 			price: evt.target.elements.price.value,
@@ -30,8 +30,8 @@ class NewProduct extends React.Component {
 			photoUrl: evt.target.elements.photoUrl.value
 		}
 
-		this.props.addProduct(productInfo)
-		this.props.history.push('/products')
+		const {product, type} = await this.props.addProduct(productInfo)
+    this.props.history.push(`/products/${product.id}`)
 	}
 	render() {
 		if (this.props.user.isAdmin) {

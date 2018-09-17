@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 }
 
 class NewCategory extends React.Component {
-  add = evt => {
+  add = async evt => {
     const categoryId = this.props.match.params.id
     evt.preventDefault()
     const categoryInfo = {
@@ -26,7 +26,9 @@ class NewCategory extends React.Component {
       name: evt.target.elements.name.value
     }
 
-    this.props.addCategory(categoryInfo)
+    // REVIEW: consider timing issue here / error handling
+    // reason for returning dispatch from thunk creators, you can await here
+    const addCategoryResult = await this.props.addCategory(categoryInfo)
     this.props.history.push('/products')
   }
   render() {

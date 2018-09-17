@@ -62,6 +62,7 @@ class CheckoutForm extends Component {
     else
       return (
         <div className="checkout">
+          {/* REVIEW: seeing this again */}
           <script src="https://js.stripe.com/v3/" />
           <p>Complete Purchase</p>
           <h6>

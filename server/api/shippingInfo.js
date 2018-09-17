@@ -3,6 +3,7 @@ const {ShippingInfo, User} = require('../db/models')
 const {requireLogin} = require('./validations')
 module.exports = router
 
+// REVIEW: access control, information leaking etc.
 router.get('/', async (req, res, next) => {
   try {
     const allShippingInfo = await ShippingInfo.findAll()

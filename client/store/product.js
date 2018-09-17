@@ -73,7 +73,7 @@ export const newProduct = product => {
   return async dispatch => {
     console.log('product', product)
     const {data} = await axios.post('/api/products', product)
-    dispatch(addProduct(data))
+    return dispatch(addProduct(data))
   }
 }
 

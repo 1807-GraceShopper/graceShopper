@@ -42,6 +42,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        {/* REVIEW: mabye hide admin stuff from non-admins. more for UX*/}
         <Route path="/checkout" component={Checkout} />
         <Route path="/profile" component={UserProfile} />
         <Route path="/products/:id" component={SingleProduct} />

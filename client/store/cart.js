@@ -64,6 +64,7 @@ export default function reducer(cart, action) {
     cart = loadCartFromLocalStorage()
   }
   let nextState
+  // REVIEW: nice, let's look at a stylistic refactor
   switch (action.type) {
     case ADD_TO_CART:
       nextState = [...cart, action.product]

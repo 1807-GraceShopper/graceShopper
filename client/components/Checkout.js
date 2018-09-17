@@ -17,6 +17,7 @@ class Checkout extends React.Component {
   render() {
     return (
       <div>
+        {/* REVIEW: api key configuration */}
         <StripeProvider apiKey="pk_test_60MttfQL0IrqlSlDlbmt4J24">
           <Elements>
             <Stripe

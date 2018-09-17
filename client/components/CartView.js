@@ -8,6 +8,7 @@ import {Elements, StripeProvider} from 'react-stripe-elements'
 import {NavLink} from 'react-router-dom'
 
 const mapStateToProps = state => {
+    // REVIEW: be intentional about logging
     console.log('state', state)
     return {
         products: state.product.products,
@@ -24,14 +25,10 @@ const mapDispatchToProps = dispatch => ({
 
 //NOTE: DUMMY FOR NOW, just lists each of the order items.
 export class CartView extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            products: [],
-            cart: []
-        }
-        this.handleChange = this.handleChange.bind(this)
-        // this.handleDelete = this.handleDelete.bind(this);
+    // REVIEW: consider constructor free components
+    state = {
+        products: [],
+        cart: []
     }
 
     async componentDidMount() {
@@ -44,7 +41,7 @@ export class CartView extends Component {
         }
     }
 
-    async handleChange(cartItem, e) {
+    handleChange = async (cartItem, e) => {
         cartItem.quantity = e.target.value
         await this.props.setItemQuantity(cartItem)
         const cart = this.props.cart

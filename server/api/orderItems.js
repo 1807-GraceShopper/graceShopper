@@ -3,6 +3,7 @@ const {OrderItem} = require('../db/models')
 
 module.exports = router
 
+// REVIEW: access control (entire file)
 router.get('/', async (req, res, next) => {
   try {
     const orderItems = await OrderItem.findAll()
@@ -12,6 +13,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// REVIEW: should restrict by user
 router.get('/:id', async (req, res, next) => {
   const id = req.params.id
   try {
@@ -22,11 +24,13 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+// REVIEW: should confirm this is coming from the same user
 router.post('/', async (req, res, next) => {
   try {
+    const product = await Product.findById(req.body.productId)
     const newOrderItem = await OrderItem.create({
       productId: req.body.productId,
-      price: req.body.price,
+      price: product.price,
       quantity: req.body.quantity
     })
     res.json(newOrderItem)

@@ -3,6 +3,7 @@ const {Order, OrderItem, ShippingInfo} = require('../db/models')
 const {requireAdmin} = require('./validations')
 module.exports = router
 
+// REVIEW: access control
 router.get('/', async (req, res, next) => {
   try {
     const orders = await Order.findAll({

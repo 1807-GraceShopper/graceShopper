@@ -46,6 +46,7 @@ router.put('/updatePassword', async (req, res, next) => {
       )
       res.json(updatedPassword)
     } else {
+      // REVIEW: use HTTP status codes
       res.send('Status unauthorized')
     }
   } catch (error) {
@@ -53,7 +54,26 @@ router.put('/updatePassword', async (req, res, next) => {
   }
 })
 
+
+adminColumns= ['isAdmin', 'name', 'email']
+guestColumns= ['name']
+userColumns= ['name', 'email']
+
+if (!req.user) {
+  columns = guestColumns
+}
+else if (req.user&& req.user.isAdmin) {
+  columns = adminColumns
+}
+else {
+  columns = userColumns
+}
+
+propsToUpdate = _.pluck(req.body, columns)
+User.update(propsToUpdate, { where: { id: req.body.id } })
+
 router.put('/:email', requireAdmin, async (req, res, next) => {
+  // REVIEW: smells like RPC
   try {
     const updatedUser = await User.update(
       req.body,
