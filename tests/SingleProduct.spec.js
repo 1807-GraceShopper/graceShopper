@@ -2,13 +2,14 @@ import chai from 'chai';
 const expect = chai.expect;
 import chaiThings from 'chai-things';
 const app = require('../server')
-const agent = require('supertest')(app)
+const request = require('supertest')
 import React from 'react'
 import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import {SingleProduct, User } from '../client/components/SingleProduct'
+import {SingleProduct} from '../client/components/SingleProduct'
 import store from '../client/store'
-import {Product} from '../server/db/models'
+import {Product, User} from '../server/db/models'
+import db from '../server/db/db';
 
 chai.use(chaiThings);
 
@@ -16,49 +17,53 @@ const adapter = new Adapter()
 enzyme.configure({adapter})
 
 describe('SingleProduct', () => {
-  let storedProducts;
-  let administrator;
-  beforeEach(async () => {
-    const productData = [
-      { name: 'Air Jordans',
-      description: "From what I've heard, a really expensive shoe",
-      price: 1500,
-      imageUrl: 'defaultShoe.png'},
-      { name: 'Christian Louboutin',
-      description: 'Also a very expensive shoe',
-      price: 800,
-      imageUrl: 'defaultShoe.png' },
-      { name: 'Nike',
-      description: 'A more moderate shoe',
-      price: 70,
-      imageUrl: 'defaultShoe.png' }
-    ];
-    const adminData = {email: 'cody@exmail.com', password: '123', isAdmin: true };
-    storedProducts = await Product.bulkCreate(productData, {returning: true});
-    administrator = await User.create(adminData);
-  });
+  beforeEach('synchronize the database', () => db.sync({force: true}));
+  const storedProducts = [
+    { name: 'Air Jordans',
+    description: "From what I've heard, a really expensive shoe",
+    price: 1500,
+    imageUrl: 'defaultShoe.png'},
+    { name: 'Christian Louboutin',
+    description: 'Also a very expensive shoe',
+    price: 800,
+    imageUrl: 'defaultShoe.png' },
+    { name: 'Nike',
+    description: 'A more moderate shoe',
+    price: 70,
+    imageUrl: 'defaultShoe.png' }
+  ];
+  const administrator = {email: 'cody@exmail.com', password: '123', isAdmin: true };
   describe('api routes for single product', () => {
+    beforeEach(async() => {
+      await Product.bulkCreate(storedProducts);
+      await User.create(administrator);
+    })
     it('GET `/api/products/:id` serves up a single product by its id', async () => {
-      const response = await agent.get('/api/products/2').expect(200);
+      const response = await request(app).get('/api/products/2').expect(200);
       expect(response.body.name).to.equal('Christian Louboutin');
     })
     
     it('PUT `/api/products/:id` serves an unauthorized message for non-admin user', async () => {
       const newVersion = { name: 'Air Jordans', description: "From what I've heard, a really expensive shoe", price: 1500, imageUrl: "defaultShoe.png", quantity: 2};
-      const response = await agent.put('/api/products/1').send(newVersion).expect(401);
-      await expect(response.body).to.be.empty;
+      const response = await request(app).put('/api/products/1').send(newVersion).expect(401);
+      await expect(response.body).to.equal('User must be admin to access this feature.');
     })
-    context('authorized user', () => {
-      before(async() => {
-        await agent.post('/auth/login').send(administrator);
-      });
-      it('PUT `api/products/:id` is successful for admin users', async() => {
-        const newVersion = { name: 'Air Jordans', description: "From what I've heard, a really expensive shoe", price: 1500, imageUrl: "defaultShoe.png", quantity: 2};
-        const response = await agent.put('api/products/1').send(newVersion).expect(200);
-        expect(response.body).to.be.an('object');
-        expect(response.body.id).to.equal(1);
-        expect(response.body.quantity).to.equal(2);
-      })
+  })
+
+  describe('api routes for single products w/authorization', () => {
+    const newVersion = { name: 'Air Jordans', description: "From what I've heard, a really expensive shoe", price: 1500, imageUrl: "defaultShoe.png", quantity: 2};
+    const authRequest = request.agent(app);
+
+    beforeEach(async() => {
+      await Product.bulkCreate(storedProducts);
+      await User.create(administrator);
+      await authRequest.post('/auth/login').send(administrator);
+    });
+    it('PUT `api/products/:id` is successful for admin users', async () => {
+      const response = await authRequest.put('api/products/1').send(newVersion).expect(200);
+      expect(response.body).to.be.an('object');
+      expect(response.body.id).to.equal(1);
+      expect(response.body.quantity).to.equal(2);
     })
   })
 
@@ -102,4 +107,4 @@ describe('SingleProduct', () => {
       expect(button).to.have.length(0);
     })
   })
-})
+});

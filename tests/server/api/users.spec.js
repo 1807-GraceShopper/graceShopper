@@ -15,15 +15,20 @@ describe('User routes', () => {
 
   describe('/api/users/', () => {
     const codysEmail = 'cody@puppybook.com'
-
-    beforeEach(() => {
-      return User.create({
-        email: codysEmail
-      })
+    let user;
+    const authRequest = request.agent(app);
+    beforeEach(async () => {
+      user = {
+        email: codysEmail,
+        password: 'bones',
+        isAdmin: true
+      };
+      await User.create(user);
+      await authRequest.post('/auth/login').send(user); //causes circular json error
     })
 
     it('GET /api/users', async () => {
-      const res = await request(app)
+      const res = await authRequest
         .get('/api/users')
         .expect(200)
 
