@@ -33,18 +33,21 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', requireAdmin, async (req, res, next) => {
   try {
     let newProduct
+    console.log('req body', req.body)
     if (req.body.photoUrl) {
       newProduct = await Product.create({
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
+        quantity: req.body.quantity,
         photoUrl: req.body.photoUrl
       })
     } else {
       newProduct = await Product.create({
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price
+        price: req.body.price,
+        quantity: req.body.quantity
       })
     }
     res.json(newProduct)
@@ -60,6 +63,7 @@ router.put('/:id', requireAdmin, async (req, res, next) => {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
+        quantity: req.body.quantity,
         photoUrl: req.body.photoUrl
       },
       {

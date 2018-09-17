@@ -190,7 +190,7 @@ export class AllProducts extends React.Component {
 						onPageChange={this.handleSelectPagination}
 					/>
 					{this.props.user.isAdmin ? (
-						<NavLink to="/products/addProduct">
+						<NavLink to="/product/addProduct">
 							<button type="button">Add a new product</button>
 						</NavLink>
 					) : (
