@@ -14,6 +14,7 @@ import {
   AllUsers,
   EditCategory,
   AddCategory,
+  PasswordFormRedux,
   CartView,
   AddShippingInfo,
   Checkout
@@ -47,7 +48,8 @@ class Routes extends Component {
         <Route path="/products/addProduct" component={AddProduct} />
         <Route path="/products/editProduct/:id" component={EditProduct} />
         <Route path="/products/:id" component={SingleProduct} />
-        <Route path="/users" component={AllUsers} />
+        <Route exact path="/users" component={AllUsers} />
+        <Route path="/users/updatePassword" component={PasswordFormRedux} />
         <Route path="/categories/" component={EditCategory} />
         <Route path="/addCategory/" component={AddCategory} />
         <Route path="/cart" component={CartView} />

@@ -4,7 +4,7 @@ const initialState = {users: []}
 
 const GET_USERS = 'GET_USERS'
 const DELETE_USER = 'DELETE_USER'
-const MAKE_USER_ADMIN = 'MAKE_USER_ADMIN'
+const UPDATE_USER = 'UPDATE_USER'
 
 const getUsers = users => ({
   type: GET_USERS,
@@ -16,8 +16,13 @@ const deleteUser = email => ({
   email
 })
 
-const makeAdmin = user => ({
-  type: MAKE_USER_ADMIN,
+const updateUser = user => ({
+  type: UPDATE_USER,
+  user
+})
+
+const updatePassword = (user) => ({
+  type: UPDATE_USER,
   user
 })
 
@@ -35,11 +40,17 @@ export const deleteUserFromServer = (email) => {
   }
 }
 
-export const makeAdminOnServer = (email, user) => {
+export const updateUserOnServer = (user, attribute) => {
   return async dispatch => {
-    const res = await axios.put(`/api/users/${email}`, user)
-    console.log('newUser', res.data[1][0])
-    dispatch(makeAdmin(res.data[1][0]))
+    const res = await axios.put(`/api/users/${user.email}`, {[attribute]: true})
+    dispatch(updateUser(res.data[1][0]))
+  }
+}
+
+export const updatePasswordOnServer = (user, password) => {
+  return async dispatch => {
+    const res = await axios.put('/api/users/updatePassword', {user: user, password: password})
+    dispatch(updatePassword(res.data[1][0]))
   }
 }
 
@@ -52,7 +63,7 @@ const reducer = (state = initialState, action) => {
         return user.email !== action.email
       })
       return {...state, users: deleted}
-    case MAKE_USER_ADMIN:
+    case UPDATE_USER:
       const updatedUsers = state.users.map(user =>
         action.user.email === user.email ? action.user : user
       )

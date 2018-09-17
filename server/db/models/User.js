@@ -30,6 +30,10 @@ const User = db.define('user', {
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  passwordResetRequired: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
@@ -39,6 +43,8 @@ module.exports = User
  * instanceMethods
  */
 User.prototype.correctPassword = function(candidatePwd) {
+  console.log('password', this.password())
+  console.log('encrypted', User.encryptPassword(candidatePwd, this.salt()))
   return User.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
 
@@ -69,3 +75,4 @@ const setSaltAndPassword = user => {
 
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+
