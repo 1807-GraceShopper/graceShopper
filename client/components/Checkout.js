@@ -9,7 +9,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  cart: state.cart
+  cart: state.cart,
+  shippingInfo: state.shippingInfo.currentOrderShipInfo
 })
 
 class Checkout extends React.Component {

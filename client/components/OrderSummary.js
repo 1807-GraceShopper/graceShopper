@@ -14,9 +14,9 @@ class OrderSummary extends React.Component {
     return (
       <div>
         <h3 className="listHeader center">Order Summary</h3>
-        <div>{order.price}</div>
-        <div>{order.quantity}</div>
-        <div>{order.timeOrdered}</div>
+        <div>Price: {order.price}</div>
+        <div>Quantity: {order.quantity}</div>
+        <div>Time Ordered: {order.timeOrdered}</div>
       </div>
     )
   }
