@@ -45,7 +45,6 @@ describe('All Products', () => {
     it('GET /api/products returns all products from database', async() => {
       const response = await request(app).get('/api/products').expect(200)
       expect(response.body).to.have.length(3);
-      // expect(response.body).to.equal(products);
     })
     it('POST /api/products/ should return 401 response with unauthorized user', async() => {
       const newProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 300, imageUrl: 'defaultShoe.png' };

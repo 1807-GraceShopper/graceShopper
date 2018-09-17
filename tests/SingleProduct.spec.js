@@ -51,8 +51,8 @@ describe('SingleProduct', () => {
   })
 
   describe('api routes for single products w/authorization', () => {
-    const newVersion = { name: 'Air Jordans', description: "From what I've heard, a really expensive shoe", price: 1500, imageUrl: "defaultShoe.png", quantity: 2};
     const authRequest = request.agent(app);
+    const newProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 300, imageUrl: 'defaultShoe.png' };
 
     beforeEach(async() => {
       await Product.bulkCreate(storedProducts);
@@ -60,10 +60,12 @@ describe('SingleProduct', () => {
       await authRequest.post('/auth/login').send(administrator);
     });
     it('PUT `api/products/:id` is successful for admin users', async () => {
-      const response = await authRequest.put('api/products/1').send(newVersion).expect(200);
+      const updatedProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 310, imageUrl: 'defaultShoe.png', quantity: 3 };
+      const product = await Product.create(newProduct);
+      const response = await authRequest.put(`api/products/${product.id}`).send(updatedProduct).expect(200);
       expect(response.body).to.be.an('object');
-      expect(response.body.id).to.equal(1);
-      expect(response.body.quantity).to.equal(2);
+      expect(response.body.id).to.equal(product.id);
+      expect(response.body.quantity).to.equal(3);
     })
   })
 
