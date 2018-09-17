@@ -1,18 +1,15 @@
 const router = require('express').Router()
 module.exports = router
 
-const stripe = require('stripe')('sk_test_FAFklG3QgMgYjgRTR2ysoEFE')
+const stripe = require('stripe')(process.env.STRIPE_KEY)
 
 router.use(require('body-parser').text())
 
 router.post('/', async (req, res) => {
 	try {
-		console.log(req.body.email, 'email')
-		console.log('amount', req.body.amount)
 		let {status} = await stripe.charges.create({
 			amount: req.body.amount,
 			currency: 'usd',
-			receipt_email: req.body.email,
 			description: 'An example charge',
 			source: req.body.token
 		})
