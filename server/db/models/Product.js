@@ -20,7 +20,17 @@ const Product = db.define('products', {
   photoUrl: {
     type: Sequelize.STRING,
     defaultValue: 'defaultShoe.png'
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
-})
+}, {
+  getterMethods: {
+    inStock() {
+      return this.quantity > 0;
+    }
+  }
+});
 
 module.exports = Product

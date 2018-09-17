@@ -5,7 +5,7 @@ const expect = chai.expect
 
 // Category Model
 
-const db = require('../server/db/models')
+const db = require('../../../../server/db/models')
 const Category = db.Category
 
 describe('Category Model', () => {

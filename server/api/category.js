@@ -1,22 +1,7 @@
 const router = require('express').Router()
 const {Category, Product} = require('../db/models')
+const {requireAdmin} = require('./validations')
 module.exports = router
-
-function requireLogin (req, res, next) {
-  if (req.user) {
-    next()
-  } else {
-    res.status(401).send('must be logged in')
-  }
-}
-
-function requireAdmin (req, res, next) {
-  if (req.user && req.user.isAdmin) {
-    next()
-  } else {
-    res.status(401).json('must be an admin')
-  }
-}
 
 router.get('/', async (req, res, next) => {
   try {
@@ -44,11 +29,10 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', requireAdmin, async (req, res, next) => {
   try {
-    res.json(
-      await Category.create({
-        name: req.body.name
-      })
-    )
+    const newCategory = await Category.create({
+      name: req.body.name
+    })
+    res.json(newCategory)
   } catch (err) {
     next(err)
   }
@@ -77,7 +61,7 @@ router.delete('/:id', requireAdmin, async (req, res, next) => {
       where: {id: req.params.id}
     })
     category.destroy()
-    res.sendStatus(200)
+    res.status(204).end()
   } catch (err) {
     next(err)
   }

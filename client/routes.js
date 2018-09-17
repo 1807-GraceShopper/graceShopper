@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
+import {PropsRoute} from 'react-router-with-props'
 import PropTypes from 'prop-types'
 import {
   Login,
@@ -13,22 +14,26 @@ import {
   AllUsers,
   EditCategory,
   AddCategory,
-  PasswordFormRedux
+  PasswordFormRedux,
+  CartView,
+  AddShippingInfo,
+  Checkout
 } from './components'
 import {me} from './store'
-import { fetchCartFromStorage } from './store/cart';
+import {fetchCartFromStorage} from './store/cart'
+import {getProductsFromServer} from './store/product'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   constructor() {
-    super();
+    super()
   }
 
   componentDidMount() {
-    this.props.loadInitialData();
-    this.props.fetchCart();
+    this.props.loadInitialData()
+    this.props.fetchCart()
   }
 
   render() {
@@ -36,6 +41,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="/shippingInfo" component={AddShippingInfo} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products" component={AllProducts} />
@@ -46,6 +52,7 @@ class Routes extends Component {
         <Route path="/users/updatePassword" component={PasswordFormRedux} />
         <Route path="/categories/" component={EditCategory} />
         <Route path="/addCategory/" component={AddCategory} />
+        <Route path="/cart" component={CartView} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -63,7 +70,7 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  const { cart } = state;
+  const {cart} = state
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
@@ -72,14 +79,15 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = (dispatch) => ({
+const mapDispatch = dispatch => ({
   loadInitialData: () => {
-    dispatch(me());
+    dispatch(me())
+    dispatch(getProductsFromServer())
   },
   fetchCart: () => {
-    dispatch(fetchCartFromStorage());
+    dispatch(fetchCartFromStorage())
   }
-});
+})
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes

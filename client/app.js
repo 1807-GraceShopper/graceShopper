@@ -4,12 +4,13 @@ import {Navbar} from './components'
 import Routes from './routes'
 
 const App = () => {
-  return (
-    <div>
-      <Navbar />
-      <Routes />
-    </div>
-  )
+	return (
+		<div>
+			<script src="https://js.stripe.com/v3/" />
+			<Navbar />
+			<Routes />
+		</div>
+	)
 }
 
 export default App

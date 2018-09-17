@@ -1,27 +1,14 @@
 const router = require('express').Router()
-const {Product, Category} = require('../db/models')
+const {Product, Category, OrderItem, Review} = require('../db/models')
+const {requireAdmin} = require('./validations')
 module.exports = router
-
-function requireLogin (req, res, next) {
-  if (req.user) {
-    next()
-  } else {
-    res.status(401).send('must be logged in')
-  }
-}
-
-function requireAdmin (req, res, next) {
-  if (req.user && req.user.isAdmin) {
-    next()
-  } else {
-    res.status(401).json('must be an admin')
-  }
-}
 
 // all products route
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll()
+    const products = await Product.findAll({
+      include: [{model: OrderItem}]
+    })
     res.json(products)
   } catch (err) {
     next(err)
@@ -34,8 +21,8 @@ router.get('/:id', async (req, res, next) => {
     const singleProduct = await Product.findOne({
       where: {
         id: req.params.id
-      }
-      // include: [{model: Review}]
+      },
+      include: [{model: Review}]
     })
     res.json(singleProduct)
   } catch (error) {
@@ -68,15 +55,18 @@ router.post('/', requireAdmin, async (req, res, next) => {
 
 router.put('/:id', requireAdmin, async (req, res, next) => {
   try {
-    const updatedProduct = await Product.update({
-      name: req.body.name,
+    const updatedProduct = await Product.update(
+      {
+        name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         photoUrl: req.body.photoUrl
-    }, {
-      returning: true,
-      where: {id: req.params.id}
-    })
+      },
+      {
+        returning: true,
+        where: {id: req.params.id}
+      }
+    )
     res.json(updatedProduct)
   } catch (error) {
     next(error)
@@ -87,9 +77,9 @@ router.delete('/:id', requireAdmin, async (req, res, next) => {
   try {
     const productInfo = await Product.destroy({
       where: {id: req.params.id}
-    });
-    res.json(productInfo);
+    })
+    res.json(productInfo)
   } catch (error) {
-    next(error);
+    next(error)
   }
 })
