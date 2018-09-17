@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {PropsRoute} from 'react-router-with-props'
 import PropTypes from 'prop-types'
 import {
   Login,
@@ -17,7 +16,8 @@ import {
   PasswordFormRedux,
   CartView,
   AddShippingInfo,
-  Checkout
+  AllUserOrders,
+  OrderAdmin
 } from './components'
 import {me} from './store'
 import {fetchCartFromStorage} from './store/cart'
@@ -27,10 +27,6 @@ import {getProductsFromServer} from './store/product'
  * COMPONENT
  */
 class Routes extends Component {
-  constructor() {
-    super()
-  }
-
   componentDidMount() {
     this.props.loadInitialData()
     this.props.fetchCart()
@@ -41,7 +37,10 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="/products/:id" component={SingleProduct} />
         <Route path="/shippingInfo" component={AddShippingInfo} />
+        <Route path="/orderAdmin" component={OrderAdmin} />
+        <Route path="/orders" component={AllUserOrders} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products" component={AllProducts} />

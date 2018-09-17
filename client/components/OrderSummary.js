@@ -11,7 +11,6 @@ const mapStateToProps = state => {
 class OrderSummary extends React.Component {
   render() {
     const order = this.props.order
-    console.log('singleOrder', order)
     return (
       <div>
         <h3 className="listHeader center">Order Summary</h3>
