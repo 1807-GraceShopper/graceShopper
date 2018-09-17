@@ -23,8 +23,11 @@ const mapStateToProps = state => {
 class NewShippingInfo extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      submitted: false
+    }
   }
-  add = event => {
+  add = async event => {
     const shippingInfoId = this.props.match.params.shippingInfoId
     event.preventDefault()
     const shippingInformation = {
@@ -39,21 +42,32 @@ class NewShippingInfo extends React.Component {
       phoneNumber: event.target.elements.phoneNumber.value,
       email: event.target.elements.email.value
     }
-    this.props.addShippingInfo(shippingInformation)
-    this.props.history.push('/shippingInfo')
+    await this.props.addShippingInfo(shippingInformation)
+    this.setState({submitted: true})
   }
   render() {
-    return (
-      <div className="verticalForm">
-        <h3>Shipping Information</h3>
-        <div>
-          <ShippingInfoFormRedux handleSubmit={this.add} form="shippingInfo" />
+    if (!this.state.submitted) {
+      return (
+        <div className="verticalForm">
+          <h3>Shipping Information</h3>
+          <div>
+            <ShippingInfoFormRedux
+              handleSubmit={this.add}
+              form="shippingInfo"
+            />
+          </div>
         </div>
+      )
+    } else {
+      return (
         <div>
-          <Checkout shippingInfo={this.props.shippingInfo} />
+          <h3>Form submitted!</h3>
+          <NavLink to="/checkout">
+            <button type="button">Proceed to Payment</button>
+          </NavLink>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 
