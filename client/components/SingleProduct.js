@@ -76,7 +76,6 @@ export class SingleProduct extends Component {
           <button type="button" onClick={() => this.props.addToCart(product)}>
             Add to Cart
           </button>
-          <Checkout />
         </div>
       )
     } else {

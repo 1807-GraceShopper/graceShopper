@@ -26,13 +26,49 @@ router.get('/:orderId', async (req, res, next) => {
   }
 })
 
+router.get('/orderSummary/:userId', async (req, res, next) => {
+  const userId = req.params.userId
+  console.log('userId', userId)
+  try {
+    const orders = await Order.findAll({
+      where: {
+        userId: userId
+      },
+      include: [{model: OrderItem}]
+    })
+    res.json(orders)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/statuses/:status', async (req, res, next) => {
+  const status = req.params.status
+  try {
+    let ordersByStatus
+    if (status) {
+      ordersByStatus = await Order.findAll({
+        where: {
+          status: status
+        }
+      })
+    } else {
+      ordersByStatus = await Order.findAll()
+    }
+    res.json(ordersByStatus)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
     console.log('req body', req.body)
     const userId = req.user ? req.user.id : null
     const newOrder = await Order.create({
       timeOrdered: Date.now(),
-      userId: userId
+      userId: userId,
+      status: 'Created'
     })
     newOrder.price = req.body.cart.reduce(function(accumulator, currentItem) {
       return accumulator + currentItem.price * currentItem.quantity
