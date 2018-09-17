@@ -11,15 +11,15 @@ const DELETE_SHIPPING_INFO = 'DELETE_SHIPPING_INFO'
 const GET_SHIPPING_BY_USER = 'GET_SHPPING_BY_USER'
 
 //Action creators
-const getShippingInfo = shippingInfo => ({
-  type: GET_SHIPPING_INFO,
-  shippingInfo
-})
+// const getShippingInfo = shippingInfo => ({
+//   type: GET_SHIPPING_INFO,
+//   shippingInfo
+// })
 
-const getSingleShippingInfo = singleShippingInfo => ({
-  type: GET_SINGLE_SHIPPING_INFO,
-  singleShippingInfo
-})
+// const getSingleShippingInfo = singleShippingInfo => ({
+//   type: GET_SINGLE_SHIPPING_INFO,
+//   singleShippingInfo
+// })
 
 const getShippingInfoByUser = shippingInfo => ({
   type: GET_SHIPPING_BY_USER,
@@ -43,19 +43,19 @@ const deleteShippingInfo = singleShippingInfoId => ({
 
 //Thunks
 
-export const getShippingInfoFromServer = () => {
-  return async dispatch => {
-    const res = await axios.get('/api/shippingInfo')
-    dispatch(getShippingInfo(res.data))
-  }
-}
+// export const getShippingInfoFromServer = () => {
+//   return async dispatch => {
+//     const res = await axios.get('/api/shippingInfo')
+//     dispatch(getShippingInfo(res.data))
+//   }
+// }
 
-export const getSingleShippingInfoFromServer = id => {
-  return async dispatch => {
-    const res = await axios.get(`api/shippingInfo/${id}`)
-    dispatch(getSingleShippingInfo(res.data))
-  }
-}
+// export const getSingleShippingInfoFromServer = id => {
+//   return async dispatch => {
+//     const res = await axios.get(`api/shippingInfo/${id}`)
+//     dispatch(getSingleShippingInfo(res.data))
+//   }
+// }
 
 export const getShippingInfoByUserServer = userId => {
   console.log('made it here', userId)
@@ -95,12 +95,14 @@ export const deleteProductFromServer = singleShippingInfoId => {
 
 const reducer = (state = initalState, action) => {
   switch (action.type) {
+
     case GET_SHIPPING_INFO:
       return action.shippingInfo
     case GET_SINGLE_SHIPPING_INFO:
       return action.singleShippingInfo
     case GET_SHIPPING_BY_USER:
       return action.shippingInfo
+
     case ADD_SHIPPING_INFO:
       return {
         ...state,

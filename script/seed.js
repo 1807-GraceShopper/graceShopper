@@ -153,7 +153,7 @@ async function seed() {
       name: 'Timberland boots',
       description: 'Great for hiking',
       price: 180,
-      quantity: 8
+      quantity: 0
     }
   ]
 

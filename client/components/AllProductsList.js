@@ -5,7 +5,7 @@ const AllProductsList = props => {
 	return (
 		<ul>
 			{props.products.map(product => {
-				return (
+				return (product.inStock ?
 					<li key={product.id}>
 						<div>
 							<NavLink to={`/products/${product.id}`}>
@@ -39,7 +39,8 @@ const AllProductsList = props => {
 								Add to Cart
 							</button>
 						}
-					</li>
+				</li> : <li />
+				
 				)
 			})}
 		</ul>
