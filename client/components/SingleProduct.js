@@ -83,9 +83,9 @@ export class SingleProduct extends Component {
           ) : (
             ''
           )}
-          <button type="button" onClick={() => this.props.addToCart(product)}>
+          {product.inStock ? <button type="button" onClick={() => this.props.addToCart(product)}>
             Add to Cart
-          </button>
+          </button> : <p>This product is currently not available.</p>}
         </div>
       )
     } else {

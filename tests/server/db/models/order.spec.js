@@ -57,6 +57,7 @@ describe('Order Model', () => {
         'validation was successful but should have failed without `email`'
       )
     } catch (err) {
+      console.log('error for email', err.message);
       expect(err.message).to.contain('email cannot be null')
     }
   })
@@ -67,10 +68,11 @@ describe('Order Model', () => {
       quantity: [],
       timeOrdered: '1988-10-10 04:11:10',
       shippingAddress: '',
-      email: 'test@email.com'
+      email: 'testemail.com'
     })
     try {
       await order.validate()
+      // throw Error('validation was successful but should have failed with an improperly formatted `email`')
     } catch (err) {
       expect(err.message).to.contain('email must be proper format')
     }
