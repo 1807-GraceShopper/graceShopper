@@ -81,7 +81,6 @@ export const getOrdersByStatusServer = status => {
 	return async dispatch => {
 		let res
 		if (status) {
-			console.log('here', status)
 			res = await axios.get(`/api/orders/statuses/${status}`)
 		} else {
 			res = await axios.get('/api/orders')
