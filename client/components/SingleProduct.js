@@ -51,6 +51,7 @@ export class SingleProduct extends Component {
 
   render() {
     const product = this.props.singleProduct
+    console.log('user', this.props.user)
 
     if (product && this.props.reviews) {
       return (
@@ -61,11 +62,18 @@ export class SingleProduct extends Component {
           <div>
             <img src={`/${product.photoUrl}`} />
           </div>
-          <h4>Reviews</h4>
-          <ReviewFormRedux handleSubmit={this.submitReview} />
-          {this.props.reviews.map(review => {
-            return <Review key={review.id} review={review} />
-          })}
+          <div>
+            <h4>Reviews</h4>
+            {this.props.reviews.map(review => {
+              return <Review key={review.id} review={review} />
+            })}
+          </div>
+          { this.props.user.id ? (
+            <div>
+              <p>Add your review:</p>
+            <ReviewFormRedux handleSubmit={this.submitReview} />
+            </div>
+          ) : ( '' )}
           {this.props.user.isAdmin ? (
             <NavLink to={`/products/editProduct/${product.id}`}>
               <button type="button">Edit product</button>
