@@ -134,6 +134,31 @@ router.put('/:orderId', requireAdmin, async (req, res, next) => {
   }
 })
 
+router.put('/status/:orderId', requireAdmin, async (req, res, next) => {
+  try {
+    await Order.update(
+      {
+        status: req.body.status
+      },
+      {
+        where: {
+          id: req.params.orderId
+        }
+      }
+    )
+    const updateStatus = await Order.findOne({
+      where: {
+        id: req.params.orderId
+      },
+      include: [{model: OrderItem}]
+    })
+    console.log('update Status', updateStatus)
+    res.json(updateStatus)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.delete('/:orderId', requireAdmin, async (req, res, next) => {
   try {
     const orderToDestroy = await Order.findById(req.params.orderId)

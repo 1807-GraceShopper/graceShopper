@@ -20,7 +20,7 @@ class OrderAdmin extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			selectedStatus: ''
+			changedStatus: false
 		}
 	}
 	componentDidMount() {
@@ -30,10 +30,9 @@ class OrderAdmin extends React.Component {
 		this.props.getProducts()
 	}
 	handleSelect = event => {
-		event.preventDefault()
-		console.log('status', event.target.value)
 		this.setState({selectedStatus: event.target.value})
 		this.props.getOrdersByStatus(event.target.value)
+		this.setState({changedStatus: true})
 	}
 	getProductName = id => {
 		const product = this.props.products.filter(singleProd => {
