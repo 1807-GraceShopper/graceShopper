@@ -38,7 +38,6 @@ router.get('/userShipping/:userId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('shippingInfo', req.body)
     let newShippingInfo
     if (req.user) {
       newShippingInfo = await ShippingInfo.create({
