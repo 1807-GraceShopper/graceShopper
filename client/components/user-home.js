@@ -1,14 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import {NavLink, withRouter} from 'react-router-dom'
+
 /**
  * COMPONENT
  */
 export const UserHome = props => {
-  const {email, isAdmin} = props
+  const {email, isAdmin, passwordResetRequired} = props
 
-  if (isAdmin) {
+  if (passwordResetRequired) {
+    props.history.push('/users/updatePassword');
+  }
+  else if (isAdmin) {
     return (
       <div>
         <h3>Welcome, {email}</h3>
@@ -29,11 +33,12 @@ export const UserHome = props => {
 const mapState = state => {
   return {
     email: state.user.email,
-    isAdmin: state.user.isAdmin
+    isAdmin: state.user.isAdmin,
+    passwordResetRequired: state.user.passwordResetRequired
   }
 }
 
-export default connect(mapState)(UserHome)
+export default withRouter(connect(mapState)(UserHome))
 
 /**
  * PROP TYPES
