@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {ShippingInfo} = require('../db/models')
+const {ShippingInfo, User} = require('../db/models')
 const {requireLogin} = require('./validations')
 module.exports = router
 
@@ -21,8 +21,24 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.get('/userShipping/:userId', async (req, res, next) => {
+  const userId = req.params.userId
+  try {
+    const shippingInfo = await ShippingInfo.findAll({
+      where: {
+        userId: userId
+      },
+      include: [{model: User}]
+    })
+    res.json(shippingInfo)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
+    console.log(req)
     const newShippingInfo = await ShippingInfo.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -32,7 +48,8 @@ router.post('/', async (req, res, next) => {
       postalCode: req.body.postalCode,
       country: req.body.country,
       phoneNumber: req.body.phoneNumber,
-      email: req.body.email
+      email: req.body.email,
+      userId: req.user.id
     })
     res.json(newShippingInfo)
   } catch (err) {

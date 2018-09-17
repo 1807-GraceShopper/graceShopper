@@ -4,12 +4,13 @@ import {connect} from 'react-redux'
 import {getOrdersByUserServer} from '../store/orders'
 
 const mapStateToProps = state => ({
-	user: state.user,
-	userOrders: state.orders.userOrders,
-	products: state.product.products
+  user: state.user,
+  userOrders: state.orders.userOrders,
+  products: state.product.products
 })
 
 const mapDispatchToProps = dispatch => ({
+
 	getOrders: userId => dispatch(getOrdersByUserServer(userId))
 })
 
@@ -42,6 +43,7 @@ class AllUserOrders extends React.Component {
 			)
 		} else return null
 	}
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllUserOrders)
