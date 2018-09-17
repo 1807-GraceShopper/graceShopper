@@ -58,7 +58,6 @@ export const getSingleShippingInfoFromServer = id => {
 }
 
 export const getShippingInfoByUserServer = userId => {
-  console.log('made it here', userId)
   return async dispatch => {
     const userShipping = await axios.get(
       `/api/shippingInfo/userShipping/${userId}`
