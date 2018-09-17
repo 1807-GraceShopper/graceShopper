@@ -11,27 +11,22 @@ const GET_ORDERS_BY_STATUS = 'GET_ORDERS_BY_STATUS'
 const GET_SINGLE_ORDER = 'GET_SINGLE_ORDER'
 
 const createOrders = order => ({
-  type: CLEAR_CART,
-  order
-})
-
-const getOrders = orders => ({
-  type: GET_ORDERS,
-  orders
-})
-
-const getOrder = singleOrder => ({
-  type: GET_SINGLE_ORDER,
-  singleOrder
-})
-
-const getOrdersByUser = orders => ({
-	type: GET_ORDERS_BY_USER,
-	orders
+	type: CLEAR_CART,
+	order
 })
 
 const getOrders = orders => ({
 	type: GET_ORDERS,
+	orders
+})
+
+const getOrder = singleOrder => ({
+	type: GET_SINGLE_ORDER,
+	singleOrder
+})
+
+const getOrdersByUser = orders => ({
+	type: GET_ORDERS_BY_USER,
 	orders
 })
 
@@ -41,30 +36,23 @@ const getOrdersByStatus = orders => ({
 })
 
 export const createOrderInServer = cart => {
-  return async dispatch => {
-    const res = await axios.post(`/api/orders`, cart)
-    dispatch(createOrders(res.data))
-  }
+	return async dispatch => {
+		const res = await axios.post(`/api/orders`, cart)
+		dispatch(createOrders(res.data))
+	}
 }
 
 export const getOrdersFromServer = () => {
-  return async dispatch => {
-    const res = await axios.get('/api/orders')
-    dispatch(getOrders(res.data))
-  }
+	return async dispatch => {
+		const res = await axios.get('/api/orders')
+		dispatch(getOrders(res.data))
+	}
 }
 
 export const getOrdersByUserServer = userId => {
 	return async dispatch => {
 		const userOrders = await axios.get(`/api/orders/orderSummary/${userId}`)
 		dispatch(getOrdersByUser(userOrders.data))
-	}
-}
-
-export const getOrdersFromServer = () => {
-	return async dispatch => {
-		const orders = await axios.get('/api/orders')
-		dispatch(getOrders(orders.data))
 	}
 }
 
@@ -83,7 +71,11 @@ export const getOrdersByStatusServer = status => {
 const reducer = (state = {orders: [], userOrders: []}, action) => {
 	switch (action.type) {
 		case CLEAR_CART:
-			return {...state, orders: [...state.orders, action.order]}
+			return {
+				...state,
+				orders: [...state.orders, action.order],
+				singleOrder: action.order
+			}
 		case GET_ORDERS_BY_USER:
 			return {...state, userOrders: action.orders}
 		case GET_ORDERS:
@@ -93,7 +85,6 @@ const reducer = (state = {orders: [], userOrders: []}, action) => {
 		default:
 			return state
 	}
-
 }
 
 export default reducer
