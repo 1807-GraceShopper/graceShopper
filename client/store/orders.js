@@ -2,14 +2,27 @@ import axios from 'axios'
 
 //Action types
 
+const initalState = {orders: [], singleOrder: {}}
+
 const CLEAR_CART = 'CLEAR_CART'
 const GET_ORDERS = 'GET_ORDERS'
 const GET_ORDERS_BY_USER = 'GET_ORDERS_BY_USER'
 const GET_ORDERS_BY_STATUS = 'GET_ORDERS_BY_STATUS'
+const GET_SINGLE_ORDER = 'GET_SINGLE_ORDER'
 
 const createOrders = order => ({
-	type: CLEAR_CART,
-	order
+  type: CLEAR_CART,
+  order
+})
+
+const getOrders = orders => ({
+  type: GET_ORDERS,
+  orders
+})
+
+const getOrder = singleOrder => ({
+  type: GET_SINGLE_ORDER,
+  singleOrder
 })
 
 const getOrdersByUser = orders => ({
@@ -28,10 +41,17 @@ const getOrdersByStatus = orders => ({
 })
 
 export const createOrderInServer = cart => {
-	return async dispatch => {
-		const res = await axios.post(`/api/orders`, cart)
-		dispatch(createOrders(res.data))
-	}
+  return async dispatch => {
+    const res = await axios.post(`/api/orders`, cart)
+    dispatch(createOrders(res.data))
+  }
+}
+
+export const getOrdersFromServer = () => {
+  return async dispatch => {
+    const res = await axios.get('/api/orders')
+    dispatch(getOrders(res.data))
+  }
 }
 
 export const getOrdersByUserServer = userId => {
@@ -73,6 +93,7 @@ const reducer = (state = {orders: [], userOrders: []}, action) => {
 		default:
 			return state
 	}
+
 }
 
 export default reducer
