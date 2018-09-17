@@ -17,7 +17,8 @@ import {
   CartView,
   AddShippingInfo,
   AllUserOrders,
-  OrderAdmin
+  OrderAdmin,
+  Checkout
 } from './components'
 import {me} from './store'
 import {fetchCartFromStorage} from './store/cart'
@@ -37,6 +38,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="/checkout" component={Checkout} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/shippingInfo" component={AddShippingInfo} />
         <Route path="/orderAdmin" component={OrderAdmin} />

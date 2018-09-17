@@ -1,5 +1,6 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
+import {NavLink} from 'react-router-dom'
 
 const renderField = ({input, type, meta: {error, touched}}) => (
   <div>
