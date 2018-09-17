@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {addShippingInfoToServer} from '../store/shippinginfo'
 import ShippingInfoFormRedux from './ShippingInfoReduxForm'
 import {withRouter} from 'react-router-dom'
-import Checkout from './Checkout'
+import {NavLink} from 'react-router-dom'
 
 const mapDispatchToProps = dispatch => {
   return {

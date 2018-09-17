@@ -38,19 +38,34 @@ router.get('/userShipping/:userId', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req)
-    const newShippingInfo = await ShippingInfo.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      streetAddress: req.body.streetAddress,
-      city: req.body.city,
-      region: req.body.region,
-      postalCode: req.body.postalCode,
-      country: req.body.country,
-      phoneNumber: req.body.phoneNumber,
-      email: req.body.email,
-      userId: req.user.id
-    })
+    console.log('shippingInfo', req.body)
+    let newShippingInfo
+    if (req.user) {
+      newShippingInfo = await ShippingInfo.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        streetAddress: req.body.streetAddress,
+        city: req.body.city,
+        region: req.body.region,
+        postalCode: req.body.postalCode,
+        country: req.body.country,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+        userId: req.user.id
+      })
+    } else {
+      newShippingInfo = await ShippingInfo.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        streetAddress: req.body.streetAddress,
+        city: req.body.city,
+        region: req.body.region,
+        postalCode: req.body.postalCode,
+        country: req.body.country,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email
+      })
+    }
     res.json(newShippingInfo)
   } catch (err) {
     next(err)
