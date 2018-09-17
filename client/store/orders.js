@@ -56,6 +56,13 @@ export const getOrdersByUserServer = userId => {
 	}
 }
 
+export const getSingleOrderFromServer = orderId => {
+	return async dispatch => {
+		const order = await axios.get(`/api/orders/${orderId}`)
+		dispatch(getOrder(order.data))
+	}
+}
+
 export const getOrdersByStatusServer = status => {
 	return async dispatch => {
 		let res
@@ -76,6 +83,8 @@ const reducer = (state = {orders: [], userOrders: []}, action) => {
 				orders: [...state.orders, action.order],
 				singleOrder: action.order
 			}
+		case GET_SINGLE_ORDER:
+			return {...state, singleOrder: action.singleOrder}
 		case GET_ORDERS_BY_USER:
 			return {...state, userOrders: action.orders}
 		case GET_ORDERS:

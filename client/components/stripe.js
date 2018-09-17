@@ -4,6 +4,7 @@ import axios from 'axios'
 import OrderSummary from './OrderSummary'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import {SingleOrder} from './SingleOrder'
 
 const mapStateToProps = state => {
   return {
@@ -19,7 +20,6 @@ class CheckoutForm extends Component {
       complete: false
     }
   }
-
   async submit(ev) {
     let {token} = await this.props.stripe.createToken({name: 'Name'})
     this.props.createOrder({
