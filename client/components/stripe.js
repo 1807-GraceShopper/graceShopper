@@ -4,6 +4,7 @@ import axios from 'axios'
 import OrderSummary from './OrderSummary'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import {SingleOrder} from './SingleOrder'
 
 const mapStateToProps = state => {
   return {
@@ -19,12 +20,11 @@ class CheckoutForm extends Component {
       complete: false
     }
   }
-
   async submit(ev) {
     let {token} = await this.props.stripe.createToken({name: 'Name'})
     this.props.createOrder({
       cart: this.props.cart,
-      shipInfo: this.props.shippingInfo[0]
+      shipInfo: this.props.shippingInfo
     })
     let amount = 0
     this.props.cart.forEach(orderItem => {
@@ -34,7 +34,7 @@ class CheckoutForm extends Component {
     })
     let response = await axios.post('/api/charges', {
       token: token.id,
-      email: this.props.shippingInfo[0].email,
+      email: this.props.shippingInfo.email,
       amount: amount
     })
     if (response.statusText === 'OK') this.setState({complete: true})

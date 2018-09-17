@@ -8,7 +8,6 @@ import {Review} from './Review'
 import ReviewFormRedux from './ReviewReduxForm'
 import {reset} from 'redux-form'
 import Checkout from './stripe'
-console.log('checkout', Checkout)
 
 const mapStateToProps = state => {
   return {
@@ -61,11 +60,22 @@ export class SingleProduct extends Component {
           <div>
             <img src={`/${product.photoUrl}`} />
           </div>
-          <h4>Reviews</h4>
-          <ReviewFormRedux handleSubmit={this.submitReview} />
-          {this.props.reviews.map(review => {
-            return <Review key={review.id} review={review} />
-          })}
+          <div>
+            <h4>Reviews</h4>
+            {this.props.reviews.length ? (
+              <div>
+              {this.props.reviews.map(review => {
+                return <Review key={review.id} review={review} />
+              })}
+              </div>
+            ) : ( <p>No reviews for this product yet</p> )}
+          </div>
+          { this.props.user.id ? (
+            <div>
+              <h4>Add your review:</h4>
+            <ReviewFormRedux handleSubmit={this.submitReview} />
+            </div>
+          ) : ( '' )}
           {this.props.user.isAdmin ? (
             <NavLink to={`/products/editProduct/${product.id}`}>
               <button type="button">Edit product</button>

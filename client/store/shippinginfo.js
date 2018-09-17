@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const initalState = []
+const initalState = {shippingInfo: [], currentOrderShipInfo: {}}
 
 //Action types
 const GET_SHIPPING_INFO = 'GET_SHIPPING_INFO'
@@ -10,15 +10,15 @@ const UPDATE_SHIPPING_INFO = 'UPDATE_SHIPPING_INFO'
 const DELETE_SHIPPING_INFO = 'DELETE_SHIPPING_INFO'
 
 //Action creators
-const getShippingInfo = shippingInfo => ({
-  type: GET_SHIPPING_INFO,
-  shippingInfo
-})
+// const getShippingInfo = shippingInfo => ({
+//   type: GET_SHIPPING_INFO,
+//   shippingInfo
+// })
 
-const getSingleShippingInfo = singleShippingInfo => ({
-  type: GET_SINGLE_SHIPPING_INFO,
-  singleShippingInfo
-})
+// const getSingleShippingInfo = singleShippingInfo => ({
+//   type: GET_SINGLE_SHIPPING_INFO,
+//   singleShippingInfo
+// })
 
 const addShippingInfo = singleShippingInfo => ({
   type: ADD_SHIPPING_INFO,
@@ -37,19 +37,19 @@ const deleteShippingInfo = singleShippingInfoId => ({
 
 //Thunks
 
-export const getShippingInfoFromServer = () => {
-  return async dispatch => {
-    const res = await axios.get('/api/shippingInfo')
-    dispatch(getShippingInfo(res.data))
-  }
-}
+// export const getShippingInfoFromServer = () => {
+//   return async dispatch => {
+//     const res = await axios.get('/api/shippingInfo')
+//     dispatch(getShippingInfo(res.data))
+//   }
+// }
 
-export const getSingleShippingInfoFromServer = id => {
-  return async dispatch => {
-    const res = await axios.get(`api/shippingInfo/${id}`)
-    dispatch(getSingleShippingInfo(res.data))
-  }
-}
+// export const getSingleShippingInfoFromServer = id => {
+//   return async dispatch => {
+//     const res = await axios.get(`api/shippingInfo/${id}`)
+//     dispatch(getSingleShippingInfo(res.data))
+//   }
+// }
 
 export const addShippingInfoToServer = singleShippingInfo => {
   return async dispatch => {
@@ -78,12 +78,16 @@ export const deleteProductFromServer = singleShippingInfoId => {
 
 const reducer = (state = initalState, action) => {
   switch (action.type) {
-    case GET_SHIPPING_INFO:
-      return action.shippingInfo
-    case GET_SINGLE_SHIPPING_INFO:
-      return action.singleShippingInfo
+    // case GET_SHIPPING_INFO:
+    //   return action.shippingInfo
+    // case GET_SINGLE_SHIPPING_INFO:
+    //   return {...action.singleShippingInfo
     case ADD_SHIPPING_INFO:
-      return [...state, action.singleShippingInfo]
+      return {
+        ...state,
+        shippingInfo: [...state.shippingInfo, action.singleShippingInfo],
+        currentOrderShipInfo: action.singleShippingInfo
+      }
     case UPDATE_SHIPPING_INFO:
       const updatedShippingInfo = state.shippingInfo.map(
         singleShippingInfo =>
@@ -91,13 +95,13 @@ const reducer = (state = initalState, action) => {
             ? action.singleShippingInfo
             : singleShippingInfo
       )
-      return updatedShippingInfo
+      return {...state, shippingInfo: updatedShippingInfo}
     case DELETE_SHIPPING_INFO:
       const newShippingInfo = state.shippingInfo.filter(
         singleShippingInfo =>
           action.singleShippingInfoId !== singleShippingInfo.id
       )
-      return newShippingInfo
+      return {...state, shippingInfo: newShippingInfo}
     default:
       return state
   }
