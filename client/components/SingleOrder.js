@@ -1,19 +1,21 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {getSingleOrderFromServer} from '../store/orders'
+import {getSingleOrderFromServer, updateStatusOnOrder} from '../store/orders'
 import {getProductsFromServer} from '../store/product'
 
 const mapStateToProps = state => {
   return {
     order: state.orders.singleOrder,
-    products: state.product.products
+    products: state.product.products,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   getSingleOrder: id => dispatch(getSingleOrderFromServer(id)),
-  getProducts: () => dispatch(getProductsFromServer())
+  getProducts: () => dispatch(getProductsFromServer()),
+  updateStatus: updateInfo => dispatch(updateStatusOnOrder(updateInfo))
 })
 
 export class SingleOrder extends Component {
@@ -31,6 +33,14 @@ export class SingleOrder extends Component {
     })
     console.log('product', product)
     return product[0].name
+  }
+
+  handleSelect = event => {
+    event.preventDefault()
+    const id = Number(this.props.match.params.id)
+    const updateInfo = {status: event.target.value, id: id}
+    console.log('update info', updateInfo)
+    this.props.updateStatus(updateInfo)
   }
 
   render() {
@@ -60,6 +70,22 @@ export class SingleOrder extends Component {
                 )
               })
             : ''}
+          {this.props.user.isAdmin ? (
+            <form>
+              <label>
+                Change Status:
+                <select name="statuses" onChange={this.handleSelect}>
+                  <option value="">---</option>
+                  <option value="Created">Created</option>
+                  <option value="Processing">Processing</option>
+                  <option value="Cancelled">Cancelled</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </label>
+            </form>
+          ) : (
+            ''
+          )}
         </div>
       )
     } else {

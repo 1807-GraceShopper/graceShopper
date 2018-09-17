@@ -9,6 +9,7 @@ const GET_ORDERS = 'GET_ORDERS'
 const GET_ORDERS_BY_USER = 'GET_ORDERS_BY_USER'
 const GET_ORDERS_BY_STATUS = 'GET_ORDERS_BY_STATUS'
 const GET_SINGLE_ORDER = 'GET_SINGLE_ORDER'
+const UPDATE_STATUS = 'UPDATE_STATUS'
 
 const createOrders = order => ({
 	type: CLEAR_CART,
@@ -35,6 +36,11 @@ const getOrdersByStatus = orders => ({
 	orders
 })
 
+const updateStatus = updatedOrder => ({
+	type: UPDATE_STATUS,
+	updatedOrder
+})
+
 export const createOrderInServer = cart => {
 	return async dispatch => {
 		const res = await axios.post(`/api/orders`, cart)
@@ -46,6 +52,16 @@ export const getOrdersFromServer = () => {
 	return async dispatch => {
 		const res = await axios.get('/api/orders')
 		dispatch(getOrders(res.data))
+	}
+}
+
+export const updateStatusOnOrder = updatedOrder => {
+	return async dispatch => {
+		const res = await axios.put(
+			`/api/orders/status/${updatedOrder.id}`,
+			updatedOrder
+		)
+		dispatch(updateStatus(res.data))
 	}
 }
 
@@ -75,7 +91,10 @@ export const getOrdersByStatusServer = status => {
 		dispatch(getOrdersByStatus(res.data))
 	}
 }
-const reducer = (state = {orders: [], userOrders: []}, action) => {
+const reducer = (
+	state = {orders: [], userOrders: [], singleOrder: {}},
+	action
+) => {
 	switch (action.type) {
 		case CLEAR_CART:
 			return {
@@ -91,6 +110,18 @@ const reducer = (state = {orders: [], userOrders: []}, action) => {
 			return {...state, orders: action.orders}
 		case GET_ORDERS_BY_STATUS:
 			return {...state, orders: action.orders}
+		case UPDATE_STATUS:
+			const updatedOrders = state.orders.map(
+				order =>
+					action.updatedOrder.id === order.id
+						? action.updatedOrder
+						: order
+			)
+			return {
+				...state,
+				orders: updatedOrders,
+				singleOrder: action.updatedOrder
+			}
 		default:
 			return state
 	}
