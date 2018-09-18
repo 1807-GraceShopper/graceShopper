@@ -20,9 +20,7 @@ import {
   OrderAdmin,
   Checkout,
   SingleOrder,
-  EditShippingInfo,
-  UserProfile
-
+  EditShippingInfo
 } from './components'
 import {me} from './store'
 import {fetchCartFromStorage} from './store/cart'
