@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const initialState = {users: []}
 
@@ -21,7 +21,7 @@ const updateUser = user => ({
   user
 })
 
-const updatePassword = (user) => ({
+const updatePassword = user => ({
   type: UPDATE_USER,
   user
 })
@@ -33,7 +33,7 @@ export const getUsersFromServer = () => {
   }
 }
 
-export const deleteUserFromServer = (email) => {
+export const deleteUserFromServer = email => {
   return async dispatch => {
     await axios.delete(`/api/users/${email}`)
     dispatch(deleteUser(email))
@@ -49,8 +49,11 @@ export const updateUserOnServer = (user, attribute) => {
 
 export const updatePasswordOnServer = (user, password) => {
   return async dispatch => {
-    const res = await axios.put('/api/users/updatePassword', {user: user, password: password, passwordResetRequired: false})
-    dispatch(updatePassword(res.data[1][0]))
+    const res = await axios.put('/api/users/updatePassword', {
+      user: user,
+      password: password
+    })
+    dispatch(updatePassword(res.data))
   }
 }
 
@@ -64,8 +67,8 @@ const reducer = (state = initialState, action) => {
       })
       return {...state, users: deleted}
     case UPDATE_USER:
-      const updatedUsers = state.users.map(user =>
-        action.user.email === user.email ? action.user : user
+      const updatedUsers = state.users.map(
+        user => (action.user.email === user.email ? action.user : user)
       )
       return {...state, users: updatedUsers}
     default:
