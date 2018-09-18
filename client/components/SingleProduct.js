@@ -59,7 +59,7 @@ export class SingleProduct extends Component {
           <p>{product.description}</p>
           <div>${product.price}</div>
           <div>
-            <img src={`/${product.photoUrl}`} />
+            <img className="sizing" src={`/${product.photoUrl}`} />
           </div>
           <div>
             <br />

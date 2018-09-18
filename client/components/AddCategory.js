@@ -32,8 +32,11 @@ class NewCategory extends React.Component {
   render() {
     if (this.props.user.isAdmin) {
       return (
-        <div className="verticalForm">
-          <h3>Add a new category!</h3>
+        <div className="ui form">
+        <br />
+          <h3 className="ui one column stackable center aligned page grid">Add a new category!</h3>
+          <br />
+          <br />
           <CategoryFormRedux handleSubmit={this.add} form={'category'} />
         </div>
       )

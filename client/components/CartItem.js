@@ -31,6 +31,7 @@ const CartItem = props => {
         <form id="cartItemForm">
             <div>
                 <img
+                    className="sizing"
                     src={associatedProduct ? associatedProduct.photoUrl : ''}
                 />
             </div>

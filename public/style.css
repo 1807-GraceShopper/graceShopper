@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background-color: #eadedb;
+  background-color: #dce6ef
 }
 
 a {
@@ -26,6 +26,11 @@ form div {
   color: #485167;
   font-size: 88px;
   padding: 0px;
+}
+
+.subtitle {
+  color: #485167;
+  font-size: 14px;
 }
 
 .sizing {

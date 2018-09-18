@@ -3,13 +3,11 @@ import {Field, reduxForm} from 'redux-form'
 
 const renderField = ({input, type, meta: {error, touched}}) => (
   <div>
-    <div>
-      <div>
-        <input {...input} type={type} />
+      <div className="ui one column stackable center aligned page grid">
+        Name: <input {...input} type={type} />
       </div>
       <div>{touched && <span className="red">{error}</span>}</div>
-    </div>
-  </div>
+      </div>
 )
 
 const preventDefault = event => {
@@ -27,10 +25,9 @@ let CategoryForm = props => {
             ? evt => props.handleSubmit(evt, props.form)
             : preventDefault
         }
+        className="ui form"
       >
-        <div>
-          <div className="form-item">
-            Name:{' '}
+        <div className="ui one column stackable center aligned page grid">
             <Field
               type="text"
               name="name"
@@ -38,10 +35,9 @@ let CategoryForm = props => {
               component={renderField}
               validate={notEmpty}
             />
-          </div>
         </div>
-        <div className="form-item">
-          <button className="form-item" type="submit">
+        <div className="ui one column stackable center aligned page grid">
+          <button className="ui green basic mini button" type="submit">
             Submit
           </button>
         </div>
