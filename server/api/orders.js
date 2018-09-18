@@ -64,7 +64,7 @@ router.post('/', async (req, res, next) => {
   try {
     console.log('req body', req.body)
     const userId = req.user ? req.user.id : null
-    const shipInfo = await ShippingInfo.findOrCreate({
+    const shipInfo = await ShippingInfo.findOne({
       where: {
         firstName: req.body.shipInfo.firstName,
         lastName: req.body.shipInfo.lastName,
@@ -77,7 +77,9 @@ router.post('/', async (req, res, next) => {
         email: req.body.shipInfo.email
       }
     });
+    console.log('shipInfo', shipInfo);
     const shipId = shipInfo.id;
+    console.log('shipId', shipId);
     const newOrder = await Order.create({
       timeOrdered: Date.now(),
       userId: userId,
