@@ -10,61 +10,80 @@ const GET_SINGLE_ORDER = 'GET_SINGLE_ORDER'
 const UPDATE_STATUS = 'UPDATE_STATUS'
 
 const createOrders = order => ({
-	type: CLEAR_CART,
-	order
+  type: CLEAR_CART,
+  order
 })
 
 const getOrders = orders => ({
-	type: GET_ORDERS,
-	orders
+  type: GET_ORDERS,
+  orders
 })
 
 const getOrder = singleOrder => ({
-	type: GET_SINGLE_ORDER,
-	singleOrder
+  type: GET_SINGLE_ORDER,
+  singleOrder
 })
 
 const getOrdersByUser = orders => ({
-	type: GET_ORDERS_BY_USER,
-	orders
+  type: GET_ORDERS_BY_USER,
+  orders
 })
 
 const getOrdersByStatus = orders => ({
-	type: GET_ORDERS_BY_STATUS,
-	orders
+  type: GET_ORDERS_BY_STATUS,
+  orders
+})
+
+const updateOrdersByStatus = updatedOrder => ({
+  type: UPDATE_STATUS,
+  updatedOrder
 })
 
 export const createOrderInServer = cart => {
-	return async dispatch => {
-		const res = await axios.post(`/api/orders`, cart)
-		dispatch(createOrders(res.data))
-	}
+  return async dispatch => {
+    const res = await axios.post(`/api/orders`, cart)
+    dispatch(createOrders(res.data))
+  }
 }
 
 export const getOrdersFromServer = () => {
-	return async dispatch => {
-		const res = await axios.get('/api/orders')
-		dispatch(getOrders(res.data))
-	}
+  return async dispatch => {
+    const res = await axios.get('/api/orders')
+    dispatch(getOrders(res.data))
+  }
+}
+
+export const getSingleOrderFromServer = id => {
+  return async dispatch => {
+    const res = await axios.get(`/api/orders/${id}`)
+    dispatch(getOrder(res.data))
+  }
 }
 
 export const getOrdersByUserServer = userId => {
-	return async dispatch => {
-		const userOrders = await axios.get(`/api/orders/orderSummary/${userId}`)
-		dispatch(getOrdersByUser(userOrders.data))
-	}
+  return async dispatch => {
+    const userOrders = await axios.get(`/api/orders/orderSummary/${userId}`)
+    dispatch(getOrdersByUser(userOrders.data))
+  }
 }
 
 export const getOrdersByStatusServer = status => {
-	return async dispatch => {
-		let res
-		if (status) {
-			res = await axios.get(`/api/orders/statuses/${status}`)
-		} else {
-			res = await axios.get('/api/orders')
-		}
-		dispatch(getOrdersByStatus(res.data))
-	}
+  return async dispatch => {
+    let res
+    if (status) {
+      res = await axios.get(`/api/orders/statuses/${status}`)
+    } else {
+      res = await axios.get('/api/orders')
+    }
+    dispatch(getOrdersByStatus(res.data))
+  }
+}
+
+export const updateStatusOnOrder = status => {
+  return async dispatch => {
+    const res = await axios.put(`/api/orders/status/${status.id}`, status)
+    dispatch(updateOrdersByStatus(res.data))
+  }
 }
 
 const reducer = (
