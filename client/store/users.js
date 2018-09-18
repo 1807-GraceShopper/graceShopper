@@ -49,7 +49,7 @@ export const updateUserOnServer = (user, attribute) => {
 
 export const updatePasswordOnServer = (user, password) => {
   return async dispatch => {
-    const res = await axios.put('/api/users/updatePassword', {user: user, password: password})
+    const res = await axios.put('/api/users/updatePassword', {user: user, password: password, passwordResetRequired: false})
     dispatch(updatePassword(res.data[1][0]))
   }
 }

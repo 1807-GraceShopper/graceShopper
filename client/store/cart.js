@@ -114,7 +114,7 @@ export function addItemToCart(product) {
       const res = await axios.get(`/api/products/${product.id}`)
       const maxQuantity = res.data.quantity
       match.quantity = Math.min(match.quantity + 1, maxQuantity)
-      const orderItemRes = await axios.put(`/api/orderItems/${match.id}`, match)
+      const orderItemRes = await axios.put(`/api/orderItems/${match.productId}`, match)
       dispatch(updateQuantity(match))
     } else {
       const res = await axios.post(`/api/orderItems`, obj)

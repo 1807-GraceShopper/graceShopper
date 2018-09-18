@@ -1,5 +1,6 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
+import { Rating } from 'semantic-ui-react'
 
 const renderField = ({input, type, meta: {error, touched}}) => (
   <div>
@@ -17,34 +18,35 @@ const preventDefault = event => {
 }
 
 const notEmpty = value => (value ? undefined : 'Required field')
-const rating = value =>
-  value <= 5 && value >= 1 ? undefined : 'Must enter a rating between 1 and 5'
 
-let ReviewForm = props => {
+class ReviewForm extends React.Component {
+  state = {
+    rating: 0
+  }
 
+  handleRate = (evt, {rating}) => this.setState({rating})
+
+  render () {
   return (
-    <div className="verticalForm">
+    <div className="ui form">
+
+      <Rating icon="star" maxRating={5} onRate={this.handleRate} />
+
       <form
         onSubmit={
-          props.valid
-            ? evt => props.handleSubmit(evt, props.form)
+          this.props.valid
+            ? evt => this.props.handleSubmit(evt, this.state.rating)
             : preventDefault
         }
       >
         <div>
-          <div className="form-item">
-            Title: <Field type="text" name="title" component={renderField} />
+          <div className="field">
+            Title: <Field
+              type="textarea"
+              name="title"
+              component={renderField} />
           </div>
-          <div className="form-item">
-            Rating:{' '}
-            <Field
-              type="text"
-              name="rating"
-              component={renderField}
-              validate={rating}
-            />
-          </div>
-          <div className="form-item">
+          <div className="field">
             Content:{' '}
             <Field
               type="text"
@@ -53,8 +55,9 @@ let ReviewForm = props => {
               validate={notEmpty}
             />
           </div>
+          <br />
           <div className="form-item">
-            <button className="form-item" type="submit">
+            <button className="ui green basic small button" type="submit">
               Submit
             </button>
           </div>
@@ -62,6 +65,7 @@ let ReviewForm = props => {
       </form>
     </div>
   )
+}
 }
 
 const ReviewFormRedux = reduxForm({

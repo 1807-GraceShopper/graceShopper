@@ -32,7 +32,6 @@ export class SingleOrder extends Component {
     const product = this.props.products.filter(singleProd => {
       return singleProd.id === id
     })
-    console.log('product', product)
     return product[0].name
   }
 

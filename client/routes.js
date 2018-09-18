@@ -52,9 +52,9 @@ class Routes extends Component {
         <Route path="/orders/:id" component={SingleOrder} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/product/editProduct/:id" component={EditProduct} />
         <Route exact path="/products" component={AllProducts} />
         <Route exact path="/product/addProduct" component={AddProduct} />
-        <Route path="/products/editProduct/:id" component={EditProduct} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route exact path="/users" component={AllUsers} />
         <Route path="/users/updatePassword" component={PasswordFormRedux} />
