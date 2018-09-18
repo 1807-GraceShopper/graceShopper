@@ -55,13 +55,10 @@ router.put('/updatePassword', async (req, res, next) => {
 
 router.put('/:email', requireAdmin, async (req, res, next) => {
   try {
-    const updatedUser = await User.update(
-      req.body,
-      {
-        returning: true,
-        where: {email: req.params.email}
-      }
-    )
+    const updatedUser = await User.update(req.body, {
+      returning: true,
+      where: {email: req.params.email}
+    })
     res.json(updatedUser)
   } catch (error) {
     next(error)
