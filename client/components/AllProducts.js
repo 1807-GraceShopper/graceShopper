@@ -11,6 +11,7 @@ import Search from 'react-search-box'
 import ReactPaginate from 'react-paginate'
 import AllProductsList from './AllProductsList'
 import {addItemToCart} from '../store/cart'
+import {Pagination} from 'semantic-ui-react'
 
 const mapStateToProps = state => {
 	return {
@@ -38,8 +39,8 @@ export class AllProducts extends React.Component {
 			products: '',
 			perPage: 6,
 			currentPage: [],
-			pageCount: 1,
-			isSearch: false
+			isSearch: false,
+			numPages: 0
 		}
 		this.handleDelete = this.handleDelete.bind(this)
 	}
@@ -50,13 +51,11 @@ export class AllProducts extends React.Component {
 			const products = this.props.products
 			const perPage = this.state.perPage
 			const firstPage = this.props.products.slice(0, perPage)
-			const pageCount = Math.ceil(
-				this.props.products.length / this.state.perPage
-			)
+			const numPages = Math.ceil(this.props.products.length / perPage)
 			this.setState({
 				products: products,
 				currentPage: firstPage,
-				pageCount: pageCount
+				numPages: numPages
 			})
 		}
 	}
@@ -65,13 +64,9 @@ export class AllProducts extends React.Component {
 		const products = this.props.products
 		const perPage = this.state.perPage
 		const firstPage = this.props.products.slice(0, perPage)
-		const pageCount = Math.ceil(
-			this.props.products.length / this.state.perPage
-		)
 		this.setState({
 			products: products,
-			currentPage: firstPage,
-			pageCount: pageCount
+			currentPage: firstPage
 		})
 	}
 	handleSubmit = async event => {
@@ -81,13 +76,9 @@ export class AllProducts extends React.Component {
 		const perPage = this.state.perPage
 		const products = this.props.products
 		const firstPage = this.props.products.slice(0, perPage)
-		const pageCount = Math.ceil(
-			this.props.products.length / this.state.perPage
-		)
 		this.setState({
 			products: products,
-			currentPage: firstPage,
-			pageCount: pageCount
+			currentPage: firstPage
 		})
 	}
 	handleChange = product => {
@@ -100,10 +91,9 @@ export class AllProducts extends React.Component {
 		const products = this.props.products
 		this.setState({products: products})
 	}
-	handleSelectPagination = data => {
-		const selectedPage = data.selected
-		const startIndex = selectedPage * this.state.perPage
-		const endIndex = (selectedPage + 1) * this.state.perPage
+	handleSelectPagination = (evt, {activePage}) => {
+		const startIndex = (activePage - 1) * this.state.perPage
+		const endIndex = startIndex + this.state.perPage
 		const pageProducts = this.state.products.slice(startIndex, endIndex)
 		this.setState({currentPage: pageProducts})
 	}
@@ -112,17 +102,17 @@ export class AllProducts extends React.Component {
 		const products = this.props.products
 		const perPage = this.state.perPage
 		const firstPage = this.props.products.slice(0, perPage)
-		const pageCount = Math.ceil(
-			this.props.products.length / this.state.perPage
-		)
 		this.setState({
 			products: products,
-			currentPage: firstPage,
-			pageCount: pageCount
+			currentPage: firstPage
 		})
 	}
 	render() {
-		if (this.props.products.length && this.state.currentPage.length) {
+		if (
+			this.props.products.length &&
+			this.state.currentPage.length &&
+			this.state.numPages
+		) {
 			const products = this.props.products
 			const currentPage = this.state.currentPage
 			const isSearch = this.state.isSearch
@@ -132,99 +122,104 @@ export class AllProducts extends React.Component {
 			return (
 				<div>
 					<div className="ui one column stackable center aligned page grid">
-      			<div className="column twelve wide">
+						<div className="column twelve wide">
 							<h2>All Shoes</h2>
 						</div>
 					</div>
 					{this.props.user.isAdmin ? (
 						<div className="ui three column stackable center aligned page grid">
-						<div className="ui column">
-							<NavLink to="/product/addProduct">
-								<button
-									className="ui violet basic button"
-									type="button">
-									Add a new product
-								</button>
-							</NavLink>
-						</div>
-						<div className="ui column">
-							<NavLink to="/addCategory">
-								<button
-									className="ui violet basic button"
-									type="button">
-									Add a new category
-								</button>
-							</NavLink>
-						</div>
-						<div className="ui column">
-							<NavLink to="/categories">
-								<button
-									className="ui violet basic button"
-									type="button">
-									Edit Categories
-								</button>
-							</NavLink>
-						</div>
+							<div className="ui column">
+								<NavLink to="/product/addProduct">
+									<button
+										className="ui violet basic button"
+										type="button"
+									>
+										Add a new product
+									</button>
+								</NavLink>
+							</div>
+							<div className="ui column">
+								<NavLink to="/addCategory">
+									<button
+										className="ui violet basic button"
+										type="button"
+									>
+										Add a new category
+									</button>
+								</NavLink>
+							</div>
+							<div className="ui column">
+								<NavLink to="/categories">
+									<button
+										className="ui violet basic button"
+										type="button"
+									>
+										Edit Categories
+									</button>
+								</NavLink>
+							</div>
 						</div>
 					) : (
 						''
 					)}
 					{this.props.products.length === 1 ? (
 						<div className="ui one column stackable center aligned page grid">
-      				<div className="column twelve wide">
+							<div className="column twelve wide">
 								<button
 									type="button"
 									className="ui violet basic button"
-									onClick={this.returnButton}>
+									onClick={this.returnButton}
+								>
 									Back to all products
 								</button>
 							</div>
 						</div>
 					) : (
 						<div>
-						<br />
-								<Search
-									data={data}
-									placeholder="Search for a product..."
-									searchKey="name"
-									width={300}
-									height={40}
-									onChange={this.handleChange}
-								/>
+							<br />
+							<Search
+								data={data}
+								placeholder="Search for a product..."
+								searchKey="name"
+								width={300}
+								height={40}
+								onChange={this.handleChange}
+							/>
 
-						<div>
-							<form onSubmit={this.handleSubmit}>
-								<label>
-									Categories:
-									<select
-										name="categories"
-										onChange={this.handleSelect}
-									>
-										<option value="">---</option>
-										{this.props.categories.map(category => {
-											return (
-												<option
-													key={category.id}
-													value={category.id}
-												>
-													{category.name}
-												</option>
-											)
-										})}
-									</select>
-									<button
-										type="submit"
-										className="ui mini violet basic button"
-									>
-										Select
-									</button>
-								</label>
-							</form>
+							<div>
+								<form onSubmit={this.handleSubmit}>
+									<label>
+										Categories:
+										<select
+											name="categories"
+											onChange={this.handleSelect}
+										>
+											<option value="">---</option>
+											{this.props.categories.map(
+												category => {
+													return (
+														<option
+															key={category.id}
+															value={category.id}
+														>
+															{category.name}
+														</option>
+													)
+												}
+											)}
+										</select>
+										<button
+											type="submit"
+											className="ui mini violet basic button"
+										>
+											Select
+										</button>
+									</label>
+								</form>
+							</div>
 						</div>
-					</div>
 					)}
-					<br />
-					<br />
+
 					<AllProductsList
 						handleDelete={this.handleDelete}
 						products={productType}
@@ -232,18 +227,18 @@ export class AllProducts extends React.Component {
 						isSearch={this.state.isSearch}
 						addToCart={this.props.addToCart}
 					/>
-					<br />
-					<div>
-					<ReactPaginate
-						previousLabel="previous"
-						nextLabel="next"
-						breakLabel={<a href="">...</a>}
-						pageCount={this.state.pageCount}
-						marginPagesDisplayed={2}
-						pageRangeDisplayed={5}
-						onPageChange={this.handleSelectPagination}
-					/>
+					<div className="ui one column stackable center aligned page grid">
+						<br />
+						<Pagination
+							boundaryRange={1}
+							siblingRange={1}
+							onPageChange={this.handleSelectPagination}
+							size="mini"
+							totalPages={this.state.numPages}
+						/>
+						<h3 />
 					</div>
+					<h3 />
 				</div>
 			)
 		} else

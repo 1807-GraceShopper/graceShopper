@@ -49,40 +49,4 @@ describe('Order Model', () => {
       expect(err.message).to.contain('shippingInfoId cannot be null')
     }
   })
-
-  //these tests might be better off with shippingInfo tests
-  // it('requires email', async () => {
-  //   const order = Order.build({
-  //     price: [],
-  //     productId: [],
-  //     quantity: [],
-  //     timeOrdered: '1988-10-10 04:11:10',
-  //     shippingAddress: ''
-  //   })
-  //   try {
-  //     await order.validate()
-  //     throw Error(
-  //       'validation was successful but should have failed without `email`'
-  //     )
-  //   } catch (err) {
-  //     console.log('error for email', err.message);
-  //     expect(err.message).to.contain('email cannot be null')
-  //   }
-  // })
-  // it('requires email format with @ symbol', async () => {
-  //   const order = Order.build({
-  //     price: [],
-  //     productId: [],
-  //     quantity: [],
-  //     timeOrdered: '1988-10-10 04:11:10',
-  //     shippingAddress: '',
-  //     email: 'testemail.com'
-  //   })
-  //   try {
-  //     await order.validate()
-  //     // throw Error('validation was successful but should have failed with an improperly formatted `email`')
-  //   } catch (err) {
-  //     expect(err.message).to.contain('email must be proper format')
-  //   }
-  // })
 })

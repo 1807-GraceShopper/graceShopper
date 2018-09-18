@@ -100,7 +100,6 @@ const reducer = (state = initialState, action) => {
       return {...state, products: [...state.products, action.product]}
     case UPDATE_PRODUCT:
       const updatedProducts = state.products.map(product => {
-          console.log('')
           return (action.product.id === product.id ? action.product : product)
         })
       return {...state, products: updatedProducts}

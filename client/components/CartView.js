@@ -8,7 +8,6 @@ import {Elements, StripeProvider} from 'react-stripe-elements'
 import {NavLink} from 'react-router-dom'
 
 const mapStateToProps = state => {
-    console.log('state', state)
     return {
         products: state.product.products,
         cart: state.cart,
