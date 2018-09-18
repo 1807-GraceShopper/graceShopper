@@ -17,7 +17,6 @@ const mapDispatchToProps = dispatch => ({
 class AllUserOrders extends React.Component {
 	componentDidMount() {
 		const userId = this.props.user.id
-		console.log('userId', userId)
 		this.props.getOrders(userId)
 	}
 	render() {

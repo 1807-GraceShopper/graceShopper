@@ -1,6 +1,5 @@
 'use strict'
 const nodemailer = require('nodemailer')
-const config = require('../secrets')
 nodemailer.createTestAccount(err => {
   if (err) {
     return console.log(err)
@@ -9,10 +8,8 @@ nodemailer.createTestAccount(err => {
 let transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    // user: process.env.EMAIL_USERID,
-    // pass: process.env.EMAIL_PASSWORD
-    user: config.emailUser,
-    pass: config.emailPassword
+    user: process.env.EMAIL_USERID,
+    pass: process.env.EMAIL_PASSWORD
   }
 })
 

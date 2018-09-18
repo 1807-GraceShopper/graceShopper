@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {OrderItem} = require('../db/models')
+const {OrderItem, Product } = require('../db/models')
 
 module.exports = router
 
@@ -24,9 +24,11 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    const prod = await Product.findById(req.body.productId);
+    const truePrice = prod.price;
     const newOrderItem = await OrderItem.create({
       productId: req.body.productId,
-      price: req.body.price,
+      price: truePrice,
       quantity: req.body.quantity
     })
     res.json(newOrderItem)

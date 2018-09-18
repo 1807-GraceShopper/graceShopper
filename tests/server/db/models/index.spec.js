@@ -48,7 +48,6 @@ describe('User/Order associations', () => {
   // describe('User', () => {
   //   it('should have associated orders', async () => {
   //     const result = await user1.hasOrders([order1, order2])
-  //     console.log(result)
   //     // expect(result).to.be.true
   //   })
   // })
