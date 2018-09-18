@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {Order, OrderItem, ShippingInfo} = require('../db/models')
 const {requireAdmin} = require('./validations')
+const sendMail = require('../email')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -118,6 +119,14 @@ router.post('/', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+  let created = {
+    from: '"Kicks <graceShopper1807@gmail.com>',
+    to: req.body.shipInfo.email,
+    subject: 'Order Created',
+    text: 'Order Created',
+    html: '<b>Hello world?</b>'
+  }
+  sendMail(created)
 })
 
 router.put('/:orderId', requireAdmin, async (req, res, next) => {
@@ -140,6 +149,7 @@ router.put('/:orderId', requireAdmin, async (req, res, next) => {
 })
 
 router.put('/status/:orderId', requireAdmin, async (req, res, next) => {
+  let updateStatus
   try {
     await Order.update(
       {
@@ -151,7 +161,7 @@ router.put('/status/:orderId', requireAdmin, async (req, res, next) => {
         }
       }
     )
-    const updateStatus = await Order.findOne({
+    updateStatus = await Order.findOne({
       where: {
         id: req.params.orderId
       },
@@ -160,6 +170,37 @@ router.put('/status/:orderId', requireAdmin, async (req, res, next) => {
     res.json(updateStatus)
   } catch (error) {
     next(error)
+  }
+  const processing = {
+    from: '"Kicks <graceShopper1807@gmail.com>',
+    to: updateStatus.shippingInfo.email,
+    subject: 'Order Processing',
+    text: 'Order Processing',
+    html: '<b>Hello world?</b>'
+  }
+  const cancelled = {
+    from: '"Kicks <graceShopper1807@gmail.com>',
+    to: updateStatus.shippingInfo.email,
+    subject: 'Order Cancelled',
+    text: 'Order Cancelled',
+    html: '<b>Hello world?</b>'
+  }
+  const completed = {
+    from: '"Kicks <graceShopper1807@gmail.com>',
+    to: updateStatus.shippingInfo.email,
+    subject: 'Order Completed',
+    text: 'Order Completed',
+    html: '<b>Hello world?</b>'
+  }
+  switch (req.body.status) {
+    case 'Processing':
+      return sendMail(processing)
+    case 'Cancelled':
+      return sendMail(cancelled)
+    case 'Completed':
+      return sendMail(completed)
+    default:
+      return null
   }
 })
 
