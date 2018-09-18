@@ -36,9 +36,10 @@ class UpdateProduct extends React.Component {
 			name: evt.target.elements.name.value,
 			description: evt.target.elements.description.value,
 			price: evt.target.elements.price.value,
+			quantity: evt.target.elements.quantity.value,
 			photoUrl: evt.target.elements.photoUrl.value
 		};
-
+		console.log('product info', productInfo)
 		this.props.updateProduct(productInfo);
 		this.props.history.push('/products');
 	};

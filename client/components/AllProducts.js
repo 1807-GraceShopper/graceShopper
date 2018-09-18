@@ -139,7 +139,7 @@ export class AllProducts extends React.Component {
 					{this.props.user.isAdmin ? (
 						<div className="ui three column stackable center aligned page grid">
 						<div className="ui column">
-							<NavLink to="/products/addProduct">
+							<NavLink to="/product/addProduct">
 								<button
 									className="ui violet basic button"
 									type="button">

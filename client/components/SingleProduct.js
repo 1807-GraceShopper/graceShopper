@@ -64,7 +64,7 @@ export class SingleProduct extends Component {
           <div>
             <br />
             {this.props.user.isAdmin ? (
-              <NavLink to={`/products/editProduct/${product.id}`}>
+              <NavLink to={`/product/editProduct/${product.id}`}>
                 <button className="ui violet basic button" type="button">Edit product</button>
               </NavLink>
             ) : (
@@ -92,13 +92,6 @@ export class SingleProduct extends Component {
             </div>
           ) : ( '' )}
         </div>
-          {this.props.user.isAdmin ? (
-            <NavLink to={`/products/editProduct/${product.id}`}>
-              <button type="button">Edit product</button>
-            </NavLink>
-          ) : (
-            ''
-          )}
         </div>
       )
     } else {
