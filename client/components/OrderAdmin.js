@@ -25,7 +25,6 @@ class OrderAdmin extends React.Component {
 	}
 	componentDidMount() {
 		const status = this.state.selectedStatus
-		console.log('status', status)
 		this.props.getOrdersByStatus(status)
 		this.props.getProducts()
 	}
@@ -60,12 +59,14 @@ class OrderAdmin extends React.Component {
 							</select>
 						</label>
 					</form>
+					<br />
 					<ul>
 						{this.props.orders.map(order => {
 							return (
+							<div className="ui one column">
 								<li key={order.id}>
-									<div>
-										<NavLink to={`/orders/${order.id}`}>
+									<div className="ui link list">
+										<NavLink to={`/orders/${order.id}`} className="item">
 											Order Information
 										</NavLink>
 										<div>
@@ -84,21 +85,25 @@ class OrderAdmin extends React.Component {
 											? order.orderItems.map(
 													orderItem => {
 														return (
+															<div>
 															<div
 																key={
 																	orderItem.id
 																}
+																className="ui link list"
 															>
 																<NavLink
 																	to={`/products/${
 																		orderItem.productId
 																	}`}
+																	className="item"
 																>
 																	Product:{' '}
 																	{this.getProductName(
 																		orderItem.productId
 																	)}
 																</NavLink>
+																</div>
 																<div>
 																	Quantity:{' '}
 																	{
@@ -112,6 +117,9 @@ class OrderAdmin extends React.Component {
 											: ''}
 									</div>
 								</li>
+								<br />
+								<br />
+							</div>
 							)
 						})}
 					</ul>

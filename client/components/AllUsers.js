@@ -54,6 +54,7 @@ export class AllUsers extends React.Component {
           <h3 className="ui one column stackable center aligned page grid">All Users</h3>
           <br />
           <br />
+          <br />
             {this.props.users.users.map(user => {
               return (
                 <div>
@@ -62,16 +63,18 @@ export class AllUsers extends React.Component {
                     <br />
                     <br />
                     <div className="ui three column stackable center aligned page grid">
-                    <button className="ui violet basic tiny button" type="button" onClick={() => this.handleDelete(user)}>Delete</button>
-                    <button className="ui violet basic tiny button" type="button" onClick={() => this.makeAdmin(user)}>Make admin</button>
-                    <button className="ui violet basic tiny button" type="button" onClick={() => this.triggerPasswordReset(user)}>Trigger password reset</button>
+                    <button className="ui violet basic mini button" type="button" onClick={() => this.handleDelete(user)}>Delete</button>
+                    <button className="ui violet basic mini button" type="button" onClick={() => this.makeAdmin(user)}>Make admin</button>
+                    <button className="ui violet basic mini button" type="button" onClick={() => this.triggerPasswordReset(user)}>Trigger password reset</button>
                     </div>
                   </div>
+                <br />
                 <br />
                 <br />
                 </div>
               )
             })}
+            <br />
         </div>
       )
     } else { return (

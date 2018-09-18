@@ -46,8 +46,9 @@ class PasswordForm extends React.Component {
               ? evt => this.handleSubmit(evt)
               : preventDefault
           }
+          className="ui form"
         >
-          <div>
+          <div className="ui one column stackable center aligned page grid">
             <div className="form-item">
               New password:{' '}
               <Field
@@ -58,8 +59,8 @@ class PasswordForm extends React.Component {
               />
             </div>
           </div>
-          <div className="form-item">
-            <button className="form-item" type="submit">
+          <div className="ui one column stackable center aligned page grid">
+            <button className="ui green basic mini button" type="submit">
               Reset password
             </button>
           </div>
