@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {Order, OrderItem, ShippingInfo} = require('../db/models')
 const {requireAdmin} = require('./validations')
-const sendMail = require('../email')
+const sendMail = require('../emails/emailSender')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -122,7 +122,7 @@ router.post('/', async (req, res, next) => {
     to: req.body.shipInfo.email,
     subject: 'Order Created',
     text: 'Order Created',
-    html: '<b>Hello world?</b>'
+    html: '<h1>Order Created!</h1>'
   }
   sendMail(created)
 })
@@ -174,21 +174,21 @@ router.put('/status/:orderId', requireAdmin, async (req, res, next) => {
     to: updateStatus.shippingInfo.email,
     subject: 'Order Processing',
     text: 'Order Processing',
-    html: '<b>Hello world?</b>'
+    html: '<h1>Order Processing</h1>'
   }
   const cancelled = {
     from: '"Kicks <graceShopper1807@gmail.com>',
     to: updateStatus.shippingInfo.email,
     subject: 'Order Cancelled',
     text: 'Order Cancelled',
-    html: '<b>Hello world?</b>'
+    html: '<h1>Order Cancelled</h1>'
   }
   const completed = {
     from: '"Kicks <graceShopper1807@gmail.com>',
     to: updateStatus.shippingInfo.email,
     subject: 'Order Completed',
     text: 'Order Completed',
-    html: '<b>Hello world?</b>'
+    html: '<h1>Order Completed</h1>'
   }
   switch (req.body.status) {
     case 'Processing':
