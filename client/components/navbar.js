@@ -7,10 +7,13 @@ import {logout} from '../store'
 const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
   <div>
     <div className="ui one column stackable center aligned page grid">
-      {/* <div className="column twelve wide"> */}
-        <h1 className="title">Solemate</h1>
-      {/* </div> */}
+      <h1 className="title">Solemate</h1>
     </div>
+    <div className="ui one column stackable center aligned page grid">
+      <h4 className="subtitle">a one-stop shop for all your favorite footwear</h4>
+    </div>
+    <br />
+    <hr />
     <nav>
       {isLoggedIn ? (
         <div className="ui one column stackable center aligned page grid">
@@ -18,13 +21,13 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
         <div className="ui horizontal link list">
           {/* The navbar will show these links after you log in */}
           <div className="active item"><Link to="/home">Home</Link></div>
-          <div className="item"><Link to="/orders">Orders</Link></div>
+          <div className="item"><Link to="/products">All Products</Link></div>
+          <div className="item"><Link to="/cart">My Cart</Link></div>
+          <div className="item"><Link to="/orders">My Orders</Link></div>
           <div className="item"><Link to="/profile">Profile</Link></div>
           <div className="item"><a href="#" onClick={handleClick}>
             Logout
           </a></div>
-          <div className="item"><Link to="/cart">Cart</Link></div>
-          <div className="item"><Link to="/products">Products</Link></div>
         </div>
         </div>
         </div>

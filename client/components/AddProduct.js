@@ -36,8 +36,9 @@ class NewProduct extends React.Component {
 	render() {
 		if (this.props.user.isAdmin) {
 			return (
-				<div className="verticalForm">
-					<h3>Add a new product!</h3>
+				<div className="ui form">
+				<br />
+					<h3 className="ui one column stackable center aligned page grid">Add a new product!</h3>
 					<ProductFormRedux handleSubmit={this.add} />
 				</div>
 			)

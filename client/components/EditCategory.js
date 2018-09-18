@@ -49,7 +49,11 @@ class UpdateCategory extends React.Component {
     if (this.props.categories.length && this.props.user.isAdmin) {
       return (
         <div>
-          <h3 className="listHeader center">Update Categories</h3>
+          <br />
+          <h3 className="ui one column stackable center aligned page grid">Update Categories</h3>
+          <br />
+          <br />
+          <br />
           {this.props.categories.map(category => {
             return (
               <div key={category.id}>
@@ -60,14 +64,22 @@ class UpdateCategory extends React.Component {
                   handleSubmit={this.update}
                   establishReinitialize={true}
                 />
-
+              <br />
+              <br />
+              <div className="ui one column stackable center aligned page grid">
                 <button
-                  type="button"
+                  className="ui red basic mini button"
                   onClick={() => this.handleDelete(category.id)}
                 >
-                  X
+                  Delete
                 </button>
               </div>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+            </div>
             )
           })}
         </div>

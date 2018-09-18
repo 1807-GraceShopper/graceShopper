@@ -40,7 +40,6 @@ export class SingleOrder extends Component {
     const id = Number(this.props.match.params.id)
     const updateInfo = {status: event.target.value, id: id}
     this.props.updateStatus(updateInfo)
-    // mailer(event.target.value, this.props.order.shippingInfo.email)
   }
 
   render() {
@@ -48,21 +47,23 @@ export class SingleOrder extends Component {
     if (order && this.props.products && order.shippingInfo) {
       return (
         <div>
-          <h2>Order Summary</h2>
+          <br />
+          <h3 className="ui one column stackable center aligned page grid">Order Summary</h3>
+          <br />
+          <br />
           <div>
             Price: $ {order.price}
             <div>
               <div>Order Status: {order.status}</div>
               <div>Date ordered: {order.timeOrdered}</div>
-
               <div>User Email: {order.shippingInfo.email}</div>
             </div>
           </div>
           {order.orderItems
             ? order.orderItems.map(orderItem => {
                 return (
-                  <div key={orderItem.id}>
-                    <NavLink to={`/products/${orderItem.productId}`}>
+                  <div className="ui link list" key={orderItem.id}>
+                    <NavLink to={`/products/${orderItem.productId}`} className="item">
                       Product: {this.getProductName(orderItem.productId)}
                     </NavLink>
                     <div>Quantity: {orderItem.quantity}</div>

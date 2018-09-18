@@ -23,56 +23,65 @@ const minimumZero = price =>
 
 let ProductForm = props => {
 	return (
-		<div className="verticalForm">
-			<form onSubmit={props.valid ? props.handleSubmit : preventDefault}>
-				<div>
-					<div className="form-item">
-						Name:{' '}
-						<Field
+		<div>
+			<form onSubmit={props.valid ? props.handleSubmit : preventDefault} className="ui form">
+			<br />
+			<br />
+			<div className="ui one column stackable center aligned page grid">
+				<div className="field">
+					 	Name:{' '}
+					 		<Field
 							type="text"
 							name="name"
 							component={renderField}
 							validate={notEmpty}
 						/>
-					</div>
-					<div className="form-item">
-						Description:{' '}
-						<Field
-							component={renderField}
-							type="text"
-							name="description"
-							validate={notEmpty}
-						/>
-					</div>
-					<div className="form-item">
-						Price:{' '}
-						<Field
-							component={renderField}
-							type="text"
-							name="price"
-							validate={minimumZero}
-						/>
-					</div>
-					<div className="form-item">
-						Quantity:{' '}
-						<Field
-							component={renderField}
-							type="text"
-							name="quantity"
-							validate={minimumZero}
-						/>
-					</div>
-					<div className="form-item">
-						Photo URL:{' '}
-						<Field
-							component={renderField}
-							type="text"
-							name="photoUrl"
-						/>
-					</div>
 				</div>
-				<div className="form-item">
-					<button className="form-item" type="submit">
+				<br />
+				<div className="field">
+					Description:{' '}
+					<Field
+						component={renderField}
+						type="text"
+						name="description"
+						validate={notEmpty}
+					/>
+				</div>
+				<br />
+				<div className="field">
+					Price:{' '}
+					<Field
+						component={renderField}
+						type="text"
+						name="price"
+						validate={minimumZero}
+					/>
+				</div>
+				<br />
+				<div className="field">
+					Quantity:{' '}
+					<Field
+						component={renderField}
+						type="text"
+						name="quantity"
+						validate={minimumZero}
+					/>
+				</div>
+				<br />
+				<div className="field">
+					Photo URL:{' '}
+					<Field
+						component={renderField}
+						type="text"
+						name="photoUrl"
+					/>
+				</div>
+				<br />
+				<br />
+				</div>
+				<div className="ui one column stackable center aligned page grid">
+				<br />
+					<button className="ui green basic small button" type="submit">
 						Submit
 					</button>
 				</div>

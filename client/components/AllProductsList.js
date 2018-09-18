@@ -20,7 +20,7 @@ const AllProductsList = props => {
 							${product.price}
 						</div>
 						<div>
-							<img src={`/${product.photoUrl}`} />
+							<img className="sizing" src={`/${product.photoUrl}`} />
 						</div>
 						{props.user.isAdmin ? (
 							<button
