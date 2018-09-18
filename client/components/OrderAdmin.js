@@ -25,7 +25,6 @@ class OrderAdmin extends React.Component {
 	}
 	componentDidMount() {
 		const status = this.state.selectedStatus
-		console.log('status', status)
 		this.props.getOrdersByStatus(status)
 		this.props.getProducts()
 	}

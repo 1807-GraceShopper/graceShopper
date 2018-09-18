@@ -78,7 +78,6 @@ describe('All Products', () => {
       const product = await Product.create(newProduct);
       await authRequest.put(`/api/products/${product.id}`).send(updatedProduct).expect(200);
       const response = await Product.findById(product.id);
-      //console.log('response', response); //issue is that the response body is an array consisting of [1, array[ updatedProduct ]]. 
       // expect(response.body).to.be.an('object');
       // expect(response.body.id).to.equal(product.id);
       // expect(response.body.quantity).to.equal(3);
@@ -127,7 +126,6 @@ describe('All Products', () => {
           />
         );
         const listItems = wrapper.find('li');
-        console.log('Wrapper', wrapper);
         expect(listItems).to.have.length(3);
         expect(listItems.at(2).text()).to.contain('A more moderate shoe')
       })

@@ -77,9 +77,7 @@ router.post('/', async (req, res, next) => {
         email: req.body.shipInfo.email
       }
     })
-    console.log('shipInfo', shipInfo)
     const shipId = shipInfo.id
-    console.log('shipId', shipId)
     const newOrder = await Order.create({
       timeOrdered: Date.now(),
       userId: userId,

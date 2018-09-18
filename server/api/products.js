@@ -33,7 +33,6 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', requireAdmin, async (req, res, next) => {
   try {
     let newProduct
-    console.log('req body', req.body)
     if (req.body.photoUrl) {
       newProduct = await Product.create({
         name: req.body.name,

@@ -26,17 +26,10 @@ class CheckoutForm extends Component {
       cart: this.props.cart,
       shipInfo: this.props.shippingInfo
     });
-    let amount = 0
-    this.props.cart.forEach(orderItem => {
-      console.log('quantity', orderItem.quantity)
-      console.log('price', orderItem.price)
-      console.log('orderId', newOrder.id);
-      let pid = 
-      amount += 100 * (parseInt(orderItem.quantity) * parseInt(orderItem.price))
-    })
+    let amount = newOrder.order.price*100;
     let response = await axios.post('/api/charges', {
       token: token.id,
-      orderId: newOrder.id,
+      orderId: newOrder.order.id,
       amount: amount
     })
     if (response.statusText === 'OK') this.setState({complete: true})

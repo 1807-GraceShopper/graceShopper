@@ -19,7 +19,6 @@ class UserProfile extends React.Component {
   }
   render() {
     if (this.props.user.id) {
-      console.log('here:', this.props)
       return (
         <div>
           <h3 className="listHeader center">Update Shipping Info</h3>

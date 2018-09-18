@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
 	try {
 		const orid = req.body.orderId;
 		const targetOrder = await Order.findById(orid);
-		let orderPrice = targetOrder.price;
+		let orderPrice = targetOrder.price*100;
 		if (orderPrice === req.body.amount) {
 			let {status} = await stripe.charges.create({
 				amount: req.body.amount,
