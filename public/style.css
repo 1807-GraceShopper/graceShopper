@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-color: #EADEDB
 }
 
 a {
@@ -18,4 +19,25 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.title {
+  font-family: 'Lovers Quarrel', cursive;
+  color: #485167;
+  font-size: 88px;
+  padding: 0px;
+}
+
+#react-paginate ul {
+  display: inline-block;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#react-paginate li {
+  display: inline-block;
+}
+
+#react-paginate .break a {
+  cursor: default;
 }

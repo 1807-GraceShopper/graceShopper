@@ -14,15 +14,18 @@ export const UserHome = props => {
   }
   else if (isAdmin) {
     return (
-      <div>
-        <h3>Welcome, {email}</h3>
-        <NavLink to="/users">All users</NavLink>
+      <div className="ui one column stackable center aligned page grid">
+        <div className="column twelve wide">
+          <h3>Welcome, {email}</h3>
+        </div>
       </div>
     )
   }
   return (
-    <div>
-      <h3>Welcome, {email}</h3>
+    <div className="ui one column stackable center aligned page grid">
+      <div className="column twelve wide">
+        <h3>Welcome, {email}</h3>
+      </div>
     </div>
   )
 }

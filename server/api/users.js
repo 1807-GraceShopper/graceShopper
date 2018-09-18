@@ -55,9 +55,6 @@ router.put('/:email', requireAdmin, async (req, res, next) => {
     const updatedUser = await User.update(
       req.body,
       {
-        isAdmin: true
-      },
-      {
         returning: true,
         where: {email: req.params.email}
       }

@@ -6,27 +6,51 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
   <div>
-    <h1>Kicks</h1>
+    <div className="ui one column stackable center aligned page grid">
+      {/* <div className="column twelve wide"> */}
+        <h1 className="title">Solemate</h1>
+      {/* </div> */}
+    </div>
     <nav>
       {isLoggedIn ? (
-        <div>
+        <div className="ui one column stackable center aligned page grid">
+        <div className="column twelve wide">
+        <div className="ui horizontal link list">
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <Link to="/orders">Orders</Link>
-          <a href="#" onClick={handleClick}>
+          <div className="active item"><Link to="/home">Home</Link></div>
+          <div className="item"><Link to="/orders">Orders</Link></div>
+          <div className="item"><a href="#" onClick={handleClick}>
             Logout
-          </a>
+          </a></div>
+          <div className="item"><Link to="/cart">Cart</Link></div>
+          <div className="item"><Link to="/products">Products</Link></div>
+        </div>
+        </div>
         </div>
       ) : (
-        <div>
+        <div className="ui one column stackable center aligned page grid">
+        <div className="column twelve wide">
+        <div className="ui horizontal link list">
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+          <div className="item"><Link to="/login">Login</Link></div>
+          <div className="item"><Link to="/signup">Sign Up</Link></div>
+          <div className="item"><Link to="/cart">Cart</Link></div>
+          <div className="item"><Link to="/products">Products</Link></div>
+        </div>
+        </div>
         </div>
       )}
-      {isAdmin ? <Link to="/orderAdmin">Order Admin</Link> : ''}
-      <Link to="/cart">Cart</Link>
-      <Link to="/products">Products</Link>
+      <br />
+      {isAdmin ?
+      <div className="ui one column stackable center aligned page grid">
+      <div className="column twelve wide">
+      <div className="ui horizontal link list">
+      <div className="item"><Link to="/orderAdmin">Order Admin</Link></div>
+      <div className="item"><Link to="/users">User Admin</Link></div>
+      </div>
+      </div>
+      </div>
+      : ''}
     </nav>
     <hr />
   </div>

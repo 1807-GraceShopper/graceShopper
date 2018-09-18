@@ -36,7 +36,7 @@ export class AllProducts extends React.Component {
 		this.state = {
 			categoryId: '',
 			products: '',
-			perPage: 5,
+			perPage: 6,
 			currentPage: [],
 			pageCount: 1,
 			isSearch: false
@@ -131,22 +131,68 @@ export class AllProducts extends React.Component {
 
 			return (
 				<div>
-					<h3>All Shoes</h3>
+					<div className="ui one column stackable center aligned page grid">
+      			<div className="column twelve wide">
+							<h2>All Shoes</h2>
+						</div>
+					</div>
+					{this.props.user.isAdmin ? (
+						<div className="ui three column stackable center aligned page grid">
+						<div className="ui column">
+							<NavLink to="/products/addProduct">
+								<button
+									className="ui violet basic button"
+									type="button">
+									Add a new product
+								</button>
+							</NavLink>
+						</div>
+						<div className="ui column">
+							<NavLink to="/addCategory">
+								<button
+									className="ui violet basic button"
+									type="button">
+									Add a new category
+								</button>
+							</NavLink>
+						</div>
+						<div className="ui column">
+							<NavLink to="/categories">
+								<button
+									className="ui violet basic button"
+									type="button">
+									Edit Categories
+								</button>
+							</NavLink>
+						</div>
+						</div>
+					) : (
+						''
+					)}
 					{this.props.products.length === 1 ? (
-						<button type="button" onClick={this.returnButton}>
-							Back to all products
-						</button>
+						<div className="ui one column stackable center aligned page grid">
+      				<div className="column twelve wide">
+								<button
+									type="button"
+									className="ui violet basic button"
+									onClick={this.returnButton}>
+									Back to all products
+								</button>
+							</div>
+						</div>
 					) : (
 						<div>
-							<Search
-								data={data}
-								placeholder="Search for a product..."
-								searchKey="name"
-								width={300}
-								height={40}
-								onChange={this.handleChange}
-							/>
+						<br />
+								<Search
+									data={data}
+									placeholder="Search for a product..."
+									searchKey="name"
+									width={300}
+									height={40}
+									onChange={this.handleChange}
+								/>
 
+						<div>
 							<form onSubmit={this.handleSubmit}>
 								<label>
 									Categories:
@@ -166,13 +212,19 @@ export class AllProducts extends React.Component {
 											)
 										})}
 									</select>
-									<button type="submit" className="delete">
+									<button
+										type="submit"
+										className="ui mini violet basic button"
+									>
 										Select
 									</button>
 								</label>
 							</form>
 						</div>
+					</div>
 					)}
+					<br />
+					<br />
 					<AllProductsList
 						handleDelete={this.handleDelete}
 						products={productType}
@@ -180,6 +232,7 @@ export class AllProducts extends React.Component {
 						isSearch={this.state.isSearch}
 						addToCart={this.props.addToCart}
 					/>
+					<div>
 					<ReactPaginate
 						previousLabel="previous"
 						nextLabel="next"
@@ -189,27 +242,8 @@ export class AllProducts extends React.Component {
 						pageRangeDisplayed={5}
 						onPageChange={this.handleSelectPagination}
 					/>
-					{this.props.user.isAdmin ? (
-						<NavLink to="/products/addProduct">
-							<button type="button">Add a new product</button>
-						</NavLink>
-					) : (
-						''
-					)}
-					{this.props.user.isAdmin ? (
-						<NavLink to="/addCategory">
-							<button type="button">Add a new category</button>
-						</NavLink>
-					) : (
-						''
-					)}
-					{this.props.user.isAdmin ? (
-						<NavLink to="/categories">
-							<button type="button">Edit Categories</button>
-						</NavLink>
-					) : (
-						''
-					)}
+					</div>
+
 				</div>
 			)
 		} else
