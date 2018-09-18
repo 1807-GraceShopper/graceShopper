@@ -24,27 +24,28 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  updatePassword: (user, password) => {dispatch(updatePasswordOnServer(user, password))}
+const mapDispatchToProps = dispatch => ({
+  updatePassword: (user, password) => {
+    dispatch(updatePasswordOnServer(user, password))
+  }
 })
 
 class PasswordForm extends React.Component {
-
-  handleSubmit = async (event) => {
+  handleSubmit = async event => {
     event.preventDefault()
-    await this.props.updatePassword(this.props.user, event.target.elements.password.value)
-    console.log('password reset?', this.props.user)
+    await this.props.updatePassword(
+      this.props.user,
+      event.target.elements.password.value
+    )
     this.props.history.push('/products')
   }
 
-  render () {
+  render() {
     return (
       <div className="verticalForm">
         <form
           onSubmit={
-            this.props.valid
-              ? evt => this.handleSubmit(evt)
-              : preventDefault
+            this.props.valid ? evt => this.handleSubmit(evt) : preventDefault
           }
           className="ui form"
         >

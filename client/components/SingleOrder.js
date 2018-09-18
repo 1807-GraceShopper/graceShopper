@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {getSingleOrderFromServer, updateStatusOnOrder} from '../store/orders'
 import {getProductsFromServer} from '../store/product'
+import mailer from '../utils/statusEmails'
 
 const mapStateToProps = state => {
   return {
