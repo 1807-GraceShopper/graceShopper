@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background-color: #EADEDB
+  background-color: #eadedb;
 }
 
 a {
@@ -26,6 +26,11 @@ form div {
   color: #485167;
   font-size: 88px;
   padding: 0px;
+}
+
+.sizing {
+  height: 400px;
+  width: 400px;
 }
 
 #react-paginate ul {

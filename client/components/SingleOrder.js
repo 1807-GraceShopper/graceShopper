@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {getSingleOrderFromServer, updateStatusOnOrder} from '../store/orders'
 import {getProductsFromServer} from '../store/product'
+import mailer from '../utils/statusEmails'
 
 const mapStateToProps = state => {
   return {
@@ -39,6 +40,7 @@ export class SingleOrder extends Component {
     const id = Number(this.props.match.params.id)
     const updateInfo = {status: event.target.value, id: id}
     this.props.updateStatus(updateInfo)
+    // mailer(event.target.value, this.props.order.shippingInfo.email)
   }
 
   render() {
