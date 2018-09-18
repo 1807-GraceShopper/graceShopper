@@ -5,43 +5,45 @@ const AllProductsList = props => {
 	return (
 		<ul>
 			{props.products.map(product => {
-				return (product.inStock ?
-					<li key={product.id}>
-						<div>
-							<NavLink to={`/products/${product.id}`}>
-								{product.name}
-							</NavLink>
+				if (product.inStock){
+					return (
+						<li key={product.id}>
 							<div>
-								<p>{product.description}</p>
-							</div>
-							<div>
-								{product.price}
+								<NavLink to={`/products/${product.id}`}>
+									{product.name}
+								</NavLink>
 								<div>
-									<img src={`/${product.photoUrl}`} />
+									<p>{product.description}</p>
+								</div>
+								<div>
+									{product.price}
+									<div>
+										<img src={`/${product.photoUrl}`} />
+									</div>
 								</div>
 							</div>
-						</div>
-						{props.user.isAdmin ? (
-							<button
-								type="button"
-								onClick={() => props.handleDelete(product)}
-							>
-								Delete
-							</button>
-						) : (
-							''
-						)}
-						{
-							<button
-								type="button"
-								onClick={() => props.addToCart(product)}
-							>
-								Add to Cart
-							</button>
-						}
-				</li> : <li />
-				
+							{props.user.isAdmin ? (
+								<button
+									type="button"
+									onClick={() => props.handleDelete(product)}
+								>
+									Delete
+								</button>
+							) : (
+								''
+							)}
+							{
+								<button
+									type="button"
+									onClick={() => props.addToCart(product)}
+								>
+									Add to Cart
+								</button>
+							}
+					</li>
 				)
+			}
+			return null;
 			})}
 		</ul>
 	)

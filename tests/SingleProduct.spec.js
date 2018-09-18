@@ -35,7 +35,7 @@ describe('SingleProduct', () => {
   const administrator = {email: 'cody@exmail.com', password: '123', isAdmin: true };
   describe('api routes for single product', () => {
     beforeEach(async() => {
-      await Product.bulkCreate(storedProducts);
+      await Product.bulkCreate(storedProducts, {returning: true});
       await User.create(administrator);
     })
     it('GET `/api/products/:id` serves up a single product by its id', async () => {
@@ -50,30 +50,8 @@ describe('SingleProduct', () => {
     })
   })
 
-  describe('api routes for single products w/authorization', () => {
-    const authRequest = request.agent(app);
-    const newProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 300, imageUrl: 'defaultShoe.png' };
-
-    beforeEach(async() => {
-      await Product.bulkCreate(storedProducts);
-      await User.create(administrator);
-      await authRequest.post('/auth/login').send(administrator);
-    });
-    it('PUT `api/products/:id` is successful for admin users', async () => {
-      const updatedProduct = { name: 'Caligula', description: 'Named after the infamous emperor', price: 310, imageUrl: 'defaultShoe.png', quantity: 3 };
-      const product = await Product.create(newProduct);
-      const response = await authRequest.put(`api/products/${product.id}`).send(updatedProduct).expect(200);
-      expect(response.body).to.be.an('object');
-      expect(response.body.id).to.equal(product.id);
-      expect(response.body.quantity).to.equal(3);
-    })
-  })
-
-  describe('front-end for singleProduct', () => {
-    let targetProduct = { name: 'Air Jordans',
-    description: "From what I've heard, a really expensive shoe",
-    price: 1500,
-    imageUrl: 'defaultShoe.png'};
+  describe('front-end for singleProduct', async() => {
+    let targetProduct = await Product.findById(1);
 
     const renderedProduct = shallow(
       <SingleProduct singleProduct={targetProduct} user={administrator} />

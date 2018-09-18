@@ -64,10 +64,27 @@ router.post('/', async (req, res, next) => {
   try {
     console.log('req body', req.body)
     const userId = req.user ? req.user.id : null
+    const shipInfo = await ShippingInfo.findOne({
+      where: {
+        firstName: req.body.shipInfo.firstName,
+        lastName: req.body.shipInfo.lastName,
+        streetAddress: req.body.shipInfo.streetAddress,
+        city: req.body.shipInfo.city,
+        region: req.body.shipInfo.region,
+        postalCode: req.body.shipInfo.postalCode,
+        country: req.body.shipInfo.country,
+        phoneNumber: req.body.shipInfo.phoneNumber,
+        email: req.body.shipInfo.email
+      }
+    });
+    console.log('shipInfo', shipInfo);
+    const shipId = shipInfo.id;
+    console.log('shipId', shipId);
     const newOrder = await Order.create({
       timeOrdered: Date.now(),
       userId: userId,
-      status: 'Created'
+      status: 'Created',
+      shippingInfoId: shipId
     })
     newOrder.price = req.body.cart.reduce(function(accumulator, currentItem) {
       return accumulator + currentItem.price * currentItem.quantity
@@ -92,16 +109,6 @@ router.post('/', async (req, res, next) => {
         }
       )
     })
-    await ShippingInfo.update(
-      {
-        orderId: newOrder.id
-      },
-      {
-        where: {
-          email: req.body.shipInfo.email
-        }
-      }
-    )
     const updatedOrder = await Order.findOne({
       where: {
         id: newOrder.id
