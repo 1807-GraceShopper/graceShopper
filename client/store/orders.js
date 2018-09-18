@@ -42,7 +42,7 @@ const updateOrdersByStatus = updatedOrder => ({
 export const createOrderInServer = cart => {
   return async dispatch => {
     const res = await axios.post(`/api/orders`, cart)
-    dispatch(createOrders(res.data))
+    return dispatch(createOrders(res.data))
   }
 }
 
