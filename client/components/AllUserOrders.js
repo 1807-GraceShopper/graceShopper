@@ -24,17 +24,20 @@ class AllUserOrders extends React.Component {
 		if (this.props.userOrders.length && this.props.products.length) {
 			return (
 				<div>
-					<h3>All Orders</h3>
-					<ul>
+					<br />
+					<h2 className="ui one column stackable center aligned page grid">All Orders</h2>
+					<br />
+					<ul className="ui link list">
 						{this.props.userOrders.map(order => {
 							return (
 								<li key={order.id}>
 									<div>
-										<NavLink to={`/orders/${order.id}`}>
+										<NavLink to={`/orders/${order.id}`} className="item">
 											Order Information
 										</NavLink>
 										<div>Order Status: {order.status}</div>
 									</div>
+									<br />
 								</li>
 							)
 						})}

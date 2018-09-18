@@ -50,7 +50,7 @@ class UpdateCategory extends React.Component {
       return (
         <div>
           <br />
-          <h3 className="ui one column stackable center aligned page grid">Update Categories</h3>
+          <h2 className="ui one column stackable center aligned page grid">Update Categories</h2>
           <br />
           <br />
           <br />

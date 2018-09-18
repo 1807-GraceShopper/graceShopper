@@ -13,10 +13,15 @@ class OrderSummary extends React.Component {
     const order = this.props.order
     return (
       <div>
-        <h3 className="listHeader center">Order Summary</h3>
-        <div>Price: {order.price}</div>
+        <br />
+        <h2 className="ui one column stackable center aligned page grid">Order Summary</h2>
+        <br />
+        <br />
+        <div className="ui one column stackable center aligned page grid">
+        <div>Price: ${order.price}</div>
         <div>Quantity: {order.quantity}</div>
         <div>Time Ordered: {order.timeOrdered}</div>
+        </div>
       </div>
     )
   }

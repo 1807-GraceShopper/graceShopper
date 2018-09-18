@@ -34,7 +34,7 @@ class NewCategory extends React.Component {
       return (
         <div className="ui form">
         <br />
-          <h3 className="ui one column stackable center aligned page grid">Add a new category!</h3>
+          <h2 className="ui one column stackable center aligned page grid">Add a new category!</h2>
           <br />
           <br />
           <CategoryFormRedux handleSubmit={this.add} form={'category'} />

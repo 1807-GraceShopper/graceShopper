@@ -57,6 +57,10 @@ export class CartView extends Component {
         if (!this.props.products) return <div />
         return (
             <div>
+                <br />
+                <h2 className="ui one column stackable center aligned page grid">Cart:</h2>
+                <br />
+                <br />
                 <ul>
                     {this.props.cart.map(cartItem => {
                         return (
@@ -72,6 +76,8 @@ export class CartView extends Component {
                 <NavLink to="/shippingInfo" className="ui one column stackable center aligned page grid">
                     <button type="button" className="ui basic violet button">Proceed To Checkout</button>
                 </NavLink>
+                <br />
+                <br />
             </div>
         )
     }

@@ -50,7 +50,7 @@ class UpdateShippingInfo extends React.Component {
     if (this.props.user.isAdmin) {
       return (
         <div>
-          <h3 className="listHeader center">Update Shipping Info</h3>
+          <h2 className="ui one column stackable center aligned page grid">Update Shipping Info</h2>
           {this.props.shippingInfo.map(singleShippingInfo => {
             return (
               <div key={singleShippingInfo.id}>

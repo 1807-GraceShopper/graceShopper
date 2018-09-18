@@ -51,7 +51,7 @@ export class AllUsers extends React.Component {
       return (
         <div>
           <br />
-          <h3 className="ui one column stackable center aligned page grid">All Users</h3>
+          <h2 className="ui one column stackable center aligned page grid">All Users</h2>
           <br />
           <br />
           <br />

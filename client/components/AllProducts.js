@@ -232,6 +232,7 @@ export class AllProducts extends React.Component {
 						isSearch={this.state.isSearch}
 						addToCart={this.props.addToCart}
 					/>
+					<br />
 					<div>
 					<ReactPaginate
 						previousLabel="previous"

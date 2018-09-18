@@ -28,45 +28,56 @@ const preventDefault = event => {
 
 let ShippingInfoForm = props => {
   return (
-    <div className="verticalForm">
+    <div>
       <form
         onSubmit={
           props.valid
             ? evt => props.handleSubmit(evt, props.form)
             : preventDefault
         }
+        className="ui form"
       >
-        <div>
-          <div className="form-item">
+      <br />
+        <div className="ui one column stackable center aligned page grid">
+          <div className="field">
             Title: <Field type="text" name="title" component={renderField} />
           </div>
-          <div className="form-item">
+        </div>
+        <div className="ui one column stackable center aligned page grid">
+          <br />
+          <div className="field">
             First Name:{' '}
             <Field type="text" name="firstName" component={renderField} />
           </div>
-          <div className="form-item">
+          <div className="field">
             Last Name:{' '}
             <Field type="text" name="lastName" component={renderField} />
           </div>
-          <div className="form-item">
+          <br />
+          <div className="field">
             Street Address:{' '}
             <Field type="text" name="streetAddress" component={renderField} />
           </div>
-          <div className="form-item">
+          <br />
+          <div className="field">
             City: <Field type="text" name="city" component={renderField} />
           </div>
-          <div className="form-item">
+          <br />
+          <div className="field">
             Region: <Field type="text" name="region" component={renderField} />
           </div>
-          <div className="form-item">
+          <br />
+          <div className="field">
             Postal Code:{' '}
             <Field type="text" name="postalCode" component={renderField} />
           </div>
-          <div className="form-item">
+          <br />
+          <div className="field">
             Country:{' '}
             <Field type="text" name="country" component={renderField} />
           </div>
-          <div className="form-item">
+          <br />
+          <div className="field">
             Phone Number:{' '}
             <Field
               type="text"
@@ -75,14 +86,18 @@ let ShippingInfoForm = props => {
               // validate={alphaNumeric}
             />
           </div>
-          <div className="form-item">
+          <br />
+          <div className="field">
             Email: <Field type="email" name="email" component={renderField} />
           </div>
-          <div className="form-item">
-            <button className="form-item" type="submit">
+          <br />
+          <br />
+          </div>
+          <div className="ui one column stackable center aligned page grid">
+          <br />
+            <button className="ui green basic small button" type="submit">
               Submit
             </button>
-          </div>
         </div>
       </form>
     </div>

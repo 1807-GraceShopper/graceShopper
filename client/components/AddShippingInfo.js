@@ -47,7 +47,9 @@ class NewShippingInfo extends React.Component {
     if (!this.state.submitted) {
       return (
         <div className="verticalForm">
-          <h3>Shipping Information</h3>
+        <br />
+        <br />
+          <h2 className="ui one column stackable center aligned page grid">Shipping Information</h2>
           <div>
             <ShippingInfoFormRedux
               handleSubmit={this.add}
@@ -59,9 +61,13 @@ class NewShippingInfo extends React.Component {
     } else {
       return (
         <div>
-          <h3>Form submitted!</h3>
-          <NavLink to="/checkout">
-            <button type="button">Proceed to Payment</button>
+          <br />
+          <h2 className="ui one column stackable center aligned page grid">Form submitted!</h2>
+          <br />
+          <br />
+          <br />
+          <NavLink to="/checkout" className="ui one column stackable center aligned page grid">
+            <button className="ui violet basic button" type="button">Proceed to Payment</button>
           </NavLink>
         </div>
       )

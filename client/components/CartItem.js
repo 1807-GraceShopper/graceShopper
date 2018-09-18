@@ -29,24 +29,23 @@ const CartItem = props => {
     }
     return (
         <form id="cartItemForm">
-            <div>
+            <div className="ui one column stackable center aligned page grid">
                 <img
-                    className="sizing"
+                    className="cart-sizing"
                     src={associatedProduct ? associatedProduct.photoUrl : ''}
                 />
             </div>
-            <div>
-                <NavLink to={`/products/${cartItem.productId}`}>
+            <br />
+            <br />
+            <div className="ui one column stackable center aligned page grid">
+              <div className="ui column">
+                <div className="ui link list">
+                <NavLink to={`/products/${cartItem.productId}`} className="item">
                     {associatedProduct ? associatedProduct.name : ''}
                 </NavLink>
-                <button
-                    type="button"
-                    onClick={() => props.removeFromCart(cartItem.id)}
-                >
-                    Remove Item
-                </button>
-            </div>
-            <div>${cartItem.price * cartItem.quantity}</div>
+                </div>
+            <br />
+            <div>Price: ${cartItem.price * cartItem.quantity}</div>
             <div>Quantity:
                 <input
                     type="number"
@@ -57,6 +56,17 @@ const CartItem = props => {
                     max={maxValue}
                     step={1}
                 />
+            </div>
+            <br />
+                <button
+                    type="button"
+                    className="ui red basic mini button"
+                    onClick={() => props.removeFromCart(cartItem.id)}
+                >
+                    Remove Item
+                </button>
+                <hr />
+                </div>
             </div>
         </form>
     )
