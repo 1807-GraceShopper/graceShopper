@@ -69,8 +69,8 @@ export class CartView extends Component {
                         )
                     })}
                 </ul>
-                <NavLink to="/shippingInfo">
-                    <button type="button">Proceed To Checkout</button>
+                <NavLink to="/shippingInfo" className="ui one column stackable center aligned page grid">
+                    <button type="button" className="ui basic violet button">Proceed To Checkout</button>
                 </NavLink>
             </div>
         )

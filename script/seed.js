@@ -40,130 +40,160 @@ async function seed() {
 
   const productData = [
     {
-      name: 'Assassin Sneakers Size 10',
-      description: 'Very elaborate sneakers',
+      name: 'Assassin Sneakers',
+      description:
+        'These sneakers are a representation of the elaborate sneaker trend, pulled right out of fashion week!',
       price: 125,
-      quantity: 7
+      quantity: 7,
+      photoUrl: 'Assassin Sneakers.jpg'
     },
     {
-      name: 'Nike M40K1 Size 12',
-      description: 'Nike brand sneakers with shoe size 12',
+      name: 'Nike Flex Contact',
+      description:
+        'These Nike brand sneakers are the perfect companion to your nightly run.',
       price: 80,
-      quantity: 12
+      quantity: 12,
+      photoUrl: 'Nike Flex Contact.jpg'
     },
     {
-      name: 'Ballet Shoes',
-      description: 'Made for ballerinas',
+      name: 'Balera Ballet Shoes',
+      description:
+        "These shoes are perfect for a ballerina's daily use, whether its her first recital or her hundredth competition",
       price: 30,
-      quantity: 30
+      quantity: 30,
+      photoUrl: 'ballet shoes.jpeg'
     },
     {
-      name: 'Suede loafers',
-      description: 'Perfect for work',
+      name: 'Gucci Velvet Loafer',
+      description:
+        'These bright loafers will make a statement, whether for your next big meeting or after-work cocktails!',
       price: 75,
-      quantity: 24
+      quantity: 24,
+      photoUrl: 'Gucci Velvet Loafer.png'
     },
     {
-      name: 'Allbirds',
-      description: 'Comfortable wool sneakers',
+      name: 'Allbirds Wool Runners',
+      description:
+        'These are the perfect everyday shoe, made for comfort and in a statement-making hue',
       price: 95,
-      quantity: 17
+      quantity: 17,
+      photoUrl: 'Allbirds.png'
     },
     {
       name: 'Stuart Weitzman stilettos',
-      description: 'Very tall heels!',
+      description:
+        'These sky-high stilettos will turn heads at your next function.',
       price: 250,
-      quantity: 9
+      quantity: 9,
+      photoUrl: 'Stuart Weitzman stilettos.png'
     },
     {
       name: 'Nike Zoom',
-      description: 'Great for running',
+      description: 'This classic fit is a must for your next run',
       price: 70,
-      quantity: 34
+      quantity: 34,
+      photoUrl: 'Nike Zoom.png'
     },
     {
       name: 'Salvatore Ferragamo leather dress shoes',
-      description: 'Go perfectly with a tux',
+      description:
+        'These sleek black leather shoes would go perfectly with a tux',
       price: 400,
-      quantity: 11
+      quantity: 11,
+      photoUrl: 'Salvatore Ferragamo leather dress shoes.png'
     },
     {
       name: 'Adidas Stan Smith',
-      description: 'Trendy tennis shoes',
+      description: 'These on-trend sneakers are great for everyday wear',
       price: 110,
-      quantity: 37
+      quantity: 37,
+      photoUrl: 'Adidas Stan Smith.png'
     },
     {
       name: 'Manolo Blahnik strappy sandals',
-      description: 'Summery and stylish',
+      description: 'These sandals are the perfect mix of summery and stylish',
       price: 600,
-      quantity: 6
+      quantity: 6,
+      photoUrl: 'Manolo Blahnik strappy sandals.png'
     },
     {
       name: 'Cole Haan oxfords',
-      description: 'Dress them up or down!',
+      description:
+        "You'll find yourself reaching for these staple shoes every day - dress them up or down!",
       price: 170,
-      quantity: 21
+      quantity: 21,
+      photoUrl: 'Cole Haan oxfords.png'
     },
     {
       name: 'Louis Vuitton flats',
-      description: 'black leather ballet flats',
+      description: 'A classic take on the leather ballet flat.',
       price: 260,
-      quantity: 15
+      quantity: 15,
+      photoUrl: 'Louis Vuitton flats.png'
     },
     {
-      name: 'Adidas superstar',
-      description: 'White sneakers with black stripe',
+      name: 'Adidas Superstar',
+      description: 'Classic white sneakers with black stripe',
       price: 95,
-      quantity: 58
+      quantity: 58,
+      photoUrl: 'Adidas Superstar.png'
     },
     {
-      name: 'Frye boots',
-      description: 'Brown leather knee-high boots',
+      name: 'Frye leather boots',
+      description: 'Gorgeous brown leather knee-high boots, perfect for fall.',
       price: 220,
-      quantity: 29
+      quantity: 29,
+      photoUrl: 'Frye boots.png'
     },
     {
-      name: 'Snow boots',
+      name: 'Sorel snow boots',
       description: 'Perfect for Chicago winters',
       price: 100,
-      quantity: 22
+      quantity: 22,
+      photoUrl: 'Sorel snow boots.png'
     },
     {
       name: 'Vans slip-on sneakers',
-      description: 'Easy and comfortable',
+      description:
+        'Easy and comfortable for everyday wear - a tried and true favorite',
       price: 65,
-      quantity: 44
+      quantity: 44,
+      photoUrl: 'Vans slip-on sneakers.png'
     },
     {
-      name: 'Converse Chuck Taylor high-tops',
-      description: 'Black and white sneakers',
+      name: 'Converse Chuck Taylor High-Tops',
+      description: "Everyone's favorite sneaker in a berry red shade",
       price: 80,
-      quantity: 61
+      quantity: 61,
+      photoUrl: 'Converse Chuck Taylor High-Tops.png'
     },
     {
       name: 'Christian Louboutin pumps',
-      description: 'Tan leather heels',
+      description: 'Black leather heels for a night out',
       price: 420,
-      quantity: 18
+      quantity: 18,
+      photoUrl: 'Christian Louboutin pumps.png'
     },
     {
-      name: 'Cowboy boots',
-      description: 'Brown leather boots',
+      name: 'American Rag cowboy boots',
+      description: 'Brown leather boots with a western take',
       price: 90,
-      quantity: 4
+      quantity: 4,
+      photoUrl: 'American Rag cowboy boots.png'
     },
     {
       name: 'Keds sneakers',
-      description: 'Casual red sneakers',
+      description: 'A classic white canvas look, perfect for summer',
       price: 55,
-      quantity: 23
+      quantity: 23,
+      photoUrl: 'Keds sneakers.png'
     },
     {
       name: 'Timberland boots',
-      description: 'Great for hiking',
+      description: 'The perfect work shoe for the rugged outdoorsman',
       price: 180,
-      quantity: 0
+      quantity: 1,
+      photoUrl: 'Timberland boots.png'
     }
   ]
 

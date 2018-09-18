@@ -28,6 +28,11 @@ form div {
   padding: 0px;
 }
 
+.subtitle {
+  color: #485167;
+  font-size: 14px;
+}
+
 .sizing {
   height: 400px;
   width: 400px;
