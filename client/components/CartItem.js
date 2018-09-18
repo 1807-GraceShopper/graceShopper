@@ -22,7 +22,9 @@ const CartItem = props => {
     const {cartItem, products, handleChange} = props
     if (!products || products.length < 1) return <div>Loading...</div>
     if (cartItem.productId) {
-        associatedProduct = products[cartItem.productId]
+        associatedProduct = products.filter(product => {
+          return product.id === cartItem.productId
+        })[0]
         maxValue = associatedProduct.quantity
     }
     return (
@@ -43,8 +45,8 @@ const CartItem = props => {
                     Remove Item
                 </button>
             </div>
-            <div>{cartItem.price * cartItem.quantity}</div>
-            <div>
+            <div>${cartItem.price * cartItem.quantity}</div>
+            <div>Quantity:
                 <input
                     type="number"
                     name="quantity"

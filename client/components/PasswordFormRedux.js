@@ -30,9 +30,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 class PasswordForm extends React.Component {
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault()
-    this.props.updatePassword(this.props.user, event.target.elements.password.value)
+    await this.props.updatePassword(this.props.user, event.target.elements.password.value)
+    console.log('password reset?', this.props.user)
+    this.props.history.push('/products')
   }
 
   render () {

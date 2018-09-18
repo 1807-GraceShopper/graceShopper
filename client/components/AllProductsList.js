@@ -3,49 +3,51 @@ import {NavLink} from 'react-router-dom'
 
 const AllProductsList = props => {
 	return (
-		<ul>
+		<div className="ui two column centered grid">
 			{props.products.map(product => {
 				if (product.inStock){
-					return (
-						<li key={product.id}>
-							<div>
-								<NavLink to={`/products/${product.id}`}>
-									{product.name}
-								</NavLink>
-								<div>
-									<p>{product.description}</p>
-								</div>
-								<div>
-									{product.price}
-									<div>
-										<img src={`/${product.photoUrl}`} />
-									</div>
-								</div>
-							</div>
-							{props.user.isAdmin ? (
-								<button
-									type="button"
-									onClick={() => props.handleDelete(product)}
-								>
-									Delete
-								</button>
-							) : (
-								''
-							)}
-							{
-								<button
-									type="button"
-									onClick={() => props.addToCart(product)}
-								>
-									Add to Cart
-								</button>
-							}
-					</li>
-				)
+				return (
+					<div className="ui two column" key={product.id}>
+						<div className="ui link list">
+							<NavLink to={`/products/${product.id}`} className="item">
+								<h4>{product.name}</h4>
+							</NavLink>
+						</div>
+						<div>
+							<p>{product.description}</p>
+						</div>
+						<div>
+							${product.price}
+						</div>
+						<div>
+							<img src={`/${product.photoUrl}`} />
+						</div>
+						{props.user.isAdmin ? (
+							<button
+								type="button"
+								className="ui negative tiny basic button"
+								onClick={() => props.handleDelete(product)}
+							>
+								Delete
+							</button>
+						) : (
+							''
+						)}
+						{
+							<button
+								type="button"
+								className="ui positive tiny basic button"
+								onClick={() => props.addToCart(product)}
+							>
+								Add to Cart
+							</button>
+						}
+					</div>
+				)}
 			}
-			return null;
-			})}
-		</ul>
+			// return null;
+			)}
+		</div>
 	)
 }
 

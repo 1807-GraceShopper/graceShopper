@@ -71,7 +71,6 @@ export const getSingleProduct = id => {
 
 export const newProduct = product => {
   return async dispatch => {
-    console.log('product', product)
     const {data} = await axios.post('/api/products', product)
     dispatch(addProduct(data))
   }
@@ -100,9 +99,10 @@ const reducer = (state = initialState, action) => {
     case ADD_PRODUCT:
       return {...state, products: [...state.products, action.product]}
     case UPDATE_PRODUCT:
-      const updatedProducts = state.products.map(
-        product => (action.product.id === product.id ? action.product : product)
-      )
+      const updatedProducts = state.products.map(product => {
+          console.log('')
+          return (action.product.id === product.id ? action.product : product)
+        })
       return {...state, products: updatedProducts}
     case SEARCH_PRODUCT:
       return {...state, products: action.product}

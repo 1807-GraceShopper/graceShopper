@@ -50,21 +50,28 @@ export class AllUsers extends React.Component {
     if (this.props.users.users.length) {
       return (
         <div>
-          <h3>All Users</h3>
-          <ul>
+          <br />
+          <h3 className="ui one column stackable center aligned page grid">All Users</h3>
+          <br />
+          <br />
             {this.props.users.users.map(user => {
               return (
-                <li key={user.email}>
-                  <div>
-                    {user.email}
-                    <button type="button" onClick={() => this.handleDelete(user)}>Delete</button>
-                    <button type="button" onClick={() => this.makeAdmin(user)}>Make admin</button>
-                    <button type="button" onClick={() => this.triggerPasswordReset(user)}>Trigger password reset</button>
+                <div>
+                  <div key={user.email}>
+                    <h5 className="ui one column stackable center aligned page grid">Account: {user.email}</h5>
+                    <br />
+                    <br />
+                    <div className="ui three column stackable center aligned page grid">
+                    <button className="ui violet basic tiny button" type="button" onClick={() => this.handleDelete(user)}>Delete</button>
+                    <button className="ui violet basic tiny button" type="button" onClick={() => this.makeAdmin(user)}>Make admin</button>
+                    <button className="ui violet basic tiny button" type="button" onClick={() => this.triggerPasswordReset(user)}>Trigger password reset</button>
+                    </div>
                   </div>
-                </li>
+                <br />
+                <br />
+                </div>
               )
             })}
-          </ul>
         </div>
       )
     } else { return (

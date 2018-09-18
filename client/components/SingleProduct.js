@@ -35,12 +35,12 @@ export class SingleProduct extends Component {
     }
   }
 
-  submitReview = event => {
+  submitReview = (event, rating) => {
     event.preventDefault()
     const productId = Number(this.props.match.params.id)
     const reviewInfo = {
       title: event.target.elements.title.value,
-      rating: event.target.elements.rating.value,
+      rating: rating,
       content: event.target.elements.content.value,
       productId: productId
     }
@@ -53,7 +53,8 @@ export class SingleProduct extends Component {
 
     if (product && this.props.reviews) {
       return (
-        <div>
+        <div className="ui one column stackable center aligned page grid">
+        <div className="column twelve wide">
           <h2>{product.name}</h2>
           <p>{product.description}</p>
           <div>${product.price}</div>
@@ -61,7 +62,19 @@ export class SingleProduct extends Component {
             <img src={`/${product.photoUrl}`} />
           </div>
           <div>
-            <h4>Reviews</h4>
+            <br />
+            {this.props.user.isAdmin ? (
+              <NavLink to={`/product/editProduct/${product.id}`}>
+                <button className="ui violet basic button" type="button">Edit product</button>
+              </NavLink>
+            ) : (
+              ''
+            )}
+            {product.inStock ? <button type="button" className="ui violet basic button" onClick={() => this.props.addToCart(product)}>
+              Add to Cart
+            </button> : <p>This product is currently not available.</p>}
+            <h4 />
+            <h3>Reviews</h3>
             {this.props.reviews.length ? (
               <div>
               {this.props.reviews.map(review => {
@@ -70,22 +83,15 @@ export class SingleProduct extends Component {
               </div>
             ) : ( <p>No reviews for this product yet</p> )}
           </div>
+          <br />
+          <br />
           { this.props.user.id ? (
             <div>
               <h4>Add your review:</h4>
             <ReviewFormRedux handleSubmit={this.submitReview} />
             </div>
           ) : ( '' )}
-          {this.props.user.isAdmin ? (
-            <NavLink to={`/products/editProduct/${product.id}`}>
-              <button type="button">Edit product</button>
-            </NavLink>
-          ) : (
-            ''
-          )}
-          {product.inStock ? <button type="button" onClick={() => this.props.addToCart(product)}>
-            Add to Cart
-          </button> : <p>This product is currently not available.</p>}
+        </div>
         </div>
       )
     } else {
