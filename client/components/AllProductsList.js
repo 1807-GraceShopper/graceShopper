@@ -5,22 +5,23 @@ const AllProductsList = props => {
 	return (
 		<div className="ui two column centered grid">
 			{props.products.map(product => {
+				if (product.inStock){
 				return (
 					<div className="ui two column" key={product.id}>
-							<div className="ui link list">
+						<div className="ui link list">
 							<NavLink to={`/products/${product.id}`} className="item">
 								<h4>{product.name}</h4>
 							</NavLink>
-							</div>
-							<div>
-								<p>{product.description}</p>
-							</div>
-							<div>
-								${product.price}
-								<div>
-									<img src={`/${product.photoUrl}`} />
-								</div>
-							</div>
+						</div>
+						<div>
+							<p>{product.description}</p>
+						</div>
+						<div>
+							${product.price}
+						</div>
+						<div>
+							<img src={`/${product.photoUrl}`} />
+						</div>
 						{props.user.isAdmin ? (
 							<button
 								type="button"
@@ -42,8 +43,10 @@ const AllProductsList = props => {
 							</button>
 						}
 					</div>
-				)
-			})}
+				)}
+			}
+			// return null;
+			)}
 		</div>
 	)
 }

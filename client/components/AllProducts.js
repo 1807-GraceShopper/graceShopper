@@ -243,7 +243,6 @@ export class AllProducts extends React.Component {
 						onPageChange={this.handleSelectPagination}
 					/>
 					</div>
-
 				</div>
 			)
 		} else

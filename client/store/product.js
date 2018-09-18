@@ -71,13 +71,13 @@ export const getSingleProduct = id => {
 
 export const newProduct = product => {
   return async dispatch => {
+    console.log('product', product)
     const {data} = await axios.post('/api/products', product)
     dispatch(addProduct(data))
   }
 }
 
 export const updateProductToServer = updateInfo => {
-  console.log('updateInfo', updateInfo)
   return async dispatch => {
     const {data} = await axios.put(`api/products/${updateInfo.id}`, updateInfo)
     dispatch(updateProduct(data[1][0]))

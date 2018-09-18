@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Category, Product, Order, Review} = require('../server/db/models')
+const {User, Category, Product, Order, OrderItem, ShippingInfo, Review} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -17,6 +17,16 @@ async function seed() {
       email: 'murphy@email.com',
       password: 'tulip56',
       isAdmin: false
+    }),
+    User.create({
+      email: 'hgmadds@gmail.com',
+      password: 'fakeys47',
+      isAdmin: false
+    }),
+    User.create({
+      email: 'apetrensky@yahoo.com',
+      password: 'godswol69@',
+      isAdmin: false
     })
   ])
 
@@ -30,7 +40,7 @@ async function seed() {
 
   const productData = [
     {
-      name: 'Assassin Sneakers',
+      name: 'Assassin Sneakers Size 10',
       description: 'Very elaborate sneakers',
       price: 125,
       quantity: 7
@@ -153,13 +163,75 @@ async function seed() {
       name: 'Timberland boots',
       description: 'Great for hiking',
       price: 180,
-      quantity: 8
+      quantity: 0
     }
   ]
+
+  const shippingAddressData = [
+    {
+      firstName: 'Heather',
+      lastName: 'Madison',
+      streetAddress: '3849 Ainsley Street',
+      city: 'Chicago',
+      region: 'IL',
+      postalCode: 60224,
+      country: 'United States',
+      phoneNumber: '8697859912',
+      email: 'hgmadds@gmail.com'
+    },
+    {
+      firstName: 'Aleksander',
+      lastName: 'Triebjvec',
+      streetAddress: '587 Cloud Avenue',
+      city: 'Sarajevo',
+      region: 'Sarajevo',
+      postalCode: 71000,
+      country: 'Bosnia and Herzegovina',
+      phoneNumber: '0119928216',
+      email: 'apetrensky@yahoo.com'
+    },
+    {
+      firstName: 'Aleksander',
+      lastName: 'Triebjvec',
+      streetAddress: '8754 Rosewood St.',
+      city: 'Bronx',
+      region: 'NY',
+      postalCode: 10468,
+      country: 'United States',
+      phoneNumber: '9174158901',
+      email: 'apetrensky@yahoo.com'
+    },
+    {
+      firstName: 'Cody',
+      lastName: 'Marphy',
+      streetAddress: '666 Sunset Blvd',
+      city: 'Chicago',
+      region: 'IL',
+      postalCode: 60619,
+      country: 'United States',
+      phoneNumber: '8478860784',
+      email: 'cody@email.com'
+    },
+    {
+      firstName: 'Andrew',
+      lastName: 'Walbert',
+      streetAddress: '980 Mohegan Avenue',
+      city: 'New London',
+      region: 'CT',
+      postalCode: 6320,
+      country: 'United States',
+      phoneNumber: '8607578659',
+      email: 'ulyssesT@hotmail.com'
+    }
+  ];
+
+  const shippingAddresses = await ShippingInfo.bulkCreate(shippingAddressData, {returning: true});
 
   const categories = await Category.bulkCreate(categoryData, {returning: true})
 
   const products = await Product.bulkCreate(productData, {returning: true})
+
+  const [ cody, murphy, heather, aleskander ] = users;
 
   const [sneaker, men, women, dress, boot] = categories
   const [
@@ -185,6 +257,7 @@ async function seed() {
     keds,
     timberlands
   ] = products
+  const [ streetA, bosnianStreet, usaddress, adminaddress, guestAddress ] = shippingAddresses;
 
   await Promise.all([
     assassins.setCategories([sneaker, men]),
@@ -210,35 +283,45 @@ async function seed() {
     timberlands.setCategories([men, boot])
   ])
 
-  // const orders = await Promise.all([
-  //   Order.create({
-  //     price: [125.0, 30],
-  //     productId: [0, 2],
-  //     quantity: [1, 2],
-  //     timeOrdered: new Date(2018, 6, 11, 13, 54, 13, 9),
-  //     shippingAddress: '999 Mohegan Ave, New London CT',
-  //     email: 'cody@email.com',
-  //     userId: 1
-  //   }),
-  //   Order.create({
-  //     price: [80],
-  //     productId: [1],
-  //     quantity: [1],
-  //     timeOrdered: new Date(2018, 6, 14, 12, 10, 55, 31),
-  //     shippingAddress: '999 Mohegan Ave, New London',
-  //     email: 'cody@email.com',
-  //     userId: 1
-  //   }),
-  //   Order.create({
-  //     price: [30],
-  //     productId: [2],
-  //     quantity: [1],
-  //     timeOrdered: new Date(2018, 4, 12, 22, 1, 13, 34),
-  //     shippingAddress: '34 River Drive, Evergreen',
-  //     email: 'murphy@gmail.com',
-  //     userId: 2
-  //   })
-  // ])
+  await Promise.all([
+    cody.setShippingInfos([adminaddress]),
+    heather.setShippingInfos([streetA]),
+    aleskander.setShippingInfos([bosnianStreet, usaddress])
+  ]);
+
+  const orderData = [
+    { price: 250, quantity: 1, timeOrdered: Date.now(), status: 'Compelted', shippingInfoId: 1, userId: 3 },
+    { price: 520, quantity: 3, timeOrdered: Date.now(), status: 'Completed', shippingInfoId: 5 },
+    { price: 30, quantity: 1, timeOrdered: Date.now(), status: 'Processing', shippingInfoId: 1, userId: 3 },
+    { price: 185, quantity: 2, timeOrdered: Date.now(), status: 'Created', shippingInfoId: 3, userId: 4 },
+    { price: 235, quantity: 2, timeOrdered: Date.now(), status: 'Completed', shippingInfoId: 2, userId: 4 },
+    { price: 60, quantity: 2, timeOrdered: Date.now(), status: 'Canceled', shippingInfoId: 4, userId: 1 }
+  ];
+
+  const orderItemsData = [
+    { price: 250, quantity: 1, productId: 6 },
+    { price: 440, quantity: 2, productId: 14 },
+    { price: 80, quantity: 1, productId: 17 },
+    { price: 30, quantity: 1, productId: 3 },
+    { price: 75, quantity: 1, productId: 4 },
+    { price: 110, quantity: 1, productId: 9 },
+    { price: 180, quantity: 1, productId: 21 },
+    { price: 55, quantity: 1, productId: 20 },
+    { price: 60, quantity: 2, productId: 3 }
+  ];
+
+  const orderItems = await OrderItem.bulkCreate(orderItemsData, {returning: true});
+
+  const orders = await Order.bulkCreate(orderData, {returning: true});
+
+  await Promise.all([
+    orders[0].setOrderItems([orderItems[0]]),
+    orders[1].setOrderItems([orderItems[1], orderItems[2]]),
+    orders[2].setOrderItems([orderItems[3]]),
+    orders[3].setOrderItems([orderItems[4], orderItems[5]]),
+    orders[4].setOrderItems([orderItems[6], orderItems[7]]),
+    orders[5].setOrderItems([orderItems[8]])
+  ]);
 
   const reviews = await Promise.all([
     Review.create(

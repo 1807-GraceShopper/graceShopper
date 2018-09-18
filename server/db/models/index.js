@@ -29,16 +29,16 @@ User.hasMany(Review)
 Review.belongsTo(Product)
 Product.hasMany(Review)
 
-Category.belongsToMany(Product, {through: 'product_category'})
-Product.belongsToMany(Category, {through: 'product_category'})
+Category.belongsToMany(Product, {through: 'product_category', constraints: false})
+Product.belongsToMany(Category, {through: 'product_category', constraints: false})
 
 OrderItem.belongsTo(Product)
 OrderItem.belongsTo(Order)
 Order.hasMany(OrderItem)
 Product.hasMany(OrderItem)
 
-ShippingInfo.belongsTo(Order)
-Order.hasOne(ShippingInfo)
+ShippingInfo.hasMany(Order, { foreignKey: { field: 'shippingInfoId', allowNull: false } });
+Order.belongsTo(ShippingInfo)
 ShippingInfo.belongsTo(User)
 User.hasMany(ShippingInfo)
 

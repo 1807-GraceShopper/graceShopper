@@ -7,15 +7,22 @@ const expect = chai.expect
 
 const db = require('../../../../server/db/models')
 const Order = db.Order
+const ShippingInfo = db.ShippingInfo
 
 describe('Order Model', () => {
+  let shippingAddresses = [
+    { firstName: 'Mogu', lastName: 'Barnes', streetAddress: '2090 Payne Street', city: 'Evanston', region: 'IL', postalCode: '60201', country: 'United States', email: 'mgbarnes@gmail.com' },
+    { firstName: 'Heather', lastName: 'Madison', streetAddress: '3478 Ainsley Street', city: 'Chicago', region: 'IL', postalCode: '60225', country: 'United States', email: 'hmaddys@gmail.com' }
+  ];
+  beforeEach(async () => {
+    await ShippingInfo.bulkCreate(shippingAddresses, {returning: true });
+  })
   it('requires timeOrdered', async () => {
-    const order = Order.build({
-      price: [],
-      productId: [],
-      quantity: [],
-      shippingAddress: '',
-      email: 'test@email.com'
+    const order = await Order.build({
+      price: 250,
+      quantity: 2,
+      shippingInfoId: 1,
+      status: 'Pending'
     })
     try {
       await order.validate()
@@ -28,11 +35,10 @@ describe('Order Model', () => {
   })
   it('requires shippingAddress', async () => {
     const order = Order.build({
-      price: [],
-      productId: [],
-      quantity: [],
+      price: 250,
+      quantity: 2,
       timeOrdered: '1988-10-10 04:11:10',
-      email: 'test@email.com'
+      status: 'Pending'
     })
     try {
       await order.validate()
@@ -40,39 +46,43 @@ describe('Order Model', () => {
         'validation was successful but should have failed without `shippingAddress`'
       )
     } catch (err) {
-      expect(err.message).to.contain('shippingAddress cannot be null')
+      expect(err.message).to.contain('shippingInfoId cannot be null')
     }
   })
-  it('requires email', async () => {
-    const order = Order.build({
-      price: [],
-      productId: [],
-      quantity: [],
-      timeOrdered: '1988-10-10 04:11:10',
-      shippingAddress: ''
-    })
-    try {
-      await order.validate()
-      throw Error(
-        'validation was successful but should have failed without `email`'
-      )
-    } catch (err) {
-      expect(err.message).to.contain('email cannot be null')
-    }
-  })
-  it('requires email format with @ symbol', async () => {
-    const order = Order.build({
-      price: [],
-      productId: [],
-      quantity: [],
-      timeOrdered: '1988-10-10 04:11:10',
-      shippingAddress: '',
-      email: 'test@email.com'
-    })
-    try {
-      await order.validate()
-    } catch (err) {
-      expect(err.message).to.contain('email must be proper format')
-    }
-  })
+
+  //these tests might be better off with shippingInfo tests
+  // it('requires email', async () => {
+  //   const order = Order.build({
+  //     price: [],
+  //     productId: [],
+  //     quantity: [],
+  //     timeOrdered: '1988-10-10 04:11:10',
+  //     shippingAddress: ''
+  //   })
+  //   try {
+  //     await order.validate()
+  //     throw Error(
+  //       'validation was successful but should have failed without `email`'
+  //     )
+  //   } catch (err) {
+  //     console.log('error for email', err.message);
+  //     expect(err.message).to.contain('email cannot be null')
+  //   }
+  // })
+  // it('requires email format with @ symbol', async () => {
+  //   const order = Order.build({
+  //     price: [],
+  //     productId: [],
+  //     quantity: [],
+  //     timeOrdered: '1988-10-10 04:11:10',
+  //     shippingAddress: '',
+  //     email: 'testemail.com'
+  //   })
+  //   try {
+  //     await order.validate()
+  //     // throw Error('validation was successful but should have failed with an improperly formatted `email`')
+  //   } catch (err) {
+  //     expect(err.message).to.contain('email must be proper format')
+  //   }
+  // })
 })

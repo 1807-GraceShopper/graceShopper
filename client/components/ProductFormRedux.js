@@ -1,7 +1,7 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React from 'react'
+import {Field, reduxForm} from 'redux-form'
 
-const renderField = ({ input, type, meta: { error, touched } }) => (
+const renderField = ({input, type, meta: {error, touched}}) => (
 	<div>
 		<div>
 			<div>
@@ -10,15 +10,16 @@ const renderField = ({ input, type, meta: { error, touched } }) => (
 			<div>{touched && <span className="red">{error}</span>}</div>
 		</div>
 	</div>
-);
+)
 
 const preventDefault = event => {
-	event.preventDefault();
-};
+	event.preventDefault()
+}
 
-const notEmpty = value => (value ? undefined : 'Required field');
+const notEmpty = value => (value ? undefined : 'Required field')
 
-const minimumZero = price => (price && price < 0 ? `Must be at least 0` : undefined)
+const minimumZero = price =>
+	price && price < 0 ? `Must be at least 0` : undefined
 
 let ProductForm = props => {
 	return (
@@ -53,6 +54,15 @@ let ProductForm = props => {
 						/>
 					</div>
 					<div className="form-item">
+						Quantity:{' '}
+						<Field
+							component={renderField}
+							type="text"
+							name="quantity"
+							validate={minimumZero}
+						/>
+					</div>
+					<div className="form-item">
 						Photo URL:{' '}
 						<Field
 							component={renderField}
@@ -68,11 +78,11 @@ let ProductForm = props => {
 				</div>
 			</form>
 		</div>
-	);
-};
+	)
+}
 
 const ProductFormRedux = reduxForm({
-	form: 'product',
-})(ProductForm);
+	form: 'product'
+})(ProductForm)
 
-export default ProductFormRedux;
+export default ProductFormRedux

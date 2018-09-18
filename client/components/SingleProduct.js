@@ -70,9 +70,9 @@ export class SingleProduct extends Component {
             ) : (
               ''
             )}
-            <button type="button" className="ui violet basic button" onClick={() => this.props.addToCart(product)}>
+            {product.inStock ? <button type="button" className="ui violet basic button" onClick={() => this.props.addToCart(product)}>
               Add to Cart
-            </button>
+            </button> : <p>This product is currently not available.</p>}
             <h4 />
             <h3>Reviews</h3>
             {this.props.reviews.length ? (
@@ -92,6 +92,13 @@ export class SingleProduct extends Component {
             </div>
           ) : ( '' )}
         </div>
+          {this.props.user.isAdmin ? (
+            <NavLink to={`/products/editProduct/${product.id}`}>
+              <button type="button">Edit product</button>
+            </NavLink>
+          ) : (
+            ''
+          )}
         </div>
       )
     } else {
