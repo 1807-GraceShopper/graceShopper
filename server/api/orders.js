@@ -62,7 +62,6 @@ router.get('/statuses/:status', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('req body', req.body)
     const userId = req.user ? req.user.id : null
     const shipInfo = await ShippingInfo.findOne({
       where: {
