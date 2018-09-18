@@ -31,7 +31,6 @@ export class SingleOrder extends Component {
     const product = this.props.products.filter(singleProd => {
       return singleProd.id === id
     })
-    console.log('product', product)
     return product[0].name
   }
 
@@ -39,7 +38,6 @@ export class SingleOrder extends Component {
     event.preventDefault()
     const id = Number(this.props.match.params.id)
     const updateInfo = {status: event.target.value, id: id}
-    console.log('update info', updateInfo)
     this.props.updateStatus(updateInfo)
   }
 
