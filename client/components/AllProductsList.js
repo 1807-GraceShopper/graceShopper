@@ -1,9 +1,13 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
+import {Button} from 'semantic-ui-react'
 
 const AllProductsList = props => {
+	let basic = true;
+
 	return (
-		<div className="ui two column centered grid">
+		// <div className="ui two column centered grid">
+		<div>
 			{props.products.map(
 				product => {
 					if (product.inStock) {
@@ -41,14 +45,17 @@ const AllProductsList = props => {
 									''
 								)}
 								{
-									<button
-										type="button"
-										className="ui positive tiny basic button"
-										onClick={() => props.addToCart(product)}
+									<Button
+										toggle basic={basic}
+										onClick={() => {props.addToCart(product)
+										basic=!basic}}
 									>
 										Add to Cart
-									</button>
+									</Button>
 								}
+								<br />
+								<br />
+								<br />
 							</div>
 						)
 					}

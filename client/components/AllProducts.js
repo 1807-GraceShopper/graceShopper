@@ -125,6 +125,8 @@ export class AllProducts extends React.Component {
 						<div className="column twelve wide">
 							<h2>All Shoes</h2>
 						</div>
+					<br />
+					<br />
 					</div>
 					{this.props.user.isAdmin ? (
 						<div className="ui three column stackable center aligned page grid">
@@ -157,6 +159,8 @@ export class AllProducts extends React.Component {
 										Edit Categories
 									</button>
 								</NavLink>
+							<br />
+							<br />
 							</div>
 						</div>
 					) : (
@@ -176,17 +180,23 @@ export class AllProducts extends React.Component {
 						</div>
 					) : (
 						<div>
+						<div>
 							<br />
+							<p className="ui one column stackable center aligned page grid">Search for a product...</p>
+							<br />
+						<div className="ui one column stackable center aligned page grid">
 							<Search
 								data={data}
-								placeholder="Search for a product..."
 								searchKey="name"
 								width={300}
 								height={40}
 								onChange={this.handleChange}
 							/>
-
-							<div>
+						</div>
+						<br />
+						<br />
+						</div>
+							<div className="ui one column stackable center aligned page grid">
 								<form onSubmit={this.handleSubmit}>
 									<label>
 										Categories:
@@ -217,9 +227,12 @@ export class AllProducts extends React.Component {
 									</label>
 								</form>
 							</div>
+							<br />
+							<br />
+							<br />
 						</div>
 					)}
-
+					<div className="ui two column centered grid">
 					<AllProductsList
 						handleDelete={this.handleDelete}
 						products={productType}
@@ -227,6 +240,7 @@ export class AllProducts extends React.Component {
 						isSearch={this.state.isSearch}
 						addToCart={this.props.addToCart}
 					/>
+					</div>
 					<div className="ui one column stackable center aligned page grid">
 						<br />
 						<Pagination

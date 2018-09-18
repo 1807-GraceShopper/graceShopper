@@ -8,6 +8,7 @@ import {Review} from './Review'
 import ReviewFormRedux from './ReviewReduxForm'
 import {reset} from 'redux-form'
 import Checkout from './stripe'
+import {Button} from 'semantic-ui-react'
 
 const mapStateToProps = state => {
   return {
@@ -50,6 +51,7 @@ export class SingleProduct extends Component {
 
   render() {
     const product = this.props.singleProduct
+    let basic = true;
 
     if (product && this.props.reviews) {
       return (
@@ -70,9 +72,13 @@ export class SingleProduct extends Component {
             ) : (
               ''
             )}
-            {product.inStock ? <button type="button" className="ui violet basic button" onClick={() => this.props.addToCart(product)}>
+            {product.inStock ? <Button
+              toggle basic={basic}
+              onClick={() => {this.props.addToCart(product)
+              basic=!basic}}
+            >
               Add to Cart
-            </button> : <p>This product is currently not available.</p>}
+            </Button> : <p>This product is currently not available.</p>}
             <h4 />
             <h3>Reviews</h3>
             {this.props.reviews.length ? (
