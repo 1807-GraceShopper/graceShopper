@@ -49,7 +49,8 @@ class UpdateProduct extends React.Component {
 		) {
 			return (
 				<div>
-					<h3 className="listHeader center">Update product</h3>
+					<br />
+					<h2 className="ui one column stackable center aligned page grid">Update product</h2>
 					<ProductFormRedux
 						initialValues={this.props.product}
 						handleSubmit={this.update}

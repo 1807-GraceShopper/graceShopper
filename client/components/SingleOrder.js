@@ -48,7 +48,7 @@ export class SingleOrder extends Component {
       return (
         <div>
           <br />
-          <h3 className="ui one column stackable center aligned page grid">Order Summary</h3>
+          <h2 className="ui one column stackable center aligned page grid">Order Summary</h2>
           <br />
           <br />
           <div>

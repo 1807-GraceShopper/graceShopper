@@ -43,7 +43,7 @@ class OrderAdmin extends React.Component {
 		if (this.props.orders.length && this.props.products.length) {
 			return (
 				<div>
-					<h3>All Orders</h3>
+					<h2>All Orders</h2>
 					<form>
 						<label>
 							Statuses:

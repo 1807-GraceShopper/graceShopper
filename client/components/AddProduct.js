@@ -38,7 +38,7 @@ class NewProduct extends React.Component {
 			return (
 				<div className="ui form">
 				<br />
-					<h3 className="ui one column stackable center aligned page grid">Add a new product!</h3>
+					<h2 className="ui one column stackable center aligned page grid">Add a new product!</h2>
 					<ProductFormRedux handleSubmit={this.add} />
 				</div>
 			)

@@ -64,9 +64,12 @@ class CheckoutForm extends Component {
           </h6>
           <h3 />
           <CardElement style={style} />
-          <button type="submit" onClick={this.submit}>
+          <br />
+          <div className="ui one column stackable center aligned page grid">
+          <button className="ui green basic small button" type="submit" onClick={this.submit}>
             Submit order
           </button>
+          </div>
         </div>
       )
   }

@@ -58,7 +58,7 @@ async function seed() {
     {
       name: 'Balera Ballet Shoes',
       description:
-        "These shoes are perfect for a ballerina's daily use, whether its her first recital or her hundredth competition",
+        "These shoes are perfect for a ballerina's daily use, whether it's her first recital or her hundredth competition",
       price: 30,
       quantity: 30,
       photoUrl: 'ballet shoes.jpeg'
