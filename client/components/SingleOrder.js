@@ -45,7 +45,7 @@ export class SingleOrder extends Component {
 
   render() {
     const order = this.props.order
-    if (order && this.props.products) {
+    if (order && this.props.products && order.shippingInfo) {
       return (
         <div>
           <h2>Order Summary</h2>
@@ -54,6 +54,8 @@ export class SingleOrder extends Component {
             <div>
               <div>Order Status: {order.status}</div>
               <div>Date ordered: {order.timeOrdered}</div>
+
+              <div>User Email: {order.shippingInfo.email}</div>
             </div>
           </div>
           {order.orderItems

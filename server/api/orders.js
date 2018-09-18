@@ -18,7 +18,7 @@ router.get('/:orderId', async (req, res, next) => {
   const id = req.params.orderId
   try {
     const order = await Order.findById(id, {
-      include: [{model: OrderItem}]
+      include: [{model: OrderItem}, {model: ShippingInfo}]
     })
     res.json(order)
   } catch (err) {
@@ -76,10 +76,10 @@ router.post('/', async (req, res, next) => {
         phoneNumber: req.body.shipInfo.phoneNumber,
         email: req.body.shipInfo.email
       }
-    });
-    console.log('shipInfo', shipInfo);
-    const shipId = shipInfo.id;
-    console.log('shipId', shipId);
+    })
+    console.log('shipInfo', shipInfo)
+    const shipId = shipInfo.id
+    console.log('shipId', shipId)
     const newOrder = await Order.create({
       timeOrdered: Date.now(),
       userId: userId,
@@ -156,9 +156,8 @@ router.put('/status/:orderId', requireAdmin, async (req, res, next) => {
       where: {
         id: req.params.orderId
       },
-      include: [{model: OrderItem}]
+      include: [{model: OrderItem}, {model: ShippingInfo}]
     })
-    console.log('update Status', updateStatus)
     res.json(updateStatus)
   } catch (error) {
     next(error)
