@@ -232,7 +232,7 @@ export class AllProducts extends React.Component {
 							<br />
 						</div>
 					)}
-					<div className="ui two column centered grid">
+					<div className="ui grid">
 					<AllProductsList
 						handleDelete={this.handleDelete}
 						products={productType}
