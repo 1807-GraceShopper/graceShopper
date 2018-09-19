@@ -41,7 +41,6 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/checkout" component={Checkout} />
-        <Route path="/profile" component={UserProfile} />
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/editShippingInfo" component={EditShippingInfo} />
         <Route path="/shippingInfo" component={AddShippingInfo} />

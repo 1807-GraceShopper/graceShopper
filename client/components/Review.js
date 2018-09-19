@@ -8,6 +8,7 @@ export const Review = props => {
 			<h5>{review.title}</h5>
 			<Rating icon="star" rating={review.rating} maxRating={5}/>
 			<p>{review.content}</p>
+			<br />
 		</div>
 	)
 }
