@@ -6,8 +6,7 @@ const AllProductsList = props => {
 	let basic = true;
 
 	return (
-		// <div className="ui two column centered grid">
-		<div>
+		<div className="ui two column row">
 			{props.products.map(
 				product => {
 					if (product.inStock) {
@@ -62,7 +61,7 @@ const AllProductsList = props => {
 				}
 				// return null;
 			)}
-			<h3></h3>
+			<h3 />
 		</div>
 	)
 }
